@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 
 from canvas import Canvas
 from anu_random import ANURandom
@@ -18,6 +19,7 @@ effect1 = GradientGraph(canvas)
 effect2 = SolidColours(canvas)
 effect3 = BinaryClock(canvas)
 
+
 def choose_effect():
     choose = random.random()
     if choose < 0.1:
@@ -29,9 +31,13 @@ def choose_effect():
     else:
         return effect3
 
+
 try:
+    show_time = 60
     while True:
-        effect = choose_effect()
+        if show_time == 60:
+            show_time = 0
+            effect = choose_effect()
         effect.print_name()
         effect.compose()
         effect.print_compose()
@@ -40,6 +46,7 @@ try:
             pixel = canvas.get_pixel(i)
             ledshim.set_pixel(i, pixel[0], pixel[1], pixel[2], pixel[3])
         ledshim.show()
+        show_time += 1
         sleep(1)
 except KeyboardInterrupt:
     ledshim.clear()
