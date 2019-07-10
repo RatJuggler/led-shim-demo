@@ -7,11 +7,12 @@ from gradient_graph import GradientGraph
 from solid_colours import SolidColours
 from time import sleep
 import random
-import ledshim
+#import ledshim
 
 NUM_PIXELS = 28
+EFFECT_TIME = 10    # Seconds
 
-ledshim.set_clear_on_exit()
+#ledshim.set_clear_on_exit()
 
 canvas = Canvas(NUM_PIXELS)
 effect0 = ANURandom(canvas)
@@ -33,21 +34,22 @@ def choose_effect():
 
 
 try:
-    show_time = 60
+    show_time = 0
     while True:
-        if show_time == 60:
-            show_time = 0
+        if show_time <= 0:
             effect = choose_effect()
-        effect.print_name()
+            show_time = EFFECT_TIME / effect.get_speed()
+            effect.print_name()
         effect.compose()
         effect.print_compose()
         #canvas.print_canvas()
         for i in range(canvas.get_size()):
             pixel = canvas.get_pixel(i)
-            ledshim.set_pixel(i, pixel[0], pixel[1], pixel[2], pixel[3])
-        ledshim.show()
-        show_time += 1
-        sleep(1)
+#            ledshim.set_pixel(i, pixel[0], pixel[1], pixel[2], pixel[3])
+#        ledshim.show()
+        show_time -= 1
+        sleep(effect.get_speed())
 except KeyboardInterrupt:
-    ledshim.clear()
-    ledshim.show()
+    pass
+#    ledshim.clear()
+#    ledshim.show()

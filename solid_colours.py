@@ -4,7 +4,7 @@ from abstract_effect import AbstractEffect
 class SolidColours(AbstractEffect):
     def __init__(self, canvas):
         self.__step = 0
-        super(SolidColours, self).__init__("solid_colours", canvas)
+        super(SolidColours, self).__init__("solid_colours", 0.5, canvas)
 
     def compose(self):
         if self.__step == 0:

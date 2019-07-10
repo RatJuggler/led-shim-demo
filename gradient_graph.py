@@ -12,7 +12,7 @@ class GradientGraph(AbstractEffect):
 
     def __init__(self, canvas):
         self.__t = time()
-        super(GradientGraph, self).__init__("gradient_graph", canvas)
+        super(GradientGraph, self).__init__("gradient_graph", 0.01, canvas)
 
     def show_graph(self, v, r, g, b):
         v *= self.canvas.get_size()

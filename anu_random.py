@@ -10,7 +10,7 @@ class ANURandom(AbstractEffect):
 
     def __init__(self, canvas):
         self.__url = "https://qrng.anu.edu.au/API/jsonI.php?type=hex16&length={0}&size=3".format(canvas.get_size())
-        super(ANURandom, self).__init__("anu_random", canvas)
+        super(ANURandom, self).__init__("anu_random", 3, canvas)
 
     def get_random_numbers(self):
         try:
