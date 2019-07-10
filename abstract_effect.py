@@ -2,6 +2,10 @@ from abc import ABC, abstractmethod
 
 
 class AbstractEffect(ABC):
+    """
+    An abstract class which forms the basis of all effects.
+    """
+
     def __init__(self, name, speed, canvas):
         self.__name = name
         self.__speed = speed

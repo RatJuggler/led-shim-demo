@@ -2,6 +2,10 @@ from abstract_effect import AbstractEffect
 
 
 class SolidColours(AbstractEffect):
+    """
+    A basic effect which just shows a sequence of solid colours.
+    """
+
     def __init__(self, canvas):
         self.__step = 0
         super(SolidColours, self).__init__("solid_colours", 0.5, canvas)

@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# Application to display a series of effects on a Pimoroni led-shim.
+
 from canvas import Canvas
 from anu_random import ANURandom
 from binary_clock import BinaryClock

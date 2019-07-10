@@ -1,11 +1,13 @@
-# Random blinks using the ANU Quantum Random Numbers Server, see http://qrng.anu.edu.au
-
 from abstract_effect import AbstractEffect
 
 import requests, json
 
 
 class ANURandom(AbstractEffect):
+    """
+    Random effect using the ANU Quantum Random Numbers Server, see http://qrng.anu.edu.au
+    """
+
     data = None
 
     def __init__(self, canvas):

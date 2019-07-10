@@ -1,7 +1,12 @@
-# Pixel: [r, g, b, brightness]
 
 
 class Canvas:
+    """
+    Abstract representation of a line of LEDs.
+
+    Each pixel is composed of the list: [r, g, b, brightness]
+    """
+
     def __init__(self, size):
         self.__canvas = [None] * size
 

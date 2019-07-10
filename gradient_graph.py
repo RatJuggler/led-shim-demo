@@ -6,6 +6,10 @@ from colorsys import hsv_to_rgb
 
 
 class GradientGraph(AbstractEffect):
+    """
+    A moving colour gradient effect determined by the height of a sine wave.
+    """
+
     HUE_RANGE = 120
     HUE_START = 0
     MAX_BRIGHTNESS = 0.8

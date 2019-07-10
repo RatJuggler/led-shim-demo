@@ -1,20 +1,24 @@
-# Binary clock layout.
-
-# 00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
-# ||                         ||                         ||
-# Red (hours)                ||                         ||
-#       32 16 08 04 02 01    ||                         ||
-#                            Green (minutes)            ||
-#                                  32 16 08 04 02 01    ||
-#                                                       Blue (seconds)
-#                                                             32 16 08 04 02 01
-
 from abstract_effect import AbstractEffect
 
 from time import localtime, strftime
 
 
 class BinaryClock(AbstractEffect):
+    """
+    A binary clock.
+
+    Assumes 28 LEDs giving the following layout:
+
+    00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
+    ||                         ||                         ||
+    Red (hours)                ||                         ||
+          32 16 08 04 02 01    ||                         ||
+                               Green (minutes)            ||
+                                     32 16 08 04 02 01    ||
+                                                          Blue (seconds)
+                                                                32 16 08 04 02 01
+    """
+
     def __init__(self, canvas):
         self.__t = localtime()
         super(BinaryClock, self).__init__("binary_clock", 1, canvas)
