@@ -6,6 +6,7 @@ from canvas import Canvas
 from anu_random import ANURandom
 from binary_clock import BinaryClock
 from gradient_graph import GradientGraph
+from rainbow import Rainbow
 from solid_colours import SolidColours
 from time import sleep
 import random
@@ -21,18 +22,21 @@ effect0 = ANURandom(canvas)
 effect1 = GradientGraph(canvas)
 effect2 = SolidColours(canvas)
 effect3 = BinaryClock(canvas)
+effect4 = Rainbow(canvas)
 
 
 def choose_effect():
     choose = random.random()
-    if choose < 0.1:
+    if choose < 0.10:
         return effect0
-    elif choose < 0.40:
+    elif choose < 0.30:
         return effect1
-    elif choose < 0.70:
+    elif choose < 0.50:
         return effect2
-    else:
+    elif choose < 0.70:
         return effect3
+    else:
+        return effect4
 
 
 try:
