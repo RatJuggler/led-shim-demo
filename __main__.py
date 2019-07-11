@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Application to display a series of effects on a Pimoroni led-shim.
 
