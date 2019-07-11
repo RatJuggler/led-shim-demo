@@ -21,7 +21,5 @@ class SolidColours(AbstractEffect):
         self.__step += 1
         self.__step %= 3
 
-        return self.canvas
-
     def print_compose(self):
         print("Step: {0}".format(self.__step))
