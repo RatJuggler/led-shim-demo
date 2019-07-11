@@ -44,7 +44,6 @@ class BinaryClock(AbstractEffect):
         self.compose_binary(self.__t.tm_sec, 25)
         self.canvas.set_pixel(26, [0, 0, 0, 0])
         self.canvas.set_pixel(27, [0, 0, 0, 0])
-        return self.canvas
 
     def print_compose(self):
-        print(strftime("%H:%M:%S", self.__t))
+        print("Time: {0}".format(strftime("%H:%M:%S", self.__t)))
