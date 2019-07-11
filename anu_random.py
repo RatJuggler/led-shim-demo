@@ -34,7 +34,6 @@ class ANURandom(AbstractEffect):
                 pixel = [int(pixel[i:i+2],16) for i in range(0,len(pixel),2)]
                 pixel.append(1)
                 self.canvas.set_pixel(i, pixel)
-        return self.canvas
 
     def print_compose(self):
-        print(self.data)
+        print("Quantum: {0}".format(self.data))
