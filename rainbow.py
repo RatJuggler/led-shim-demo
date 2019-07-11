@@ -12,9 +12,9 @@ class Rainbow(AbstractEffect):
     SPACING = 360.0 / 16.0
     BRIGHTNESS = 0.8
 
-    def __init__(self, canvas):
+    def __init__(self, canvas, debug):
         self.__hue = 0
-        super(Rainbow, self).__init__("rainbow", 0.0001, canvas)
+        super(Rainbow, self).__init__("rainbow", 0.0001, canvas, debug)
 
     def show_rainbow(self, hue):
         for x in range(self.canvas.get_size()):
@@ -27,5 +27,5 @@ class Rainbow(AbstractEffect):
         self.__hue = int(time() * 100) % 360
         self.show_rainbow(self.__hue)
 
-    def print_compose(self):
+    def print_debug(self):
         print("Hue: {0}".format(self.__hue))

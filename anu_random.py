@@ -10,9 +10,9 @@ class ANURandom(AbstractEffect):
 
     data = None
 
-    def __init__(self, canvas):
+    def __init__(self, canvas, debug):
         self.__url = "https://qrng.anu.edu.au/API/jsonI.php?type=hex16&length={0}&size=3".format(canvas.get_size())
-        super(ANURandom, self).__init__("anu_random", 3, canvas)
+        super(ANURandom, self).__init__("anu_random", 3, canvas, debug)
 
     def get_random_numbers(self):
         try:
@@ -35,5 +35,5 @@ class ANURandom(AbstractEffect):
                 pixel.append(1)
                 self.canvas.set_pixel(i, pixel)
 
-    def print_compose(self):
+    def print_debug(self):
         print("Quantum: {0}".format(self.data))

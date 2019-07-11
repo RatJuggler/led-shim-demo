@@ -19,9 +19,9 @@ class BinaryClock(AbstractEffect):
                                                                 32 16 08 04 02 01
     """
 
-    def __init__(self, canvas):
+    def __init__(self, canvas, debug):
         self.__t = localtime()
-        super(BinaryClock, self).__init__("binary_clock", 1, canvas)
+        super(BinaryClock, self).__init__("binary_clock", 1, canvas, debug)
 
     def compose_binary(self, n, start):
         for x in range(6):
@@ -45,5 +45,5 @@ class BinaryClock(AbstractEffect):
         self.canvas.set_pixel(26, [0, 0, 0, 0])
         self.canvas.set_pixel(27, [0, 0, 0, 0])
 
-    def print_compose(self):
+    def print_debug(self):
         print("Time: {0}".format(strftime("%H:%M:%S", self.__t)))
