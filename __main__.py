@@ -5,6 +5,7 @@
 from canvas import Canvas
 from anu_random import ANURandom
 from binary_clock import BinaryClock
+from cheerlights import CheerLights
 from gradient_graph import GradientGraph
 from rainbow import Rainbow
 from solid_colours import SolidColours
@@ -24,20 +25,23 @@ effect1 = GradientGraph(canvas, DEBUG)
 effect2 = SolidColours(canvas, DEBUG)
 effect3 = BinaryClock(canvas, DEBUG)
 effect4 = Rainbow(canvas, DEBUG)
+effect5 = CheerLights(canvas, DEBUG)
 
 
 def choose_effect():
     choose = random.random()
     if choose < 0.10:
         return effect0
-    elif choose < 0.30:
+    elif choose < 0.25:
         return effect1
-    elif choose < 0.50:
+    elif choose < 0.40:
         return effect2
-    elif choose < 0.70:
+    elif choose < 0.55:
         return effect3
-    else:
+    elif choose < 0.70:
         return effect4
+    else:
+        return effect5
 
 
 try:
