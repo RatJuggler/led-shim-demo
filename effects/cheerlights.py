@@ -8,7 +8,7 @@ class CheerLights(AbstractEffect):
     Synchronize with the CheerLights "Internet of Things" project, see https://cheerlights.com
     """
 
-    data = None
+    colour = None
 
     def __init__(self, canvas, debug):
         self.__url = "http://api.thingspeak.com/channels/1417/field/2/last.json"
@@ -22,19 +22,14 @@ class CheerLights(AbstractEffect):
         except requests.exceptions.RequestException:
             return
 
-    def hex_to_rgb(self, col_hex):
-        """Convert a hex colour to an RGB tuple."""
-        col_hex = col_hex.lstrip('#')
-        return bytearray.fromhex(col_hex)
-
     def compose(self):
-        self.data = self.get_colour_from_channel()
-        if self.data is None:
-            r, g, b = 0, 0, 0
+        self.colour = self.get_colour_from_channel()
+        if self.colour is None:
+            pixel = self.canvas.BLANK_PIXEL
         else:
-            r, g, b = self.hex_to_rgb(self.data)
-        for i in range(self.canvas.get_size()):
-            self.canvas.set_pixel(i, [r, g, b, 1])
+            pixel = self.canvas.hex_to_rgb(self.colour)  # Convert colour to r, g, b.
+            pixel.append(1)                              # Add the brightness.
+        self.canvas.set_all(pixel)
 
     def print_debug(self):
-        print("Colour: {0}".format(self.data))
+        print("Colour: {0}".format(self.colour))
