@@ -1,6 +1,6 @@
 from .abstract_effect import AbstractEffect
 
-import requests, json
+import requests
 
 
 class ANURandom(AbstractEffect):

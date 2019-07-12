@@ -1,4 +1,4 @@
-from abstract_effect import AbstractEffect
+from .abstract_effect import AbstractEffect
 
 from time import time
 from colorsys import hsv_to_rgb
