@@ -12,11 +12,11 @@ class SolidColours(AbstractEffect):
 
     def compose(self):
         if self.__step == 0:
-            self.canvas.set_all([128, 0, 0, 1])
+            self.canvas.set_all(self.canvas.RED)
         if self.__step == 1:
-            self.canvas.set_all([0, 128, 0, 1])
+            self.canvas.set_all(self.canvas.GREEN)
         if self.__step == 2:
-            self.canvas.set_all([0, 0, 128, 1])
+            self.canvas.set_all(self.canvas.BLUE)
 
         self.__step += 1
         self.__step %= 3
