@@ -1,4 +1,4 @@
-from abstract_effect import AbstractEffect
+from .abstract_effect import AbstractEffect
 
 
 class SolidColours(AbstractEffect):
