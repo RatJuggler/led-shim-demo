@@ -14,7 +14,7 @@ class Rainbow(AbstractEffect):
 
     def __init__(self, canvas, debug):
         self.__hue = 0
-        super(Rainbow, self).__init__("rainbow", 0.0001, canvas, debug)
+        super(Rainbow, self).__init__("rainbow", 0.01, canvas, debug)
 
     def show_rainbow(self, hue):
         for x in range(self.canvas.get_size()):
