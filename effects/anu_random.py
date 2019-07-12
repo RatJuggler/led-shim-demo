@@ -25,13 +25,11 @@ class ANURandom(AbstractEffect):
     def compose(self):
         self.data = self.get_random_numbers()
         if self.data is None:
-            for i in range(self.canvas.get_size()):
-                self.canvas.set_pixel(i, [0, 0, 0, 0])
+            self.canvas.set_all(self.canvas.BLANK_PIXEL)
         else:
             for i in range(self.canvas.get_size()):
-                pixel = self.data[i]              # Get a random block.
-                pixel = bytearray.fromhex(pixel)  # Convert to r, g, b.
-                pixel.append(1)                   # Add the brightness.
+                pixel = self.canvas.hex_to_rgb(self.data[i])  # Get a random block and convert to r, g, b.
+                pixel.append(1)                               # Add the brightness.
                 self.canvas.set_pixel(i, pixel)
 
     def print_debug(self):
