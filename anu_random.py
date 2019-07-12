@@ -18,8 +18,7 @@ class ANURandom(AbstractEffect):
         try:
             response = requests.get(self.__url, timeout=3)
             response.raise_for_status()
-            anu_json = json.loads(response.text)
-            return anu_json["data"]
+            return response.json()["data"]
         except requests.exceptions.RequestException:
             return
 
@@ -30,9 +29,9 @@ class ANURandom(AbstractEffect):
                 self.canvas.set_pixel(i, [0, 0, 0, 0])
         else:
             for i in range(self.canvas.get_size()):
-                pixel = self.data[i]
-                pixel = [int(pixel[i:i+2],16) for i in range(0,len(pixel),2)]
-                pixel.append(1)
+                pixel = self.data[i]              # Get a random block.
+                pixel = bytearray.fromhex(pixel)  # Convert to r, g, b.
+                pixel.append(1)                   # Add the brightness.
                 self.canvas.set_pixel(i, pixel)
 
     def print_debug(self):
