@@ -3,7 +3,7 @@
 # Application to display a series of effects on a Pimoroni led-shim.
 
 from canvas import Canvas
-from effects import ANURandom, BinaryClock, CheerLights, GradientGraph, Rainbow, SolidColours
+from effects import ANURandom, BinaryClock, CheerLights, GradientGraph, Rainbow, RandomBlink, SolidColours
 from time import sleep
 import random
 #import ledshim
@@ -21,6 +21,7 @@ effect2 = SolidColours(canvas, DEBUG)
 effect3 = BinaryClock(canvas, DEBUG)
 effect4 = Rainbow(canvas, DEBUG)
 effect5 = CheerLights(canvas, DEBUG)
+effect6 = RandomBlink(canvas, DEBUG)
 effect_no = -1
 
 
@@ -28,16 +29,18 @@ def random_effect():
     choose = random.random()
     if choose < 0.10:
         return effect0
-    elif choose < 0.25:
+    elif choose < 0.20:
         return effect1
-    elif choose < 0.40:
+    elif choose < 0.30:
         return effect2
-    elif choose < 0.55:
+    elif choose < 0.40:
         return effect3
-    elif choose < 0.70:
+    elif choose < 0.50:
         return effect4
-    else:
+    elif choose < 0.60:
         return effect5
+    else:
+        return effect6
 
 
 def cycle_effects():
@@ -53,9 +56,11 @@ def cycle_effects():
         return effect3
     elif effect_no == 4:
         return effect4
+    elif effect_no == 5:
+        return effect5
     else:
         effect_no = -1
-        return effect5
+        return effect6
 
 
 try:
