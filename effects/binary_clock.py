@@ -26,8 +26,8 @@ class BinaryClock(AbstractEffect):
     def compose_binary(self, n, start):
         for x in range(6):
             bit = (n & (1 << x)) > 0
-            r, g, b = [128 * bit] * 3
-            self.canvas.set_pixel(start - x, [r, g, b, 1])
+            pixel = self.canvas.OLDLACE if bit else self.canvas.BLANK_PIXEL
+            self.canvas.set_pixel(start - x, pixel)
 
     def compose(self):
         self.__t = localtime()
