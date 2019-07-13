@@ -24,9 +24,10 @@ class Canvas:
         self.__canvas = [None] * size
 
     @staticmethod
-    def hex_to_rgb(col_hex):
-        """Convert a hex colour to an RGB tuple."""
-        return bytearray.fromhex(col_hex.lstrip('#'))
+    def hex_to_pixel(col_hex):
+        """Convert a hex colour to an RGB tuple and add brightness."""
+        pixel = bytearray.fromhex(col_hex.lstrip('#'))
+        return list(pixel).append(1)
 
     def get_pixel(self, p):
         return self.__canvas[p]

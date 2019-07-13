@@ -27,8 +27,7 @@ class CheerLights(AbstractEffect):
         if self.colour is None:
             pixel = self.canvas.BLANK_PIXEL
         else:
-            pixel = self.canvas.hex_to_rgb(self.colour)  # Convert colour to r, g, b.
-            pixel.append(1)                              # Add the brightness.
+            pixel = self.canvas.hex_to_pixel(self.colour)  # Convert colour to pixel.
         self.canvas.set_all(pixel)
 
     def print_debug(self):

@@ -28,8 +28,7 @@ class ANURandom(AbstractEffect):
             self.canvas.set_all(self.canvas.BLANK_PIXEL)
         else:
             for i in range(self.canvas.get_size()):
-                pixel = self.canvas.hex_to_rgb(self.data[i])  # Get a random block and convert to r, g, b.
-                pixel.append(1)                               # Add the brightness.
+                pixel = self.canvas.hex_to_pixel(self.data[i])  # Get a random block and convert to a pixel.
                 self.canvas.set_pixel(i, pixel)
 
     def print_debug(self):
