@@ -3,7 +3,7 @@
 # Application to display a series of effects on a Pimoroni led-shim.
 
 from canvas import Canvas
-from effects import ANURandom, BinaryClock, CheerLights, GradientGraph, Rainbow, RandomBlink, SolidColours
+from effects import Candle, BinaryClock, CheerLights, GradientGraph, Rainbow, RandomBlink, SolidColours
 from time import sleep
 import random
 #import ledshim
@@ -15,7 +15,7 @@ DEBUG = False       # Show additional output on composing.
 #ledshim.set_clear_on_exit()
 
 canvas = Canvas(NUM_PIXELS)
-effect0 = ANURandom(canvas, DEBUG)
+effect0 = Candle(canvas, DEBUG)
 effect1 = GradientGraph(canvas, DEBUG)
 effect2 = SolidColours(canvas, DEBUG)
 effect3 = BinaryClock(canvas, DEBUG)

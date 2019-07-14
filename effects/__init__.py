@@ -1,4 +1,4 @@
-from .anu_random import ANURandom
+from .candle import Candle
 from .binary_clock import BinaryClock
 from .cheerlights import CheerLights
 from .gradient_graph import GradientGraph
