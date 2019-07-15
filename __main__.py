@@ -8,7 +8,9 @@ from time import sleep
 import random
 #import ledshim
 
-NUM_PIXELS = 28
+NUM_PIXELS = 28     # Number of LEDs on the shim.
+INVERT = True       # Invert the display depending on which way round the shim is to be viewed.
+
 EFFECT_TIME = 10    # Time to show each effect, in seconds.
 DEBUG = False       # Show additional output on composing.
 
@@ -76,6 +78,7 @@ try:
             canvas.print_canvas()
         for i in range(canvas.get_size()):
             pixel = canvas.get_pixel(i)
+            position = (canvas.get_size() - 1 - i) if INVERT else i
 #            ledshim.set_pixel(position, pixel.get_r(), pixel.get_g(), pixel.get_b(), pixel.get_brightness())
 #        ledshim.show()
         show_time -= 1
