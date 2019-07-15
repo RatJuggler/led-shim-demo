@@ -10,19 +10,21 @@ class Candle(AbstractEffect):
     A candle in the wind.
     """
 
-    CANDLE_SIZE = 7
+    CANDLE_SIZE = 14
 
     def __init__(self, canvas, debug):
         self.__flame_size = 0
         self.__FLAME_MAX = canvas.get_size() - self.CANDLE_SIZE
-        self.__from_hue = 60 / float(canvas.get_size())
+        # Flame hue goes from 0 (red) to 60 (yellow).
+        self.__from_hue = 60 / float(self.__FLAME_MAX)
         super(Candle, self).__init__("candle", 0.01, canvas, debug)
 
     def show_candle(self, size):
         for i in range(size):
             self.canvas.set_pixel(i, self.canvas.OLDLACE)
 
-    def get_flame_size(self, max_size):
+    @staticmethod
+    def get_flame_size(max_size):
         n = np.random.choice(np.random.noncentral_chisquare(max_size / 2, 0.1, 1000), 1)
         flame_size = int(n[0])
         if flame_size > max_size:
