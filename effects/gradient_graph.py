@@ -12,23 +12,21 @@ class GradientGraph(AbstractEffect):
     """
 
     HUE_RANGE = 120
-    HUE_START = 0
-    MAX_BRIGHTNESS = 0.8
+    HUE_START = 180
 
     def __init__(self, canvas, debug):
         self.__v = 0
+        self.__HUE_SPACING = self.HUE_RANGE / canvas.get_size()
         super(GradientGraph, self).__init__("gradient_graph", 0.01, canvas, debug)
 
     def show_graph(self, v):
-        for x in range(self.canvas.get_size()):
-            hue = ((self.HUE_START + ((x / float(self.canvas.get_size())) * self.HUE_RANGE)) % 360) / 360.0
-            pixel = [int(c * 255) for c in hsv_to_rgb(hue, 1.0, 1.0)]
+        for i in range(self.canvas.get_size()):
+            offset = self.__HUE_SPACING * i
+            hue = (self.HUE_START + offset) % 360
+            pixel = [int(c * 255) for c in hsv_to_rgb(hue / 360.0, 1.0, 1.0)]
             if v < 0:
-                brightness = 0
-            else:
-                brightness = min(v, 1.0) * self.MAX_BRIGHTNESS
-            pixel.append(brightness)
-            self.canvas.set_pixel(x, Pixel.from_tuple(pixel))
+                pixel.append(0)
+            self.canvas.set_pixel(i, Pixel.from_tuple(pixel))
             v -= 1
 
     def compose(self):
