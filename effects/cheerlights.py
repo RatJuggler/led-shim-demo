@@ -9,9 +9,8 @@ class CheerLights(AbstractEffect):
     Synchronize with the CheerLights "Internet of Things" project, see https://cheerlights.com
     """
 
-    colour = None
-
     def __init__(self, canvas, debug):
+        self.__colour = None
         self.__url = "http://api.thingspeak.com/channels/1417/field/2/last.json"
         super(CheerLights, self).__init__("cheerlights", 5, canvas, debug)
 
@@ -24,12 +23,12 @@ class CheerLights(AbstractEffect):
             return
 
     def compose(self):
-        self.colour = self.get_colour_from_channel()
-        if self.colour is None:
+        self.__colour = self.get_colour_from_channel()
+        if self.__colour is None:
             pixel = self.canvas.BLANK_PIXEL
         else:
-            pixel = Pixel.hex_to_pixel(self.colour)
+            pixel = Pixel.hex_to_pixel(self.__colour)
         self.canvas.set_all(pixel)
 
     def print_debug(self):
-        print("Colour: {0}".format(self.colour))
+        print("Colour: {0}".format(self.__colour))
