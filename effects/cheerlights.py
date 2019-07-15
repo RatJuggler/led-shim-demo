@@ -1,4 +1,5 @@
 from .abstract_effect import AbstractEffect
+from pixel import Pixel
 
 import requests
 
@@ -27,7 +28,7 @@ class CheerLights(AbstractEffect):
         if self.colour is None:
             pixel = self.canvas.BLANK_PIXEL
         else:
-            pixel = self.canvas.hex_to_pixel(self.colour)  # Convert colour to pixel.
+            pixel = Pixel.hex_to_pixel(self.colour)
         self.canvas.set_all(pixel)
 
     def print_debug(self):

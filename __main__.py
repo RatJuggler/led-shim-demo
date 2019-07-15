@@ -73,9 +73,10 @@ try:
         effect.compose()
         if effect.is_debug():
             effect.print_debug()
+            canvas.print_canvas()
         for i in range(canvas.get_size()):
             pixel = canvas.get_pixel(i)
-#            ledshim.set_pixel(i, pixel[0], pixel[1], pixel[2], pixel[3])
+#            ledshim.set_pixel(position, pixel.get_r(), pixel.get_g(), pixel.get_b(), pixel.get_brightness())
 #        ledshim.show()
         show_time -= 1
         sleep(effect.get_speed())

@@ -1,4 +1,5 @@
 from .abstract_effect import AbstractEffect
+from pixel import Pixel
 
 from colorsys import hsv_to_rgb
 import numpy as np
@@ -31,8 +32,8 @@ class Candle(AbstractEffect):
     def show_flame(self, size):
         for i in range(size):
             hue = self.__from_hue * i
-            r, g, b = [int(c * 255) for c in hsv_to_rgb(hue / 360.0, 1.0, 1.0)]
-            self.canvas.set_pixel(self.CANDLE_SIZE + i, [r, g, b, 1])
+            pixel = [int(c * 255) for c in hsv_to_rgb(hue / 360.0, 1.0, 1.0)]
+            self.canvas.set_pixel(self.CANDLE_SIZE + i, Pixel.from_tuple(pixel))
 
     def compose(self):
         self.canvas.set_all(self.canvas.BLANK_PIXEL)

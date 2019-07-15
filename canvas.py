@@ -1,3 +1,4 @@
+from pixel import Pixel
 
 
 class Canvas:
@@ -7,28 +8,22 @@ class Canvas:
     Each pixel is composed of the list: [r, g, b, brightness]
     """
 
-    BLANK_PIXEL = [0, 0, 0, 0]
-    RED     = [255, 0, 0, 1]
-    GREEN   = [0, 255, 0, 1]
-    BLUE    = [0, 0, 255, 1]
-    CYAN    = [0, 255, 255, 1]
-    WHITE   = [255, 255, 255, 1]
-    OLDLACE = [253, 245, 230, 1]
-    PURPLE  = [128, 0, 128, 1]
-    MAGENTA = [255, 0, 255, 1]
-    YELLOW  = [255, 255, 0, 1]
-    ORANGE  = [255, 165, 0, 1]
-    PINK    = [255, 192, 203, 1]
+    BLANK_PIXEL = Pixel(0, 0, 0, 0)
+    RED     = Pixel(255, 0, 0)
+    GREEN   = Pixel(0, 255, 0)
+    BLUE    = Pixel(0, 0, 255)
+    CYAN    = Pixel(0, 255, 255)
+    WHITE   = Pixel(255, 255, 255)
+    OLDLACE = Pixel(253, 245, 230)
+    PURPLE  = Pixel(128, 0, 128)
+    MAGENTA = Pixel(255, 0, 255)
+    YELLOW  = Pixel(255, 255, 0)
+    ORANGE  = Pixel(255, 165, 0)
+    PINK    = Pixel(255, 192, 203)
+    GOLD    = Pixel(255, 215, 0)
 
     def __init__(self, size):
         self.__canvas = [None] * size
-
-    @staticmethod
-    def hex_to_pixel(col_hex):
-        """Convert a hex colour to an RGB tuple and add brightness."""
-        pixel = list(bytearray.fromhex(col_hex.lstrip('#')))
-        pixel.append(1)
-        return pixel
 
     def get_pixel(self, p):
         return self.__canvas[p]
@@ -48,4 +43,4 @@ class Canvas:
 
     def print_canvas(self):
         for i in range(self.get_size()):
-            print("{0:2d} = {1}".format(i, self.get_pixel(i)))
+            print("{0:2d} = {1}".format(i, repr(self.get_pixel(i))))

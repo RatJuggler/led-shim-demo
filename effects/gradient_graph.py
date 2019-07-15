@@ -1,4 +1,5 @@
 from .abstract_effect import AbstractEffect
+from pixel import Pixel
 
 from time import time
 from math import sin
@@ -21,13 +22,13 @@ class GradientGraph(AbstractEffect):
     def show_graph(self, v):
         for x in range(self.canvas.get_size()):
             hue = ((self.HUE_START + ((x / float(self.canvas.get_size())) * self.HUE_RANGE)) % 360) / 360.0
-            r, g, b = [int(c * 255) for c in hsv_to_rgb(hue, 1.0, 1.0)]
+            pixel = [int(c * 255) for c in hsv_to_rgb(hue, 1.0, 1.0)]
             if v < 0:
                 brightness = 0
             else:
                 brightness = min(v, 1.0) * self.MAX_BRIGHTNESS
-
-            self.canvas.set_pixel(x, [r, g, b, brightness])
+            pixel.append(brightness)
+            self.canvas.set_pixel(x, Pixel.from_tuple(pixel))
             v -= 1
 
     def compose(self):
