@@ -12,7 +12,7 @@ class Candle(AbstractEffect):
 
     CANDLE_SIZE = 14
 
-    def __init__(self, canvas, debug):
+    def __init__(self, canvas, debug=False):
         self.__flame_size = 0
         self.__FLAME_MAX = canvas.get_size() - self.CANDLE_SIZE
         # Flame hue goes from 0 (red) to 60 (yellow).

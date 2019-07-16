@@ -9,7 +9,7 @@ class CheerLights(AbstractEffect):
     Synchronize with the CheerLights "Internet of Things" project, see https://cheerlights.com
     """
 
-    def __init__(self, canvas, debug):
+    def __init__(self, canvas, debug=False):
         self.__colour = None
         self.__url = "http://api.thingspeak.com/channels/1417/field/2/last.json"
         super(CheerLights, self).__init__("cheerlights", 5, canvas, debug)

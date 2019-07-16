@@ -6,7 +6,7 @@ class SolidColours(AbstractEffect):
     A basic effect which just shows a sequence of solid colours.
     """
 
-    def __init__(self, canvas, debug):
+    def __init__(self, canvas, debug=False):
         self.__step = 0
         super(SolidColours, self).__init__("solid_colours", 0.5, canvas, debug)
 

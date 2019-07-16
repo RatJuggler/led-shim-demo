@@ -14,7 +14,7 @@ class GradientGraph(AbstractEffect):
     HUE_RANGE = 120
     HUE_START = 180
 
-    def __init__(self, canvas, debug):
+    def __init__(self, canvas, debug=False):
         self.__v = 0
         self.__HUE_SPACING = self.HUE_RANGE / canvas.get_size()
         super(GradientGraph, self).__init__("gradient_graph", 0.01, canvas, debug)
