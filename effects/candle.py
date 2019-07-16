@@ -1,5 +1,6 @@
 from .abstract_effect import AbstractEffect
 from pixel import Pixel
+from colours import Colours
 
 from colorsys import hsv_to_rgb
 import numpy as np
@@ -21,7 +22,7 @@ class Candle(AbstractEffect):
 
     def show_candle(self, size):
         for i in range(size):
-            self.canvas.set_pixel(i, self.canvas.OLDLACE)
+            self.canvas.set_pixel(i, Colours.OLDLACE)
 
     @staticmethod
     def get_flame_size(max_size):
@@ -38,7 +39,7 @@ class Candle(AbstractEffect):
             self.canvas.set_pixel(self.CANDLE_SIZE + i, Pixel.from_tuple(pixel))
 
     def compose(self):
-        self.canvas.set_all(self.canvas.BLANK_PIXEL)
+        self.canvas.clear_all()
         self.show_candle(self.CANDLE_SIZE)
         self.__flame_size = self.get_flame_size(self.__FLAME_MAX)
         self.show_flame(self.__flame_size)

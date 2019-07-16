@@ -1,4 +1,5 @@
 from .abstract_effect import AbstractEffect
+from colours import Colours
 
 
 class SolidColours(AbstractEffect):
@@ -7,19 +8,12 @@ class SolidColours(AbstractEffect):
     """
 
     def __init__(self, canvas, debug=False):
-        self.__step = 0
+        self.__colour = 0
         super(SolidColours, self).__init__("solid_colours", 0.5, canvas, debug)
 
     def compose(self):
-        if self.__step == 0:
-            self.canvas.set_all(self.canvas.RED)
-        if self.__step == 1:
-            self.canvas.set_all(self.canvas.GREEN)
-        if self.__step == 2:
-            self.canvas.set_all(self.canvas.BLUE)
-
-        self.__step += 1
-        self.__step %= 3
+        self.canvas.set_all(Colours.COLOURS[self.__colour])
+        self.__colour = (self.__colour + 1) % len(Colours.COLOURS)
 
     def __repr__(self):
-        return "SolidColours(Step:{0})".format(self.__step)
+        return "SolidColours(Step:{0})".format(self.__colour)

@@ -1,4 +1,5 @@
 from .abstract_effect import AbstractEffect
+from colours import Colours
 
 import random
 
@@ -16,9 +17,9 @@ class RandomBlink(AbstractEffect):
         self.__pixels = random.sample(range(self.canvas.get_size()), random.randint(1, 5))
         for i in range(self.canvas.get_size()):
             if i in self.__pixels:
-                self.canvas.set_pixel(i, self.canvas.OLDLACE)
+                self.canvas.set_pixel(i, Colours.OLDLACE)
             else:
-                self.canvas.set_pixel(i, self.canvas.BLANK_PIXEL)
+                self.canvas.blank_pixel(i)
 
     def __repr__(self):
         return "RandomBlink(Blink:{0})".format(self.__pixels)

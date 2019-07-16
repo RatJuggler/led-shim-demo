@@ -1,4 +1,5 @@
 from .abstract_effect import AbstractEffect
+from colours import Colours
 
 from time import localtime, strftime
 
@@ -25,21 +26,22 @@ class BinaryClock(AbstractEffect):
 
     def compose_binary(self, n, start):
         for x in range(6):
-            bit = (n & (1 << x)) > 0
-            pixel = self.canvas.OLDLACE if bit else self.canvas.BLANK_PIXEL
-            self.canvas.set_pixel(start - x, pixel)
+            if (n & (1 << x)) > 0:
+                self.canvas.set_pixel(start - x, Colours.OLDLACE)
+            else:
+                self.canvas.blank_pixel(start - x)
 
     def compose(self):
         self.__t = localtime()
-        self.canvas.set_pixel(0, self.canvas.RED)
+        self.canvas.set_pixel(0, Colours.RED)
         self.canvas.blank_pixel(1)
         self.compose_binary(self.__t.tm_hour, 7)
         self.canvas.blank_pixel(8)
-        self.canvas.set_pixel(9, self.canvas.GREEN)
+        self.canvas.set_pixel(9, Colours.GREEN)
         self.canvas.blank_pixel(10)
         self.compose_binary(self.__t.tm_min, 16)
         self.canvas.blank_pixel(17)
-        self.canvas.set_pixel(18, self.canvas.BLUE)
+        self.canvas.set_pixel(18, Colours.BLUE)
         self.canvas.blank_pixel(19)
         self.compose_binary(self.__t.tm_sec, 25)
         self.canvas.blank_pixel(26)
