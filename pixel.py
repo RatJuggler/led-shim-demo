@@ -7,7 +7,14 @@ class Pixel:
 
     DEFAULT_BRIGHTNESS = 0.8
 
-    def __init__(self, r, g, b, brightness = DEFAULT_BRIGHTNESS):
+    def __init__(self, r, g, b, brightness=DEFAULT_BRIGHTNESS):
+        """
+        Initialise a Pixel.
+        :param r: red component
+        :param g: green component
+        :param b: blue component
+        :param brightness: level of brightness
+        """
         self.__r = r
         self.__g = g
         self.__b = b
@@ -15,6 +22,11 @@ class Pixel:
 
     @classmethod
     def from_tuple(cls, pixel):
+        """
+        Alternative constructor using a list.
+        :param pixel: list of three (r,g,b) or four (r,g,b,brightness) elements
+        :return: a pixel instance
+        """
         if len(pixel) == 3:
             return Pixel(pixel[0], pixel[1], pixel[2])
         if len(pixel) == 4:
@@ -23,7 +35,11 @@ class Pixel:
 
     @classmethod
     def hex_to_pixel(cls, col_hex):
-        """Convert a hex colour to an RGB tuple."""
+        """
+        Convert a hex colour to an RGB tuple.
+        :param col_hex: the hex colour to convert e.g. #FF3C1A
+        :return: a pixel instance representing the hex colour
+        """
         pixel = list(bytearray.fromhex(col_hex.lstrip('#')))
         return cls.from_tuple(pixel)
 
