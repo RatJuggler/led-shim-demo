@@ -26,5 +26,5 @@ class Rainbow(AbstractEffect):
         self.__base_hue = int(time() * 100) % 360  # Sync with time to move the rainbow.
         self.show_rainbow(self.__base_hue)
 
-    def print_debug(self):
-        print("Base Hue: {0}".format(self.__base_hue))
+    def __repr__(self):
+        return "Rainbow(Base Hue:{0})".format(self.__base_hue)

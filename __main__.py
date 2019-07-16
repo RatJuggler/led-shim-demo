@@ -71,11 +71,11 @@ try:
         if show_time <= 0:
             effect = cycle_effects()
             show_time = EFFECT_TIME / effect.get_speed()
-            effect.print_name()
+            print(str(effect))
         effect.compose()
         if effect.is_debug():
-            effect.print_debug()
-            canvas.print_canvas()
+            print(repr(effect))
+            print(repr(canvas))
         for i in range(canvas.get_size()):
             pixel = canvas.get_pixel(i)
             position = (canvas.get_size() - 1 - i) if INVERT else i

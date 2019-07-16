@@ -6,15 +6,15 @@ class AbstractEffect(ABC):
     An abstract class which forms the basis of all effects.
     """
 
-    def __init__(self, name, speed, canvas, debug):
+    def __init__(self, name, speed, canvas, debug=False):
         self.__name = name
         self.__speed = speed
         self.canvas = canvas
         self.__debug = debug
         super().__init__()
 
-    def print_name(self):
-        print("Effect: {0}".format(self.__name))
+    def get_name(self):
+        return self.__name
 
     def get_speed(self):
         return self.__speed
@@ -22,10 +22,9 @@ class AbstractEffect(ABC):
     def is_debug(self):
         return self.__debug
 
-    @abstractmethod
-    def compose(self):
-        pass
+    def __str__(self):
+        return "Effect: {0}".format(self.get_name())
 
     @abstractmethod
-    def print_debug(self):
+    def compose(self):
         pass

@@ -21,5 +21,5 @@ class SolidColours(AbstractEffect):
         self.__step += 1
         self.__step %= 3
 
-    def print_debug(self):
-        print("Step: {0}".format(self.__step))
+    def __repr__(self):
+        return "SolidColours(Step:{0})".format(self.__step)

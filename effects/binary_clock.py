@@ -45,5 +45,5 @@ class BinaryClock(AbstractEffect):
         self.canvas.blank_pixel(26)
         self.canvas.blank_pixel(27)
 
-    def print_debug(self):
-        print("Time: {0}".format(strftime("%H:%M:%S", self.__t)))
+    def __repr__(self):
+        return "BinaryClock(Time:{0})".format(strftime("%H:%M:%S", self.__t))

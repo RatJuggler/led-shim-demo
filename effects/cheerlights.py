@@ -30,5 +30,5 @@ class CheerLights(AbstractEffect):
             pixel = Pixel.hex_to_pixel(self.__colour)
         self.canvas.set_all(pixel)
 
-    def print_debug(self):
-        print("Colour: {0}".format(self.__colour))
+    def __repr__(self):
+        return "CheerLights(Colour:{0})".format(self.__colour)

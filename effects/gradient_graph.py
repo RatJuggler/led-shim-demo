@@ -33,5 +33,5 @@ class GradientGraph(AbstractEffect):
         self.__v = (sin(time() * 2) + 1) / 2           # Get the next point on the graph, a value between 0 and 1
         self.show_graph(self.__v * self.canvas.get_size())    # Scale to the graph height to show.
 
-    def print_debug(self):
-        print("Height: {0}".format(self.__v))
+    def __repr__(self):
+        return "GradientGraph(Height:{0})".format(self.__v)

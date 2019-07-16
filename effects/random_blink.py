@@ -20,7 +20,7 @@ class RandomBlink(AbstractEffect):
             else:
                 self.canvas.set_pixel(i, self.canvas.BLANK_PIXEL)
 
-    def print_debug(self):
-        print("Blink: {0}".format(self.__pixels))
+    def __repr__(self):
+        return "RandomBlink(Blink:{0})".format(self.__pixels)
 
 

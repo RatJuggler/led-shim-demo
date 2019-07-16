@@ -5,7 +5,7 @@ class Canvas:
     """
     Abstract representation of a line of LEDs.
 
-    Each pixel is composed of the list: [r, g, b, brightness]
+    Each pixel is composed of: [r, g, b, brightness]
     """
 
     BLANK_PIXEL = Pixel(0, 0, 0, 0)
@@ -41,6 +41,9 @@ class Canvas:
     def get_size(self):
         return self.__canvas.__len__()
 
-    def print_canvas(self):
+    def __repr__(self):
+        canvas = ["Canvas("]
         for i in range(self.get_size()):
-            print("{0:2d} = {1}".format(i, repr(self.get_pixel(i))))
+            canvas.append("[{0:2d}, {1}]".format(i, repr(self.get_pixel(i))))
+        canvas.append(")")
+        return "\n".join(canvas)

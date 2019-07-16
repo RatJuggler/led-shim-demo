@@ -43,5 +43,5 @@ class Candle(AbstractEffect):
         self.__flame_size = self.get_flame_size(self.__FLAME_MAX)
         self.show_flame(self.__flame_size)
 
-    def print_debug(self):
-        print("Flame: {0}".format(self.__flame_size))
+    def __repr__(self):
+        return "Candle(Flame Size:{0})".format(self.__flame_size)
