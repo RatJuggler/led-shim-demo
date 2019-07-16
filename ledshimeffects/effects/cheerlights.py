@@ -1,5 +1,5 @@
 from .abstract_effect import AbstractEffect
-from pixel import Pixel
+from ledshimeffects.pixel import Pixel
 
 import requests
 

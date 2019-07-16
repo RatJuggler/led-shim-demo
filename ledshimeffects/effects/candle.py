@@ -1,6 +1,6 @@
 from .abstract_effect import AbstractEffect
-from pixel import Pixel
-from colours import Colours
+from ledshimeffects.pixel import Pixel
+from ledshimeffects.colours import Colours
 
 from colorsys import hsv_to_rgb
 import numpy as np

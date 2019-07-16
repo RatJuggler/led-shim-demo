@@ -1,5 +1,5 @@
 from .abstract_effect import AbstractEffect
-from colours import Colours
+from ledshimeffects.colours import Colours
 
 from time import localtime, strftime
 

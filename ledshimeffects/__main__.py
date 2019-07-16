@@ -2,8 +2,8 @@
 
 # Application to display a series of effects on a Pimoroni led-shim.
 
-from canvas import Canvas
-from effects import Candle, BinaryClock, CheerLights, GradientGraph, Rainbow, RandomBlink, SolidColours
+from ledshimeffects.canvas import Canvas
+from ledshimeffects.effects import Candle, BinaryClock, CheerLights, GradientGraph, Rainbow, RandomBlink, SolidColours
 from time import sleep
 import random
 #import ledshim

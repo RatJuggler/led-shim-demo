@@ -1,4 +1,4 @@
-from pixel import Pixel
+from ledshimeffects.pixel import Pixel
 
 
 class Canvas:
