@@ -17,52 +17,19 @@ DEBUG = False       # Show additional output on composing.
 #ledshim.set_clear_on_exit()
 
 canvas = Canvas(NUM_PIXELS)
-effect0 = Candle(canvas, DEBUG)
-effect1 = GradientGraph(canvas, DEBUG)
-effect2 = SolidColours(canvas, DEBUG)
-effect3 = BinaryClock(canvas, DEBUG)
-effect4 = Rainbow(canvas, DEBUG)
-effect5 = CheerLights(canvas, DEBUG)
-effect6 = RandomBlink(canvas, DEBUG)
+effects = [Candle(canvas), GradientGraph(canvas), SolidColours(canvas), BinaryClock(canvas), Rainbow(canvas), CheerLights(canvas), RandomBlink(canvas)]
 effect_no = -1
 
 
 def random_effect():
-    choose = random.random()
-    if choose < 0.10:
-        return effect0
-    elif choose < 0.20:
-        return effect1
-    elif choose < 0.30:
-        return effect2
-    elif choose < 0.40:
-        return effect3
-    elif choose < 0.50:
-        return effect4
-    elif choose < 0.60:
-        return effect5
-    else:
-        return effect6
+    choose = random.randint(0, len(effects))
+    return effects[choose]
 
 
 def cycle_effects():
     global effect_no
-    effect_no += 1
-    if effect_no == 0:
-        return effect0
-    elif effect_no == 1:
-        return effect1
-    elif effect_no == 2:
-        return effect2
-    elif effect_no == 3:
-        return effect3
-    elif effect_no == 4:
-        return effect4
-    elif effect_no == 5:
-        return effect5
-    else:
-        effect_no = -1
-        return effect6
+    effect_no = (effect_no + 1) % len(effects)
+    return effects[effect_no]
 
 
 try:
