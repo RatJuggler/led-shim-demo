@@ -15,6 +15,8 @@ class Canvas:
         Initialise LED line.
         :param size: the number of LEDs in the line
         """
+        if size < 1 or size > 100:
+            raise ValueError("Canvas size outside reasonable range of 1 to 100.")
         self.__canvas = [None] * size
 
     def get_pixel(self, p):
