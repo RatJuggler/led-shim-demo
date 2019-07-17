@@ -38,5 +38,23 @@ class TestCanvasGetPixel(unittest.TestCase):
             self.canvas.get_pixel(99)
 
 
+class TestCanvasSetPixel(unittest.TestCase):
+
+    def setUp(self):
+        self.canvas = Canvas(2)
+
+    def test_set_pixel_none(self):
+        self.canvas.set_pixel(0, None)
+        self.assertIsNone(self.canvas.get_pixel(0))
+
+    def test_set_pixel_color(self):
+        self.canvas.set_pixel(1, Colours.BLUE)
+        self.assertEqual(self.canvas.get_pixel(1), Colours.BLUE)
+
+    def test_set_pixel_invalid(self):
+        with self.assertRaises(ValueError):
+            self.canvas.set_pixel(99, Colours.RED)
+
+
 if __name__ == '__main__':
     unittest.main()
