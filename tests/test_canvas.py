@@ -7,8 +7,11 @@ from ledshimeffects.colours import Colours
 class TestCanvasConstructor(unittest.TestCase):
 
     def test_constructor_valid_size(self):
-        canvas = Canvas(10)
+        size = 3
+        canvas = Canvas(size)
         self.assertEqual(canvas.get_size(), 10)
+        for i in range(size):
+            self.assertTrue(canvas.is_blank_pixel(i))
 
     def test_constructor_negative_size(self):
         size = -10
@@ -22,10 +25,10 @@ class TestCanvasConstructor(unittest.TestCase):
 class TestCanvasGetPixel(unittest.TestCase):
 
     def setUp(self):
-        self.canvas = Canvas(2)
+        self.canvas = Canvas(3)
         self.canvas.set_pixel(1, Colours.BLUE)
 
-    def test_get_pixel_none(self):
+    def test_get_pixel_blank(self):
         pixel = self.canvas.get_pixel(0)
         self.assertIsNone(pixel)
 
@@ -54,6 +57,45 @@ class TestCanvasSetPixel(unittest.TestCase):
     def test_set_pixel_invalid(self):
         with self.assertRaises(ValueError):
             self.canvas.set_pixel(99, Colours.RED)
+
+
+class TestCanvasBlankPixel(unittest.TestCase):
+
+    def setUp(self):
+        self.canvas = Canvas(2)
+        self.canvas.set_all(Colours.RED)
+
+    def test_blank_pixel_valid(self):
+        self.canvas.blank_pixel(0)
+        self.assertTrue(self.canvas.is_blank_pixel(0))
+
+    def test_blank_pixel_invalid(self):
+        with self.assertRaises(ValueError):
+            self.canvas.blank_pixel(99)
+
+
+class TestCanvasClearAll(unittest.TestCase):
+
+    def setUp(self):
+        self.canvas = Canvas(2)
+        self.canvas.set_all(Colours.RED)
+
+    def test_clear_all(self):
+        self.assertEqual(self.canvas.get_pixel(0), Colours.RED)
+        self.canvas.clear_all()
+        self.assertTrue(self.canvas.is_blank_pixel(0))
+
+
+class TestCanvasSetAll(unittest.TestCase):
+
+    def setUp(self):
+        self.canvas = Canvas(2)
+        self.canvas.clear_all()
+
+    def test_set_all(self):
+        self.assertTrue(self.canvas.is_blank_pixel(0))
+        self.canvas.set_all(Colours.RED)
+        self.assertEqual(self.canvas.get_pixel(0), Colours.RED)
 
 
 if __name__ == '__main__':
