@@ -2,6 +2,7 @@ import unittest
 
 from ledshimeffects.canvas import Canvas
 from ledshimeffects.colours import Colours
+from ledshimeffects.pixel import Pixel
 
 
 class TestCanvasConstructor(unittest.TestCase):
@@ -9,7 +10,7 @@ class TestCanvasConstructor(unittest.TestCase):
     def test_constructor_valid_size(self):
         size = 3
         canvas = Canvas(size)
-        self.assertEqual(canvas.get_size(), 10)
+        self.assertEqual(canvas.get_size(), size)
         for i in range(size):
             self.assertTrue(canvas.is_blank_pixel(i))
 
@@ -26,15 +27,15 @@ class TestCanvasGetPixel(unittest.TestCase):
 
     def setUp(self):
         self.canvas = Canvas(3)
-        self.canvas.set_pixel(1, Colours.BLUE)
+        self.canvas.set_pixel(1, Colours.RED)
 
     def test_get_pixel_blank(self):
         pixel = self.canvas.get_pixel(0)
-        self.assertIsNone(pixel)
+        self.assertEqual(pixel, self.canvas.BLANK_PIXEL)
 
     def test_get_pixel_color(self):
         pixel = self.canvas.get_pixel(1)
-        self.assertEqual(pixel, Colours.BLUE)
+        self.assertEqual(pixel, Colours.RED)
 
     def test_get_pixel_invalid(self):
         with self.assertRaises(ValueError):
@@ -56,16 +57,17 @@ class TestCanvasSetPixel(unittest.TestCase):
 
     def test_set_pixel_invalid(self):
         with self.assertRaises(ValueError):
-            self.canvas.set_pixel(99, Colours.RED)
+            self.canvas.set_pixel(99, Colours.BLUE)
 
 
 class TestCanvasBlankPixel(unittest.TestCase):
 
     def setUp(self):
         self.canvas = Canvas(2)
-        self.canvas.set_all(Colours.RED)
+        self.canvas.set_all(Colours.GREEN)
 
     def test_blank_pixel_valid(self):
+        self.assertEqual(self.canvas.get_pixel(0), Colours.GREEN)
         self.canvas.blank_pixel(0)
         self.assertTrue(self.canvas.is_blank_pixel(0))
 
@@ -78,24 +80,27 @@ class TestCanvasClearAll(unittest.TestCase):
 
     def setUp(self):
         self.canvas = Canvas(2)
-        self.canvas.set_all(Colours.RED)
+        self.canvas.set_all(Colours.PURPLE)
 
     def test_clear_all(self):
-        self.assertEqual(self.canvas.get_pixel(0), Colours.RED)
+        for i in range(self.canvas.get_size()):
+            self.assertEqual(self.canvas.get_pixel(i), Colours.PURPLE)
         self.canvas.clear_all()
-        self.assertTrue(self.canvas.is_blank_pixel(0))
+        for i in range(self.canvas.get_size()):
+            self.assertTrue(self.canvas.is_blank_pixel(i))
 
 
 class TestCanvasSetAll(unittest.TestCase):
 
     def setUp(self):
         self.canvas = Canvas(2)
-        self.canvas.clear_all()
 
     def test_set_all(self):
-        self.assertTrue(self.canvas.is_blank_pixel(0))
-        self.canvas.set_all(Colours.RED)
-        self.assertEqual(self.canvas.get_pixel(0), Colours.RED)
+        for i in range(self.canvas.get_size()):
+            self.assertTrue(self.canvas.is_blank_pixel(i))
+        self.canvas.set_all(Colours.ORANGE)
+        for i in range(self.canvas.get_size()):
+            self.assertEqual(self.canvas.get_pixel(i), Colours.ORANGE)
 
 
 if __name__ == '__main__':
