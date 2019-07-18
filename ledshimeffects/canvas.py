@@ -20,7 +20,7 @@ class Canvas:
         self.__canvas = [self.BLANK_PIXEL] * size
 
     def __validate_index(self, p: int):
-        if p < 0 or p > len(self.__canvas):
+        if p < 0 or p >= len(self.__canvas):
             raise ValueError("Pixel index out of range for Canvas!")
 
     def get_pixel(self, p: int) -> Pixel:
