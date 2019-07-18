@@ -20,6 +20,3 @@ class Colours:
     GOLD    = Pixel(255, 215, 0)
 
     COLOURS = [RED, GREEN, BLUE, CYAN, WHITE, OLDLACE, PURPLE, MAGENTA, YELLOW, ORANGE, PINK, GOLD]
-
-    def __init__(self):
-        pass
