@@ -90,7 +90,3 @@ class TestPixelRepr(unittest.TestCase):
         expected_repr = "Pixel(r:123, g:221, b:56, brightness:0.42)"
         actual_repr = repr(self.pixel)
         self.assertEqual(expected_repr, actual_repr)
-
-
-if __name__ == '__main__':
-    unittest.main()

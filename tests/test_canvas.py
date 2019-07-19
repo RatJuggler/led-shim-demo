@@ -146,7 +146,3 @@ class TestCanvasRepr(unittest.TestCase):
         expected_repr = "\n".join(canvas)
         actual_repr = repr(self.canvas)
         self.assertEqual(expected_repr, actual_repr)
-
-
-if __name__ == '__main__':
-    unittest.main()

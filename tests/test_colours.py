@@ -26,7 +26,3 @@ class TestColours(unittest.TestCase):
 
     def test_colours(self):
         self.assertEqual(len(Colours.COLOURS), 12)
-
-
-if __name__ == '__main__':
-    unittest.main()
