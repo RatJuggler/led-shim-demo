@@ -3,7 +3,7 @@ import unittest
 from ledshimeffects.pixel import Pixel
 
 
-class TestPixel(unittest.TestCase):
+class TestPixelConstructor(unittest.TestCase):
 
     def test_constructor_default_brightness(self):
         pixel = Pixel(10, 20, 30)
@@ -71,7 +71,7 @@ class TestPixel(unittest.TestCase):
 
     def test_from_tuple_excess_elements(self):
         with self.assertRaises(Exception):
-            pixel = Pixel.from_tuple([40, 50, 60, 70])
+            pixel = Pixel.from_tuple([40, 50, 60, 70, 80])
 
     def test_hex_to_pixel_default_brightness(self):
         pixel = Pixel.hex_to_pixel("#708090")
@@ -79,6 +79,17 @@ class TestPixel(unittest.TestCase):
         self.assertEqual(pixel.get_g(), 128)
         self.assertEqual(pixel.get_b(), 144)
         self.assertEqual(pixel.get_brightness(), pixel.DEFAULT_BRIGHTNESS)
+
+
+class TestPixelRepr(unittest.TestCase):
+
+    def setUp(self):
+        self.pixel = Pixel(123, 221, 56, 0.42)
+
+    def test_repr(self):
+        expected_repr = "Pixel(r:123, g:221, b:56, brightness:0.42)"
+        actual_repr = repr(self.pixel)
+        self.assertEqual(expected_repr, actual_repr)
 
 
 if __name__ == '__main__':
