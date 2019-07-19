@@ -7,6 +7,22 @@ class Pixel:
 
     DEFAULT_BRIGHTNESS = 0.8
 
+    @staticmethod
+    def __validate_component(colour: str, c: int):
+        if c < 0 or c > 255:
+            raise ValueError(colour + " colour component out of range (0-255) for Pixel!")
+
+    @staticmethod
+    def __validate_components(r: int, g: int, b: int):
+        Pixel.__validate_component("Red", r)
+        Pixel.__validate_component("Green", g)
+        Pixel.__validate_component("Blue", b)
+
+    @staticmethod
+    def __validate_brightness(b: float):
+        if b < 0.0 or b > 1.0:
+            raise ValueError("Brightness level out of range (0.0-1.0) for Pixel!")
+
     def __init__(self, r, g, b, brightness=DEFAULT_BRIGHTNESS):
         """
         Initialise a Pixel.
@@ -15,9 +31,11 @@ class Pixel:
         :param b: blue component
         :param brightness: level of brightness
         """
+        Pixel.__validate_components(r, g, b)
         self.__r = r
         self.__g = g
         self.__b = b
+        Pixel.__validate_brightness(brightness)
         self.__brightness = brightness
 
     @classmethod
