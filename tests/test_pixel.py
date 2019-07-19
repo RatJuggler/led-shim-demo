@@ -19,6 +19,38 @@ class TestPixel(unittest.TestCase):
         self.assertEqual(pixel.get_b(), 30)
         self.assertEqual(pixel.get_brightness(), 1)
 
+    def test_constructor_invalid_red_component1(self):
+        with self.assertRaises(ValueError):
+            pixel = Pixel(-10, 20, 30, 1)
+
+    def test_constructor_invalid_red_component2(self):
+        with self.assertRaises(ValueError):
+            pixel = Pixel(1000, 20, 30, 1)
+
+    def test_constructor_invalid_green_component1(self):
+        with self.assertRaises(ValueError):
+            pixel = Pixel(10, -20, 30, 1)
+
+    def test_constructor_invalid_green_component2(self):
+        with self.assertRaises(ValueError):
+            pixel = Pixel(10, 2000, 30, 1)
+
+    def test_constructor_invalid_blue_component1(self):
+        with self.assertRaises(ValueError):
+            pixel = Pixel(10, 20, -30, 1)
+
+    def test_constructor_invalid_blue_component2(self):
+        with self.assertRaises(ValueError):
+            pixel = Pixel(10, 20, 3000, 1)
+
+    def test_constructor_invalid_brightness1(self):
+        with self.assertRaises(ValueError):
+            pixel = Pixel(10, 20, 30, -1)
+
+    def test_constructor_invalid_brightness2(self):
+        with self.assertRaises(ValueError):
+            pixel = Pixel(10, 20, 30, 10)
+
     def test_from_tuple_default_brightness(self):
         pixel = Pixel.from_tuple([40, 50, 60])
         self.assertEqual(pixel.get_r(), 40)
@@ -32,6 +64,14 @@ class TestPixel(unittest.TestCase):
         self.assertEqual(pixel.get_g(), 50)
         self.assertEqual(pixel.get_b(), 60)
         self.assertEqual(pixel.get_brightness(), 1)
+
+    def test_from_tuple_insufficient_elements(self):
+        with self.assertRaises(Exception):
+            pixel = Pixel.from_tuple([40, 50])
+
+    def test_from_tuple_excess_elements(self):
+        with self.assertRaises(Exception):
+            pixel = Pixel.from_tuple([40, 50, 60, 70])
 
     def test_hex_to_pixel_default_brightness(self):
         pixel = Pixel.hex_to_pixel("#708090")
