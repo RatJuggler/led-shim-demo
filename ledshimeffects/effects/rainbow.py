@@ -1,8 +1,8 @@
-from .abstract_effect import AbstractEffect
-from ledshimeffects.pixel import Pixel
-
-from time import time
 from colorsys import hsv_to_rgb
+from time import time
+
+from pixel import Pixel
+from .abstract_effect import AbstractEffect
 
 
 class Rainbow(AbstractEffect):

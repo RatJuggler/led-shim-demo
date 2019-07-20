@@ -1,7 +1,7 @@
-from .abstract_effect import AbstractEffect
-from ledshimeffects.pixel import Pixel
-
 import requests
+
+from pixel import Pixel
+from .abstract_effect import AbstractEffect
 
 
 class CheerLights(AbstractEffect):

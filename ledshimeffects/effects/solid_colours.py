@@ -1,5 +1,5 @@
+from colours import Colours
 from .abstract_effect import AbstractEffect
-from ledshimeffects.colours import Colours
 
 
 class SolidColours(AbstractEffect):

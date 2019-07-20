@@ -1,7 +1,7 @@
-from .abstract_effect import AbstractEffect
-from ledshimeffects.colours import Colours
-
 from time import localtime, strftime
+
+from colours import Colours
+from .abstract_effect import AbstractEffect
 
 
 class BinaryClock(AbstractEffect):

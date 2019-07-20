@@ -1,9 +1,9 @@
-from .abstract_effect import AbstractEffect
-from ledshimeffects.pixel import Pixel
-
-from time import time
-from math import sin
 from colorsys import hsv_to_rgb
+from math import sin
+from time import time
+
+from pixel import Pixel
+from .abstract_effect import AbstractEffect
 
 
 class GradientGraph(AbstractEffect):

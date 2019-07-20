@@ -1,7 +1,7 @@
-from .abstract_effect import AbstractEffect
-from ledshimeffects.colours import Colours
+from random import randint, sample
 
-import random
+from colours import Colours
+from .abstract_effect import AbstractEffect
 
 
 class RandomBlink(AbstractEffect):
@@ -14,7 +14,7 @@ class RandomBlink(AbstractEffect):
         super(RandomBlink, self).__init__("random_blink", 0.05, canvas, debug)
 
     def compose(self):
-        self.__pixels = random.sample(range(self.canvas.get_size()), random.randint(1, 5))
+        self.__pixels = sample(range(self.canvas.get_size()), randint(1, 5))
         for i in range(self.canvas.get_size()):
             if i in self.__pixels:
                 self.canvas.set_pixel(i, Colours.OLDLACE)
@@ -23,5 +23,3 @@ class RandomBlink(AbstractEffect):
 
     def __repr__(self):
         return "RandomBlink(Blink:{0})".format(self.__pixels)
-
-
