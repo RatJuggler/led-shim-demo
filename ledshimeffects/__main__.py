@@ -4,8 +4,8 @@
 
 from ledshimeffects.canvas import Canvas
 from ledshimeffects.effects import Candle, BinaryClock, CheerLights, GradientGraph, Rainbow, RandomBlink, SolidColours
+from random import randint
 from time import sleep
-import random
 #import ledshim
 
 NUM_PIXELS = 28     # Number of LEDs on the shim.
@@ -17,12 +17,18 @@ DEBUG = False       # Show additional output on composing.
 #ledshim.set_clear_on_exit()
 
 canvas = Canvas(NUM_PIXELS)
-effects = [Candle(canvas), GradientGraph(canvas), SolidColours(canvas), BinaryClock(canvas), Rainbow(canvas), CheerLights(canvas), RandomBlink(canvas)]
+effects = [Candle(canvas),
+           GradientGraph(canvas),
+           SolidColours(canvas),
+           BinaryClock(canvas),
+           Rainbow(canvas),
+           CheerLights(canvas),
+           RandomBlink(canvas)]
 effect_no = -1
 
 
 def random_effect():
-    choose = random.randint(0, len(effects))
+    choose = randint(0, len(effects))
     return effects[choose]
 
 
@@ -32,25 +38,31 @@ def cycle_effects():
     return effects[effect_no]
 
 
-try:
-    show_time = 0
-    while True:
-        if show_time <= 0:
-            effect = cycle_effects()
-            show_time = EFFECT_TIME / effect.get_speed()
-            print(str(effect))
-        effect.compose()
-        if effect.is_debug():
-            print(repr(effect))
-            print(repr(canvas))
-        for i in range(canvas.get_size()):
-            pixel = canvas.get_pixel(i)
-            position = (canvas.get_size() - 1 - i) if INVERT else i
-#            ledshim.set_pixel(position, pixel.get_r(), pixel.get_g(), pixel.get_b(), pixel.get_brightness())
-#        ledshim.show()
-        show_time -= 1
-        sleep(effect.get_speed())
-except KeyboardInterrupt:
-    pass
-#    ledshim.clear()
-#    ledshim.show()
+def display_effects():
+    try:
+        show_time = 0
+        effect = effects[0]
+        while True:
+            if show_time <= 0:
+                effect = cycle_effects()
+                show_time = EFFECT_TIME / effect.get_speed()
+                print(str(effect))
+            effect.compose()
+            if effect.is_debug():
+                print(repr(effect))
+                print(repr(canvas))
+            for i in range(canvas.get_size()):
+                pixel = canvas.get_pixel(i)
+                position = (canvas.get_size() - 1 - i) if INVERT else i
+    #            ledshim.set_pixel(position, pixel.get_r(), pixel.get_g(), pixel.get_b(), pixel.get_brightness())
+    #        ledshim.show()
+            show_time -= 1
+            sleep(effect.get_speed())
+    except KeyboardInterrupt:
+        pass
+    #    ledshim.clear()
+    #    ledshim.show()
+
+
+if __name__ == '__main__':
+    display_effects()
