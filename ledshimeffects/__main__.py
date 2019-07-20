@@ -2,11 +2,13 @@
 
 # Application to display a series of effects on a Pimoroni led-shim.
 
-from ledshimeffects.canvas import Canvas
-from ledshimeffects.effects import Candle, BinaryClock, CheerLights, GradientGraph, Rainbow, RandomBlink, SolidColours
 from random import randint
 from time import sleep
+
 #import ledshim
+
+from canvas import Canvas
+from effects import Candle, BinaryClock, CheerLights, GradientGraph, Rainbow, RandomBlink, SolidColours
 
 NUM_PIXELS = 28     # Number of LEDs on the shim.
 INVERT = True       # Invert the display depending on which way round the shim is to be viewed.
@@ -54,14 +56,14 @@ def display_effects():
             for i in range(canvas.get_size()):
                 pixel = canvas.get_pixel(i)
                 position = (canvas.get_size() - 1 - i) if INVERT else i
-    #            ledshim.set_pixel(position, pixel.get_r(), pixel.get_g(), pixel.get_b(), pixel.get_brightness())
-    #        ledshim.show()
+#                ledshim.set_pixel(position, pixel.get_r(), pixel.get_g(), pixel.get_b(), pixel.get_brightness())
+#            ledshim.show()
             show_time -= 1
             sleep(effect.get_speed())
     except KeyboardInterrupt:
         pass
-    #    ledshim.clear()
-    #    ledshim.show()
+#        ledshim.clear()
+#        ledshim.show()
 
 
 if __name__ == '__main__':
