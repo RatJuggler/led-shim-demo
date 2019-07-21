@@ -37,16 +37,13 @@ def cycle_effects():
     return effects[effect_no]
 
 
-@click.command()
+@click.command(help="Show various effects on a Pimoroni LED shim.")
 @click.version_option(prog_name="ledshimeffects", version="0.0.1")
-@click.option('-s', '--show_effects', type=click.Choice(["CYCLE", "RANDOM"]), default="CYCLE", help="How the effects are displayed", show_default=True)
-@click.option('-t', '--effect_time', type=int, default=10, help="How long to display each effect for, in seconds", show_default=True)
-@click.option('-i', '--invert', is_flag=True, help="Change the display orientation")
-@click.option('-d', '--debug', is_flag=True, help="Show additional debug information")
+@click.option('-s', '--show_effects', type=click.Choice(["CYCLE", "RANDOM"]), default="CYCLE", help="How the effects are displayed.", show_default=True)
+@click.option('-t', '--effect_time', type=int, default=10, help="How long to display each effect for, in seconds.", show_default=True)
+@click.option('-i', '--invert', is_flag=True, help="Change the display orientation.")
+@click.option('-d', '--debug', is_flag=True, help="Show additional debug information.")
 def display_effects(show_effects, effect_time, invert, debug):
-    """
-    Show various effects on a Pimoroni LED shim.
-    """
     try:
         show_time = 0
         effect = effects[0]
