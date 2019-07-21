@@ -15,19 +15,6 @@ NUM_PIXELS = 28     # Number of LEDs on the shim.
 
 #ledshim.set_clear_on_exit()
 
-effect_no = -1
-
-
-def random_effect(effects_available):
-    choose = randint(0, len(effects_available))
-    return effects_available[choose]
-
-
-def cycle_effects(effects_available):
-    global effect_no
-    effect_no = (effect_no + 1) % len(effects_available)
-    return effects_available[effect_no]
-
 
 @click.command(help="Show various effects on a Pimoroni LED shim.")
 @click.version_option(prog_name="ledshimeffects", version="0.0.1")
@@ -45,14 +32,16 @@ def display_effects(show_effects, effect_time, invert, debug):
                CheerLights(canvas),
                RandomBlink(canvas)]
     show_time = 0
-    effect = effects[0]
+    effect_no = len(effects) - 1
+    effect = effects[effect_no]
     try:
         while True:
             if show_time <= 0:
                 if show_effects == "CYCLE":
-                    effect = cycle_effects(effects)
+                    effect_no = (effect_no + 1) % len(effects)
                 if show_effects == "RANDOM":
-                    effect = random_effect(effects)
+                    effect_no = randint(0, len(effects))
+                effect = effects[effect_no]
                 show_time = effect_time / effect.get_speed()
                 print(str(effect))
             effect.compose()
