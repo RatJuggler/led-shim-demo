@@ -38,12 +38,11 @@ def cycle_effects():
 
 
 @click.command()
-@click.option('-c', '--cycle', 'display', flag_value="CYCLE", default=True, help="Display the effects in a cycle (the default")
-@click.option('-r', '--random', 'display', flag_value="RANDOM", help="Display the effects randomly")
+@click.option('-s', '--show_effects', type=click.Choice(["CYCLE", "RANDOM"]), default="CYCLE", help="How the effects are displayed", show_default=True)
 @click.option('-t', '--effect_time', type=int, default=10, help="How long to display each effect for, in seconds", show_default=True)
 @click.option('-i', '--invert', is_flag=True, help="Change the display orientation")
 @click.option('-d', '--debug', is_flag=True, help="Show additional debug information")
-def display_effects(display, effect_time, invert, debug):
+def display_effects(show_effects, effect_time, invert, debug):
     """
     Show various effects on a Pimoroni LED shim.
     """
@@ -52,9 +51,9 @@ def display_effects(display, effect_time, invert, debug):
         effect = effects[0]
         while True:
             if show_time <= 0:
-                if display == "CYCLE":
+                if show_effects == "CYCLE":
                     effect = cycle_effects()
-                if display == "RANDOM":
+                if show_effects == "RANDOM":
                     effect = random_effect()
                 show_time = effect_time / effect.get_speed()
                 print(str(effect))
