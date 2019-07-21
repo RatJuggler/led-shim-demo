@@ -38,6 +38,7 @@ def cycle_effects():
 
 
 @click.command()
+@click.version_option(prog_name="ledshimeffects", version="0.0.1")
 @click.option('-s', '--show_effects', type=click.Choice(["CYCLE", "RANDOM"]), default="CYCLE", help="How the effects are displayed", show_default=True)
 @click.option('-t', '--effect_time', type=int, default=10, help="How long to display each effect for, in seconds", show_default=True)
 @click.option('-i', '--invert', is_flag=True, help="Change the display orientation")
