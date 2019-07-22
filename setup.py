@@ -22,4 +22,21 @@ setup(
         'console_scripts': [
             'ledshimeffects = ledshimeffects.__main__:display_effects'
         ]
-    })
+    },
+    install_requires=[
+        'click>=7.0',
+        'ledshim>=0.0.1',
+        'numpy>=1.16.4',
+        'requests>=2.22.0'
+    ],
+    license='MIT',
+    classifiers=[
+        # Trove classifiers
+        # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
+        'License :: OSI Approved :: MIT License',
+        'Development Status :: 3 - Alpha',
+        'Programming Language :: Python :: 3',
+        'Operating System :: POSIX :: Linux',
+        'Topic :: System :: Hardware'
+    ]
+)
