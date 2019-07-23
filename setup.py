@@ -29,6 +29,7 @@ setup(
         'numpy>=1.16.4',
         'requests>=2.22.0'
     ],
+    test_suite='tests',
     license='MIT',
     classifiers=[
         # Trove classifiers
