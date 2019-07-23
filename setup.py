@@ -16,7 +16,7 @@ setup(
     author='John Chase',
     author_email='ratteal@gmail.com',
     python_requires='>=3.5.3',
-    url='https://github.com/RatJuggler/led-shim-effects',
+    url='https://github.com/RatJuggler/led-shim-demo',
     packages=['ledshimeffects'],
     entry_points={
         'console_scripts': [
