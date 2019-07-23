@@ -17,8 +17,8 @@ NUM_PIXELS = 28     # Number of LEDs on the shim.
 @click.option('-s', '--show_effects', type=click.Choice(["CYCLE", "RANDOM"]), default="CYCLE", help="How the effects are displayed.", show_default=True)
 @click.option('-t', '--effect_time', type=int, default=10, help="How long to display each effect for, in seconds.", show_default=True)
 @click.option('-i', '--invert', is_flag=True, help="Change the display orientation.")
-@click.option('-d', '--debug', is_flag=True, help="Show additional debug information.")
-def display_effects(show_effects, effect_time, invert, debug):
+@click.option('-l', '--log', type=click.Choice(["NONE", "INFO", "EFFECT", "DEBUG"]), default="NONE", help="Show additional logging information.")
+def display_effects(show_effects, effect_time, invert, log):
     canvas = Canvas(NUM_PIXELS)
     effects = [Candle(canvas),
                GradientGraph(canvas),
@@ -39,10 +39,12 @@ def display_effects(show_effects, effect_time, invert, debug):
                     effect_no = randint(0, len(effects))
                 effect = effects[effect_no]
                 show_time = effect_time / effect.get_speed()
-                print(str(effect))
+                if log == "INFO" or log == "EFFECT" or log == "DEBUG":
+                    print(str(effect))
             effect.compose()
-            if debug:
+            if log == "EFFECT" or log == "DEBUG":
                 print(repr(effect))
+            if log == "DEBUG":
                 print(repr(canvas))
             for i in range(canvas.get_size()):
                 pixel = canvas.get_pixel(i)
