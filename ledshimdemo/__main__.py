@@ -41,7 +41,7 @@ def display_effects(show_effects, effect_time, invert, debug):
                 show_time = effect_time / effect.get_speed()
                 print(str(effect))
             effect.compose()
-            if effect.is_debug():
+            if debug:
                 print(repr(effect))
                 print(repr(canvas))
             for i in range(canvas.get_size()):
