@@ -3,17 +3,17 @@ from .pixel import Pixel
 
 class Canvas:
     """
-    Abstract representation of a single line of LEDs.
+    Abstract representation of a single line of pixels (LEDs) on a shim.
 
-    Each LED is represented by a Pixel instance.
+    Each LED is represented by a Pixel instance though all instances may not be unique.
     """
 
-    BLANK_PIXEL = Pixel(0, 0, 0, 0)   # An unlit LED.
+    BLANK_PIXEL = Pixel(0, 0, 0, 0)   # An unlit pixel.
 
     def __init__(self, size: int):
         """
-        Initialise LED line.
-        :param size: the number of LEDs in the line
+        Initialise the line of pixels.
+        :param size: the number of pixels in the line
         """
         if size < 1 or size > 100:
             raise ValueError("Canvas size outside reasonable range of 1 to 100!")
@@ -36,7 +36,7 @@ class Canvas:
         """
         Set a pixel.
         :param p: the position of the pixel to set
-        :param pixel: the pixel to set at the given p
+        :param pixel: the pixel to set at the given position
         :return: No meaningful return
         """
         self.__validate_index(p)
@@ -77,8 +77,8 @@ class Canvas:
 
     def get_size(self) -> int:
         """
-        Get the current number of LEDs.
-        :return: The number of LEDs represented in this instance.
+        Get the current number of pixels.
+        :return: The number of pixels represented in this instance.
         """
         return self.__canvas.__len__()
 

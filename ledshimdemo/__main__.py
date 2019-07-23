@@ -7,7 +7,7 @@ import ledshim
 from .canvas import Canvas
 from .effects import Candle, BinaryClock, CheerLights, GradientGraph, Rainbow, RandomBlink, SolidColours
 
-NUM_PIXELS = 28     # Number of LEDs on the shim.
+NUM_PIXELS = 28     # The number of LEDs on the shim.
 
 ledshim.set_clear_on_exit()
 
