@@ -1,7 +1,3 @@
-#!/usr/bin/env python3
-
-# Application to display a series of effects on a Pimoroni led-shim.
-
 import click
 from random import randint
 from time import sleep
@@ -17,7 +13,7 @@ NUM_PIXELS = 28     # Number of LEDs on the shim.
 
 
 @click.command(help="Show various effects on a Pimoroni LED shim.")
-@click.version_option(prog_name="ledshimeffects", version="0.0.1")
+@click.version_option()
 @click.option('-s', '--show_effects', type=click.Choice(["CYCLE", "RANDOM"]), default="CYCLE", help="How the effects are displayed.", show_default=True)
 @click.option('-t', '--effect_time', type=int, default=10, help="How long to display each effect for, in seconds.", show_default=True)
 @click.option('-i', '--invert', is_flag=True, help="Change the display orientation.")
@@ -59,7 +55,3 @@ def display_effects(show_effects, effect_time, invert, debug):
         pass
 #        ledshim.clear()
 #        ledshim.show()
-
-
-if __name__ == '__main__':
-    display_effects()
