@@ -4,8 +4,8 @@ from time import sleep
 
 #import ledshim
 
-from canvas import Canvas
-from effects import Candle, BinaryClock, CheerLights, GradientGraph, Rainbow, RandomBlink, SolidColours
+from .canvas import Canvas
+from .effects import Candle, BinaryClock, CheerLights, GradientGraph, Rainbow, RandomBlink, SolidColours
 
 NUM_PIXELS = 28     # Number of LEDs on the shim.
 

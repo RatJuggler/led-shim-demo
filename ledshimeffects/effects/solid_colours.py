@@ -1,4 +1,4 @@
-from colours import Colours
+from ..colours import Colours
 from .abstract_effect import AbstractEffect
 
 

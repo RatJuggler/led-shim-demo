@@ -1,6 +1,6 @@
 import requests
 
-from pixel import Pixel
+from ..pixel import Pixel
 from .abstract_effect import AbstractEffect
 
 

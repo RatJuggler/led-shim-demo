@@ -2,7 +2,7 @@ from colorsys import hsv_to_rgb
 from math import sin
 from time import time
 
-from pixel import Pixel
+from ..pixel import Pixel
 from .abstract_effect import AbstractEffect
 
 
