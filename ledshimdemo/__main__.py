@@ -55,3 +55,7 @@ def display_effects(show_effects, effect_time, invert, debug):
         pass
 #        ledshim.clear()
 #        ledshim.show()
+
+
+if __name__ == '__main__':
+    display_effects()
