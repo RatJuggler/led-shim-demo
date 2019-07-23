@@ -1,7 +1,7 @@
 import unittest
 
-from ledshimeffects.canvas import Canvas
-from ledshimeffects.colours import Colours
+from ledshimdemo.canvas import Canvas
+from ledshimdemo.colours import Colours
 
 
 class TestCanvasConstructor(unittest.TestCase):

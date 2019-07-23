@@ -1,6 +1,6 @@
 import unittest
 
-from ledshimeffects.pixel import Pixel
+from ledshimdemo.pixel import Pixel
 
 
 class TestPixelConstructor(unittest.TestCase):

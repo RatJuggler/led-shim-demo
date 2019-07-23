@@ -1,7 +1,7 @@
 import unittest
 
-from ledshimeffects.colours import Colours
-from ledshimeffects.pixel import Pixel
+from ledshimdemo.colours import Colours
+from ledshimdemo.pixel import Pixel
 
 
 class TestColours(unittest.TestCase):
