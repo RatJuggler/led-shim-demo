@@ -2,14 +2,14 @@ import click
 from random import randint
 from time import sleep
 
-#import ledshim
+import ledshim
 
 from .canvas import Canvas
 from .effects import Candle, BinaryClock, CheerLights, GradientGraph, Rainbow, RandomBlink, SolidColours
 
 NUM_PIXELS = 28     # Number of LEDs on the shim.
 
-#ledshim.set_clear_on_exit()
+ledshim.set_clear_on_exit()
 
 
 @click.command(help="Show various effects on a Pimoroni LED shim.")
@@ -49,14 +49,13 @@ def display_effects(show_effects, effect_time, invert, log):
             for i in range(canvas.get_size()):
                 pixel = canvas.get_pixel(i)
                 position = (canvas.get_size() - 1 - i) if invert else i
-#                ledshim.set_pixel(position, pixel.get_r(), pixel.get_g(), pixel.get_b(), pixel.get_brightness())
-#            ledshim.show()
+                ledshim.set_pixel(position, pixel.get_r(), pixel.get_g(), pixel.get_b(), pixel.get_brightness())
+            ledshim.show()
             show_time -= 1
             sleep(effect.get_speed())
     except KeyboardInterrupt:
-        pass
-#        ledshim.clear()
-#        ledshim.show()
+        ledshim.clear()
+        ledshim.show()
 
 
 if __name__ == '__main__':
