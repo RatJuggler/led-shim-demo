@@ -9,9 +9,9 @@ class RandomBlink(AbstractEffect):
     Blink a random subset of pixels.
     """
 
-    def __init__(self, canvas, debug=False):
+    def __init__(self, canvas):
         self.__pixels = None
-        super(RandomBlink, self).__init__("random_blink", 0.05, canvas, debug)
+        super(RandomBlink, self).__init__("random_blink", 0.05, canvas)
 
     def compose(self):
         self.__pixels = sample(range(self.canvas.get_size()), randint(1, 5))

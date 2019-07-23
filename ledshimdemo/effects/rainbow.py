@@ -10,10 +10,10 @@ class Rainbow(AbstractEffect):
     A slowly moving rainbow.
     """
 
-    def __init__(self, canvas, debug=False):
+    def __init__(self, canvas):
         self.__HUE_SPACING = 360.0 / canvas.get_size()
         self.__base_hue = 0
-        super(Rainbow, self).__init__("rainbow", 0.01, canvas, debug)
+        super(Rainbow, self).__init__("rainbow", 0.01, canvas)
 
     def show_rainbow(self, base_hue):
         for i in range(self.canvas.get_size()):
