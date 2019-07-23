@@ -17,10 +17,10 @@ setup(
     author_email='ratteal@gmail.com',
     python_requires='>=3.5.3',
     url='https://github.com/RatJuggler/led-shim-effects',
-    packages = ['ledshimeffects'],
-    entry_points = {
+    packages=['ledshimeffects'],
+    entry_points={
         'console_scripts': [
-            'ledshimeffects = ledshimeffects.__main__:display_effects'
+            'ledshimeffects=ledshimeffects.__main__:display_effects',
         ]
     },
     install_requires=[
