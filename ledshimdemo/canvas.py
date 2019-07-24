@@ -20,6 +20,11 @@ class Canvas:
         self.__canvas = [self.BLANK_PIXEL] * size
 
     def __validate_index(self, p: int):
+        """
+        Validate an index position on the current shim is in range.
+        :param p: the position on the shim to validate
+        :return: Will raise a ValueError if the index position is not in range
+        """
         if p < 0 or p >= len(self.__canvas):
             raise ValueError("Pixel index out of range for Canvas!")
 
