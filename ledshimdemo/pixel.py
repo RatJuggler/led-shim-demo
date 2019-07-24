@@ -9,17 +9,35 @@ class Pixel:
 
     @staticmethod
     def __validate_component(colour: str, c: int):
+        """
+        Validate an RGB component is in the range 0-255.
+        :param colour: name of the component being validated
+        :param c: the component value
+        :return: Will raise a ValueError if the component is not in range
+        """
         if c < 0 or c > 255:
             raise ValueError(colour + " colour component out of range (0-255) for Pixel!")
 
     @staticmethod
     def __validate_components(r: int, g: int, b: int):
+        """
+        Validate the R,G and B components.
+        :param r: red component value
+        :param g: green component value
+        :param b: blue component value
+        :return: No meaningful return
+        """
         Pixel.__validate_component("Red", r)
         Pixel.__validate_component("Green", g)
         Pixel.__validate_component("Blue", b)
 
     @staticmethod
     def __validate_brightness(b: float):
+        """
+        Validate the brightness level is in the range 0.0-1.0.
+        :param b: the brightness level to valdidate
+        :return: Will raise a ValueError if the brightness is not in range
+        """
         if b < 0.0 or b > 1.0:
             raise ValueError("Brightness level out of range (0.0-1.0) for Pixel!")
 
