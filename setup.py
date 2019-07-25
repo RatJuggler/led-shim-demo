@@ -1,11 +1,7 @@
-from codecs import open
-from os.path import abspath, dirname, join
-
 from setuptools import setup, find_packages
 
-this_dir = abspath(dirname(__file__))
-with open(join(this_dir, 'README.md'), encoding='utf-8') as file:
-    long_description = file.read()
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 setup(
     name='ledshimdemo',
@@ -20,7 +16,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'ledshimdemo=ledshimdemo.__main__:display_effects',
+            'ledshimdemo=ledshimdemo.__main__:display_effects'
         ]
     },
     install_requires=[
@@ -35,7 +31,7 @@ setup(
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
         'License :: OSI Approved :: MIT License',
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Programming Language :: Python :: 3',
         'Operating System :: POSIX :: Linux',
         'Topic :: System :: Hardware'
