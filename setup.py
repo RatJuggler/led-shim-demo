@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='ledshimdemo',
-    version='0.0.3',
+    version='0.0.1',
     description='Show various effects on a Pimoroni LED shim.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -20,10 +20,10 @@ setup(
         ]
     },
     install_requires=[
-        'click>=7.0',
-        'ledshim>=0.0.1',
-        'numpy>=1.16.4',
-        'requests>=2.22.0'
+        'click==6.6',
+        'ledshim==0.0.1',
+        'numpy==1.12.1',
+        'requests==2.12.4'
     ],
     test_suite='tests',
     license='MIT',
