@@ -20,10 +20,11 @@ setup(
         ]
     },
     install_requires=[
-        'click==6.6',
+        # Check latest releases on piwheels: https://www.piwheels.hostedpi.com/
+        'click>=6.6,<=7.0',
         'ledshim==0.0.1',
-        'numpy==1.12.1',
-        'requests==2.12.4'
+        'numpy>=1.12.1,<=1.16.4',
+        'requests>=2.20.0,<=2.21.0' # Updated from 2.12.4 due to CVE.
     ],
     test_suite='tests',
     license='MIT',
