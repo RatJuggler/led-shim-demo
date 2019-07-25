@@ -1,7 +1,7 @@
 from codecs import open
 from os.path import abspath, dirname, join
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 this_dir = abspath(dirname(__file__))
 with open(join(this_dir, 'README.md'), encoding='utf-8') as file:
@@ -17,7 +17,7 @@ setup(
     author_email='ratteal@gmail.com',
     python_requires='>=3.5.3',
     url='https://github.com/RatJuggler/led-shim-demo',
-    packages=['ledshimdemo'],
+    packages=find_packages(),
     entry_points={
         'console_scripts': [
             'ledshimdemo=ledshimdemo.__main__:display_effects',
