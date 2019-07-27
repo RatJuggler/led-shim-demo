@@ -16,13 +16,15 @@ ledshim.set_clear_on_exit()
 @click.version_option()
 @click.option('-s', '--show_effects', type=click.Choice(["CYCLE", "RANDOM"]), default="CYCLE", help="How the effects are displayed.", show_default=True)
 @click.option('-t', '--effect_time', type=int, default=10, help="How long to display each effect for, in seconds.", show_default=True)
+@click.option('-b', '--brightness', type=click.IntRange(1, 10), default=8, help="How bright the effects will be (1-10).", show_default=True)
 @click.option('-i', '--invert', is_flag=True, help="Change the display orientation.")
 @click.option('-l', '--log', type=click.Choice(["NONE", "INFO", "EFFECT", "DEBUG"]), default="NONE", help="Show additional logging information.")
-def display_effects(show_effects, effect_time, invert, log):
+def display_effects(show_effects, effect_time, brightness, invert, log):
     """
     Show various effects on a Pimoroni LED shim.
     :param show_effects: In a CYCLE or at RANDOM
     :param effect_time: How long to display each effect for
+    :param brightness: How bright the effects will be
     :param invert: Depending on which way round the Pi is
     :param log: Set a logging level; NONE, INFO, EFFECT or DEBUG
     :return: No meaningful return
