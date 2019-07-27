@@ -5,7 +5,7 @@ class Pixel:
     Abstract representation of a pixel LED.
     """
 
-    __default_brightness: float = 0.8
+    __default_brightness = 0.8  # type: float
 
     @staticmethod
     def __validate_component(colour: str, c: int):
