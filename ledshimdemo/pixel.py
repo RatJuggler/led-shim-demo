@@ -35,11 +35,11 @@ class Pixel:
     def __validate_brightness(b: float):
         """
         Validate the brightness level is in the range 0.0-1.0.
-        :param b: the brightness level to valdidate
+        :param b: the brightness level to validate
         :return: Will raise a ValueError if the brightness is not in range
         """
         if b < 0.0 or b > 1.0:
-            raise ValueError("Brightness level out of range (0.0-1.0) for Pixel!")
+            raise ValueError("Brightness level out of range (0.0-1.0)!")
 
     @classmethod
     def get_default_brightness(cls) -> float:
