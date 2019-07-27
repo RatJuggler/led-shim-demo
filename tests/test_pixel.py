@@ -5,8 +5,13 @@ from ledshimdemo.pixel import Pixel
 
 class TestPixelConstructor(unittest.TestCase):
 
+    DEFAULT_BRIGHTNESS = 0.8
+
+    def setUp(self):
+        Pixel.set_default_brightness(self.DEFAULT_BRIGHTNESS)
+
     def test_get_default_brightness(self):
-        self.assertEqual(Pixel.get_default_brightness(), 0.8)
+        self.assertEqual(Pixel.get_default_brightness(), self.DEFAULT_BRIGHTNESS)
 
     def test_set_default_brightness(self):
         Pixel.set_default_brightness(0.42)
@@ -25,7 +30,7 @@ class TestPixelConstructor(unittest.TestCase):
         self.assertEqual(pixel.get_r(), 10)
         self.assertEqual(pixel.get_g(), 20)
         self.assertEqual(pixel.get_b(), 30)
-        self.assertEqual(pixel.get_brightness(), Pixel.get_default_brightness())
+        self.assertEqual(pixel.get_brightness(), self.DEFAULT_BRIGHTNESS)
 
     def test_constructor_with_brightness(self):
         pixel = Pixel(10, 20, 30, 1)
@@ -71,7 +76,7 @@ class TestPixelConstructor(unittest.TestCase):
         self.assertEqual(pixel.get_r(), 40)
         self.assertEqual(pixel.get_g(), 50)
         self.assertEqual(pixel.get_b(), 60)
-        self.assertEqual(pixel.get_brightness(), Pixel.get_default_brightness())
+        self.assertEqual(pixel.get_brightness(), self.DEFAULT_BRIGHTNESS)
 
     def test_from_tuple_with_brightness(self):
         pixel = Pixel.from_tuple([40, 50, 60, 1])
@@ -93,7 +98,7 @@ class TestPixelConstructor(unittest.TestCase):
         self.assertEqual(pixel.get_r(), 112)
         self.assertEqual(pixel.get_g(), 128)
         self.assertEqual(pixel.get_b(), 144)
-        self.assertEqual(pixel.get_brightness(), Pixel.get_default_brightness())
+        self.assertEqual(pixel.get_brightness(), self.DEFAULT_BRIGHTNESS)
 
 
 class TestPixelRepr(unittest.TestCase):

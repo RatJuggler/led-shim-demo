@@ -140,8 +140,8 @@ class TestCanvasRepr(unittest.TestCase):
     def test_repr(self):
         canvas = ["Canvas(",
                   "[ 0, Pixel(r:0, g:0, b:0, brightness:0)]",
-                  "[ 1, Pixel(r:255, g:255, b:0, brightness:0.8)]",
-                  "[ 2, Pixel(r:255, g:255, b:255, brightness:0.8)]",
+                  "[ 1, Pixel(r:255, g:255, b:0, brightness:None)]",
+                  "[ 2, Pixel(r:255, g:255, b:255, brightness:None)]",
                   ")"]
         expected_repr = "\n".join(canvas)
         actual_repr = repr(self.canvas)

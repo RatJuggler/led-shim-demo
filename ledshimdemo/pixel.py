@@ -59,19 +59,20 @@ class Pixel:
         Pixel.__validate_brightness(default_brightness)
         cls.__default_brightness = default_brightness
 
-    def __init__(self, r: int, g: int, b: int, brightness: int = __default_brightness):
+    def __init__(self, r: int, g: int, b: int, brightness: float = None):
         """
         Initialise a Pixel.
         :param r: red component
         :param g: green component
         :param b: blue component
-        :param brightness: level of brightness
+        :param brightness: level of brightness, defaults to None if no brightness specified
         """
         Pixel.__validate_components(r, g, b)
         self.__r = r
         self.__g = g
         self.__b = b
-        Pixel.__validate_brightness(brightness)
+        if brightness is not None:
+            Pixel.__validate_brightness(brightness)
         self.__brightness = brightness
 
     @classmethod
@@ -98,16 +99,35 @@ class Pixel:
         return cls.from_tuple(pixel)
 
     def get_r(self) -> int:
+        """
+        The red component.
+        :return: component value between 0-255
+        """
         return self.__r
 
     def get_g(self) -> int:
+        """
+        The green component.
+        :return: component value between 0-255
+        """
         return self.__g
 
     def get_b(self) -> int:
+        """
+        The blue component.
+        :return: component value between 0-255
+        """
         return self.__b
 
-    def get_brightness(self) -> int:
-        return self.__brightness
+    def get_brightness(self) -> float:
+        """
+        The brightness, will return the default brightness if no brightness specified (None).
+        :return: brightness value between 0.0-1.0
+        """
+        if self.__brightness is None:
+            return Pixel.get_default_brightness()
+        else:
+            return self.__brightness
 
     def __repr__(self):
         return "Pixel(r:{0}, g:{1}, b:{2}, brightness:{3})".format(self.__r, self.__g, self.__b, self.__brightness)
