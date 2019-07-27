@@ -5,7 +5,7 @@ class Pixel:
     Abstract representation of a pixel LED.
     """
 
-    DEFAULT_BRIGHTNESS = 0.8
+    __default_brightness: float = 0.8
 
     @staticmethod
     def __validate_component(colour: str, c: int):
@@ -41,7 +41,25 @@ class Pixel:
         if b < 0.0 or b > 1.0:
             raise ValueError("Brightness level out of range (0.0-1.0) for Pixel!")
 
-    def __init__(self, r: int, g: int, b: int, brightness: int = DEFAULT_BRIGHTNESS):
+    @classmethod
+    def get_default_brightness(cls) -> float:
+        """
+        Return the default brightness.
+        :return: The default brightness as a float in the range 0.0-1.0.
+        """
+        return cls.__default_brightness
+
+    @classmethod
+    def set_default_brightness(cls, default_brightness: float):
+        """
+        Set the default brightness level, must be in the range 0.0-1.0.
+        :param default_brightness: the default brightness level to set
+        :return: Will raise a ValueError if the default brightness is not in range
+        """
+        Pixel.__validate_brightness(default_brightness)
+        cls.__default_brightness = default_brightness
+
+    def __init__(self, r: int, g: int, b: int, brightness: int = __default_brightness):
         """
         Initialise a Pixel.
         :param r: red component

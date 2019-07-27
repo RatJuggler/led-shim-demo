@@ -6,6 +6,7 @@ import ledshim
 
 from .canvas import Canvas
 from .effects import Candle, BinaryClock, CheerLights, GradientGraph, Rainbow, RandomBlink, SolidColours
+from .pixel import Pixel
 
 NUM_PIXELS = 28     # The number of LEDs on the shim.
 
@@ -46,6 +47,7 @@ def display_effects(show_effects: str, effect_time: int, brightness: int, invert
     :return: No meaningful return
     """
     print(show_options(show_effects, effect_time, brightness, invert, log))
+    Pixel.set_default_brightness(brightness / 10.0)
     canvas = Canvas(NUM_PIXELS)
     effects = [Candle(canvas),
                GradientGraph(canvas),
