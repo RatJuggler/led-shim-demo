@@ -4,13 +4,14 @@ Display a variety of effects on the Raspberry Pi [led-shim](https://shop.pimoron
 The effects are based on the examples given in the base [library](https://github.com/pimoroni/led-shim) plus some 
 additions from my [fork](https://github.com/RatJuggler/led-shim/tree/more-examples).
 
-- Candle - A flickering candle.
-- Gradient Graph - A moving colour gradient determined by the height of a sine wave.
-- Solid Colours - A basic effect which just shows a sequence of solid colours.
 - Binary Clock - Shows hours, minutes and seconds.
-- Rainbow - A slowly moving rainbow effect.
+- Candle - A flickering candle.
 - CheerLights - Synchronize with the [CheerLights](https://cheerlights.com) "Internet of Things" project.
+- Coloured Lights - Simple coloured lights like Xmas lights.
+- Gradient Graph - A moving colour gradient determined by the height of a sine wave.
+- Rainbow - A slowly moving rainbow effect.
 - Random Blink - Some random blinking.
+- Solid Colours - A basic effect which just shows a sequence of solid colours.
 
 # Installing
 
