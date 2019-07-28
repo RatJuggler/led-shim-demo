@@ -34,8 +34,11 @@ Options:
   -s, --show_effects [CYCLE|RANDOM]
                                   How the effects are displayed.  [default:
                                   CYCLE]
-  -t, --effect_time INTEGER       How long to display each effect for, in
-                                  seconds.  [default: 10]
+  -t, --effect_time INTEGER RANGE
+                                  How long to display each effect for, in
+                                  seconds (1-3600).  [default: 10]
+  -b, --brightness INTEGER RANGE  How bright the effects will be (1-10).
+                                  [default: 8]
   -i, --invert                    Change the display orientation.
   -l, --log [NONE|INFO|EFFECT|DEBUG]
                                   Show additional logging information.
