@@ -1,4 +1,5 @@
 import click
+import logging
 from random import randint
 from time import sleep
 
@@ -69,13 +70,10 @@ def display_effects(show_effects: str, effect_time: int, brightness: int, invert
                     effect_no = randint(0, len(effects))
                 effect = effects[effect_no]
                 show_time = effect_time / effect.get_speed()
-                if log == "INFO" or log == "EFFECT" or log == "DEBUG":
-                    print(str(effect))
+                logging.info(str(effect))
             effect.compose()
-            if log == "EFFECT" or log == "DEBUG":
-                print(repr(effect))
-            if log == "DEBUG":
-                print(repr(canvas))
+            logging.info(repr(effect))
+            logging.debug(repr(canvas))
             for i in range(canvas.get_size()):
                 pixel = canvas.get_pixel(i)
                 position = (canvas.get_size() - 1 - i) if invert else i
