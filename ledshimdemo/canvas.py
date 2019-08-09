@@ -85,7 +85,7 @@ class Canvas:
         Get the current number of pixels.
         :return: The number of pixels represented in this instance.
         """
-        return self.__canvas.__len__()
+        return len(self.__canvas)
 
     def __repr__(self):
         canvas = ["Canvas("]
