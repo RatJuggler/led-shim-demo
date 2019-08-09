@@ -1,4 +1,5 @@
 import click
+import logging
 from random import randint
 from time import sleep
 
@@ -13,13 +14,34 @@ NUM_PIXELS = 28     # The number of LEDs on the shim.
 ledshim.set_clear_on_exit()
 
 
-def show_options(show_effects: str, effect_time: int, brightness: int, invert: bool, log: str):
+def configure_logging(loglevel: str):
+    """
+    Configure basic logging to the console.
+    :param loglevel: from the command line or default
+    :return: No meaningful return
+    """
+    numeric_level = getattr(logging, loglevel.upper(), logging.WARNING)
+    if not isinstance(numeric_level, int):
+        raise ValueError('Invalid log level: %s' % loglevel)
+    logging.basicConfig(level=numeric_level, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+def show_options(show_effects: str, effect_time: int, brightness: int, invert: bool, loglevel: str):
+    """
+    Human readable string showing the command line options to be used.
+    :param show_effects: from command line option or default
+    :param effect_time: from command line option or default
+    :param brightness: from command line option or default
+    :param invert: from command line option or default
+    :param loglevel: from command line option or default
+    :return: One line string of the command line options to be used.
+    """
     options = ["Active Options(",
                "show_effects={0}, ".format(show_effects),
                "effect_time={0}, ".format(effect_time),
                "brightness={0}, ".format(brightness),
                "invert={0}, ".format(invert),
-               "log={0}".format(log),
+               "loglevel={0}".format(loglevel),
                ")"]
     return "".join(options)
 
@@ -34,19 +56,20 @@ def show_options(show_effects: str, effect_time: int, brightness: int, invert: b
               help="How bright the effects will be (1-10).", show_default=True)
 @click.option('-i', '--invert', is_flag=True,
               help="Change the display orientation.")
-@click.option('-l', '--log', type=click.Choice(["NONE", "INFO", "EFFECT", "DEBUG"]), default="NONE",
+@click.option('-l', '--loglevel', type=click.Choice(["NOTSET", "INFO", "DEBUG"]), default="NOTSET",
               help="Show additional logging information.")
-def display_effects(show_effects: str, effect_time: int, brightness: int, invert: bool, log: str):
+def display_effects(show_effects: str, effect_time: int, brightness: int, invert: bool, loglevel: str):
     """
     Show various effects on a Pimoroni LED shim.
     :param show_effects: In a CYCLE or at RANDOM
     :param effect_time: How long to display each effect for
     :param brightness: How bright the effects will be
     :param invert: Depending on which way round the Pi is
-    :param log: Set a logging level; NONE, INFO, EFFECT or DEBUG
+    :param loglevel: Set a logging level; NOTSET, INFO or DEBUG
     :return: No meaningful return
     """
-    print(show_options(show_effects, effect_time, brightness, invert, log))
+    configure_logging(loglevel)
+    logging.info(show_options(show_effects, effect_time, brightness, invert, loglevel))
     Pixel.set_default_brightness(brightness / 10.0)
     canvas = Canvas(NUM_PIXELS)
     effects = [BinaryClock(canvas),
@@ -69,13 +92,10 @@ def display_effects(show_effects: str, effect_time: int, brightness: int, invert
                     effect_no = randint(0, len(effects))
                 effect = effects[effect_no]
                 show_time = effect_time / effect.get_speed()
-                if log == "INFO" or log == "EFFECT" or log == "DEBUG":
-                    print(str(effect))
+                logging.info(str(effect))
             effect.compose()
-            if log == "EFFECT" or log == "DEBUG":
-                print(repr(effect))
-            if log == "DEBUG":
-                print(repr(canvas))
+            logging.info(repr(effect))
+            logging.debug(repr(canvas))
             for i in range(canvas.get_size()):
                 pixel = canvas.get_pixel(i)
                 position = (canvas.get_size() - 1 - i) if invert else i
