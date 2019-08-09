@@ -12,4 +12,4 @@ class TestCandle(unittest.TestCase):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
         effect = Candle(canvas)
         effect.compose()
-        self.assertEqual(repr(effect), "Candle(Candle Size:1, Flame Size:1)")
+        self.assertEqual(repr(effect), "Candle(Candle Size:14, Flame Size:14)")
