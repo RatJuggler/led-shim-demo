@@ -4,7 +4,7 @@ from ledshimdemo.canvas import Canvas
 from ledshimdemo.effects.gradient_graph import GradientGraph
 
 
-class TestGradiantGraph(unittest.TestCase):
+class TestGradientGraph(unittest.TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int
 
