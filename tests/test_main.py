@@ -27,6 +27,18 @@ class Test(unittest.TestCase):
 
     def test_default_options_log(self):
         runner = CliRunner()
-        result = runner.invoke(display_effects, ['--loglevel','INFO','--test'])
+        result = runner.invoke(display_effects, ['--loglevel', 'INFO',
+                                                 '--test'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - INFO - Active Options(show_effects=CYCLE, effect_time=10, brightness=8, invert=False, loglevel=INFO)", result.output)
+
+    def test_all_options(self):
+        runner = CliRunner()
+        result = runner.invoke(display_effects, ['--show_effects', 'RANDOM',
+                                                 '--effect_time', '999',
+                                                 '--brightness', '3',
+                                                 '--invert',
+                                                 '--loglevel', 'DEBUG',
+                                                 '--test'])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn(" - INFO - Active Options(show_effects=RANDOM, effect_time=999, brightness=3, invert=True, loglevel=DEBUG)", result.output)
