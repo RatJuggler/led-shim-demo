@@ -15,5 +15,5 @@ class TestRender(unittest.TestCase):
         canvas = Canvas(3)
         effects = [SolidColours(canvas)]
 
-        render("CYCLE", effects, 3, False)
+        render("CYCLE", 3, 1, False, effects)
         self.assertTrue(True)

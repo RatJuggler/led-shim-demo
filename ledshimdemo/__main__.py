@@ -86,7 +86,7 @@ def display_effects(effect_display: str, effect_duration: int, effect_run: int,
                RandomBlink(canvas),
                SolidColours(canvas)]
     if not test:
-        render(effect_display, effects, effect_duration, invert)
+        render(effect_display, effect_duration, effect_run, invert, effects)
 
 
 if __name__ == '__main__':

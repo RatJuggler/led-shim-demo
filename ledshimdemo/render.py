@@ -7,13 +7,29 @@ import ledshim
 from abstract_effect import AbstractEffect
 
 
-def render(show_effects: str, effects: list, effect_time: int, invert: bool):
+def get_next_effect_no(effect_display: str, num_effects: int, effect_no: int):
+    if effect_display == "CYCLE":
+        return (effect_no + 1) % num_effects
+    if effect_display == "RANDOM":
+        return randint(0, num_effects)
+    raise ValueError("Unknown effect_display type!")
+
+
+def copy_to_shim(effect: AbstractEffect, invert: bool):
+    for i in range(effect.canvas.get_size()):
+        pixel = effect.canvas.get_pixel(i)
+        position = (effect.canvas.get_size() - 1 - i) if invert else i
+        ledshim.set_pixel(position, pixel.get_r(), pixel.get_g(), pixel.get_b(), pixel.get_brightness())
+
+
+def render(effect_display: str, effect_duration: int, effect_run: int, invert: bool, effects: list):
     """
     Render the effects provided,
-    :param show_effects: In a CYCLE or at RANDOM
-    :param effects: A list of the effects to show
-    :param effect_time: How long to display each effect for
+    :param effect_display: In a CYCLE or at RANDOM
+    :param effect_duration: How long to display each effect for
+    :param effect_run: How many times to run effects
     :param invert: Depending on which way round the Pi is
+    :param effects: A list of the effects to show
     :return: No meaningful return
     """
     ledshim.set_clear_on_exit()
@@ -21,26 +37,20 @@ def render(show_effects: str, effects: list, effect_time: int, invert: bool):
     effect_no = len(effects) - 1
     effect: AbstractEffect = effects[effect_no]
     try:
-        while True:
+        while effect_run >= 0:
             if show_time <= 0:
-                if show_effects == "CYCLE":
-                    effect_no = (effect_no + 1) % len(effects)
-                if show_effects == "RANDOM":
-                    effect_no = randint(0, len(effects))
+                effect_run -= 1
+                effect_no = get_next_effect_no(effect_display, len(effects), effect_no)
                 effect = effects[effect_no]
-                show_time = effect_time / effect.get_speed()
+                show_time = effect_duration / effect.get_speed()
                 logging.info(str(effect))
             effect.compose()
             logging.info(repr(effect))
             logging.debug(repr(effect.canvas))
-            for i in range(effect.canvas.get_size()):
-                pixel = effect.canvas.get_pixel(i)
-                position = (effect.canvas.get_size() - 1 - i) if invert else i
-                ledshim.set_pixel(position, pixel.get_r(), pixel.get_g(), pixel.get_b(), pixel.get_brightness())
+            copy_to_shim(effect, invert)
             ledshim.show()
             show_time -= 1
             sleep(effect.get_speed())
     except KeyboardInterrupt:
-        pass
         ledshim.clear()
         ledshim.show()
