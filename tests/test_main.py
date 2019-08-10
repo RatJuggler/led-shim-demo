@@ -19,8 +19,14 @@ class Test(unittest.TestCase):
         assert '--help ' in result.output
         assert '--test' not in result.output
 
-    def test_default_options(self):
+    def test_default_options_no_log(self):
         runner = CliRunner()
         result = runner.invoke(display_effects, ['--test'])
         assert result.exit_code == 0
-        assert " - INFO - Active Options(show_effects=CYCLE, effect_time=10, brightness=8, invert=False, loglevel=NOTSET)" in result.output
+        assert result.output is ""
+
+    def test_default_options_log(self):
+        runner = CliRunner()
+        result = runner.invoke(display_effects, ['--loglevel','INFO','--test'])
+        assert result.exit_code == 0
+        assert " - INFO - Active Options(show_effects=CYCLE, effect_time=10, brightness=8, invert=False, loglevel=INFO)" in result.output
