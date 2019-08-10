@@ -53,7 +53,9 @@ def show_options(show_effects: str, effect_time: int, brightness: int, invert: b
               help="Change the display orientation.")
 @click.option('-l', '--loglevel', type=click.Choice(["NOTSET", "INFO", "DEBUG"]), default="NOTSET",
               help="Show additional logging information.")
-def display_effects(show_effects: str, effect_time: int, brightness: int, invert: bool, loglevel: str):
+@click.option('--test', is_flag=True, hidden=True,
+              help="Hidden flag for testing options")
+def display_effects(show_effects: str, effect_time: int, brightness: int, invert: bool, loglevel: str, test: bool):
     """
     Show various effects on a Pimoroni LED shim.
     :param show_effects: In a CYCLE or at RANDOM
@@ -61,6 +63,7 @@ def display_effects(show_effects: str, effect_time: int, brightness: int, invert
     :param brightness: How bright the effects will be
     :param invert: Depending on which way round the Pi is
     :param loglevel: Set a logging level; NOTSET, INFO or DEBUG
+    :param test: Indicates option testing only
     :return: No meaningful return
     """
     configure_logging(loglevel)
@@ -75,7 +78,8 @@ def display_effects(show_effects: str, effect_time: int, brightness: int, invert
                Rainbow(canvas),
                RandomBlink(canvas),
                SolidColours(canvas)]
-    render(show_effects, effects, effect_time, invert)
+    if not test:
+        render(show_effects, effects, effect_time, invert)
 
 
 if __name__ == '__main__':
