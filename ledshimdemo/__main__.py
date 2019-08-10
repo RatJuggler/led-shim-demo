@@ -51,10 +51,10 @@ def show_options(show_effects: str, effect_time: int, brightness: int, invert: b
               help="How bright the effects will be (1-10).", show_default=True)
 @click.option('-i', '--invert', is_flag=True,
               help="Change the display orientation.")
-@click.option('-l', '--loglevel', type=click.Choice(["NOTSET", "INFO", "DEBUG"]), default="NOTSET",
+@click.option('-l', '--loglevel', type=click.Choice(["DEBUG", "INFO", "WARNING"]), default="WARNING",
               help="Show additional logging information.")
 @click.option('--test', is_flag=True, hidden=True,
-              help="Hidden flag for testing options")
+              help="Hidden flag for testing options.")
 def display_effects(show_effects: str, effect_time: int, brightness: int, invert: bool, loglevel: str, test: bool):
     """
     Show various effects on a Pimoroni LED shim.
