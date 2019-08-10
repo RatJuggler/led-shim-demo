@@ -1,17 +1,12 @@
 import click
 import logging
-from random import randint
-from time import sleep
-
-import ledshim
 
 from .canvas import Canvas
 from .effects import BinaryClock, Candle, CheerLights, ColouredLights, GradientGraph, Rainbow, RandomBlink, SolidColours
 from .pixel import Pixel
+from .render import render
 
 NUM_PIXELS = 28     # The number of LEDs on the shim.
-
-ledshim.set_clear_on_exit()
 
 
 def configure_logging(loglevel: str):
@@ -80,32 +75,7 @@ def display_effects(show_effects: str, effect_time: int, brightness: int, invert
                Rainbow(canvas),
                RandomBlink(canvas),
                SolidColours(canvas)]
-    show_time = 0
-    effect_no = len(effects) - 1
-    effect = effects[effect_no]
-    try:
-        while True:
-            if show_time <= 0:
-                if show_effects == "CYCLE":
-                    effect_no = (effect_no + 1) % len(effects)
-                if show_effects == "RANDOM":
-                    effect_no = randint(0, len(effects))
-                effect = effects[effect_no]
-                show_time = effect_time / effect.get_speed()
-                logging.info(str(effect))
-            effect.compose()
-            logging.info(repr(effect))
-            logging.debug(repr(canvas))
-            for i in range(canvas.get_size()):
-                pixel = canvas.get_pixel(i)
-                position = (canvas.get_size() - 1 - i) if invert else i
-                ledshim.set_pixel(position, pixel.get_r(), pixel.get_g(), pixel.get_b(), pixel.get_brightness())
-            ledshim.show()
-            show_time -= 1
-            sleep(effect.get_speed())
-    except KeyboardInterrupt:
-        ledshim.clear()
-        ledshim.show()
+    render(show_effects, effects, effect_time, invert)
 
 
 if __name__ == '__main__':
