@@ -12,7 +12,7 @@ class Test(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" --version ", result.output)
         self.assertIn(" --show_effects ", result.output)
-        self.assertIn(" --effect_time ", result.output)
+        self.assertIn(" --effect_duration ", result.output)
         self.assertIn(" --brightness ", result.output)
         self.assertIn(" --invert ", result.output)
         self.assertIn(" --loglevel ", result.output)
@@ -30,15 +30,15 @@ class Test(unittest.TestCase):
         result = runner.invoke(display_effects, ['--loglevel', 'INFO',
                                                  '--test'])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn(" - INFO - Active Options(show_effects=CYCLE, effect_time=10, brightness=8, invert=False, loglevel=INFO)", result.output)
+        self.assertIn(" - INFO - Active Options(show_effects=CYCLE, effect_duration=10, brightness=8, invert=False, loglevel=INFO)", result.output)
 
     def test_all_options(self):
         runner = CliRunner()
         result = runner.invoke(display_effects, ['--show_effects', 'RANDOM',
-                                                 '--effect_time', '999',
+                                                 '--effect_duration', '999',
                                                  '--brightness', '3',
                                                  '--invert',
                                                  '--loglevel', 'DEBUG',
                                                  '--test'])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn(" - INFO - Active Options(show_effects=RANDOM, effect_time=999, brightness=3, invert=True, loglevel=DEBUG)", result.output)
+        self.assertIn(" - INFO - Active Options(show_effects=RANDOM, effect_duration=999, brightness=3, invert=True, loglevel=DEBUG)", result.output)

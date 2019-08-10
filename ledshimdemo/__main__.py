@@ -21,11 +21,11 @@ def configure_logging(loglevel: str):
     logging.basicConfig(level=numeric_level, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
-def show_options(show_effects: str, effect_time: int, brightness: int, invert: bool, loglevel: str):
+def show_options(show_effects: str, effect_duration: int, brightness: int, invert: bool, loglevel: str):
     """
     Human readable string showing the command line options to be used.
     :param show_effects: from command line option or default
-    :param effect_time: from command line option or default
+    :param effect_duration: from command line option or default
     :param brightness: from command line option or default
     :param invert: from command line option or default
     :param loglevel: from command line option or default
@@ -33,7 +33,7 @@ def show_options(show_effects: str, effect_time: int, brightness: int, invert: b
     """
     options = ["Active Options(",
                "show_effects={0}, ".format(show_effects),
-               "effect_time={0}, ".format(effect_time),
+               "effect_duration={0}, ".format(effect_duration),
                "brightness={0}, ".format(brightness),
                "invert={0}, ".format(invert),
                "loglevel={0}".format(loglevel),
@@ -45,7 +45,7 @@ def show_options(show_effects: str, effect_time: int, brightness: int, invert: b
 @click.version_option()
 @click.option('-s', '--show_effects', type=click.Choice(["CYCLE", "RANDOM"]), default="CYCLE",
               help="How the effects are displayed.", show_default=True)
-@click.option('-t', '--effect_time', type=click.IntRange(1, 3600), default=10,
+@click.option('-d', '--effect_duration', type=click.IntRange(1, 3600), default=10,
               help="How long to display each effect for, in seconds (1-3600).", show_default=True)
 @click.option('-b', '--brightness', type=click.IntRange(1, 10), default=8,
               help="How bright the effects will be (1-10).", show_default=True)
@@ -55,19 +55,19 @@ def show_options(show_effects: str, effect_time: int, brightness: int, invert: b
               help="Show additional logging information.")
 @click.option('--test', is_flag=True, hidden=True,
               help="Hidden flag for testing options.")
-def display_effects(show_effects: str, effect_time: int, brightness: int, invert: bool, loglevel: str, test: bool):
+def display_effects(show_effects: str, effect_duration: int, brightness: int, invert: bool, loglevel: str, test: bool):
     """
     Show various effects on a Pimoroni LED shim.
     :param show_effects: In a CYCLE or at RANDOM
-    :param effect_time: How long to display each effect for
+    :param effect_duration: How long to display each effect for
     :param brightness: How bright the effects will be
     :param invert: Depending on which way round the Pi is
-    :param loglevel: Set a logging level; NOTSET, INFO or DEBUG
+    :param loglevel: Set a logging level; DEBUG, INFO or WARNING
     :param test: Indicates option testing only
     :return: No meaningful return
     """
     configure_logging(loglevel)
-    logging.info(show_options(show_effects, effect_time, brightness, invert, loglevel))
+    logging.info(show_options(show_effects, effect_duration, brightness, invert, loglevel))
     Pixel.set_default_brightness(brightness / 10.0)
     canvas = Canvas(NUM_PIXELS)
     effects = [BinaryClock(canvas),
@@ -79,7 +79,7 @@ def display_effects(show_effects: str, effect_time: int, brightness: int, invert
                RandomBlink(canvas),
                SolidColours(canvas)]
     if not test:
-        render(show_effects, effects, effect_time, invert)
+        render(show_effects, effects, effect_duration, invert)
 
 
 if __name__ == '__main__':
