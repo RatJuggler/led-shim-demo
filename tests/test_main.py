@@ -1,10 +1,15 @@
 import unittest
+import logging
 from click.testing import CliRunner
 
 from ledshimdemo.__main__ import display_effects
 
 
 class Test(unittest.TestCase):
+
+    def setUp(self):
+        for handler in logging.root.handlers[:]:
+            logging.root.removeHandler(handler)
 
     def test_help(self):
         runner = CliRunner()
