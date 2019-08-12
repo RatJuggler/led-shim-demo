@@ -4,7 +4,7 @@ from time import sleep
 
 import ledshim
 
-from abstract_effect import AbstractEffect
+from .effects import AbstractEffect
 
 
 def get_next_effect(effect_display: str, effects: list):
@@ -19,7 +19,7 @@ def get_next_effect(effect_display: str, effects: list):
     if effect_display == "CYCLE":
         get_next_effect.effect_no = (get_next_effect.effect_no + 1) % len(effects)
     if effect_display == "RANDOM":
-        get_next_effect.effect_no = randint(0, len(effects) -1)
+        get_next_effect.effect_no = randint(0, len(effects) - 1)
     return effects[get_next_effect.effect_no]
 
 
@@ -49,7 +49,7 @@ def render(effect_display: str, effect_duration: int, effect_run: int, invert: b
     """
     ledshim.set_clear_on_exit()
     show_time = 0
-    effect: AbstractEffect = effects[0]
+    effect = effects[0]  # type: AbstractEffect
     try:
         while effect_run >= 0:
             if show_time <= 0:
