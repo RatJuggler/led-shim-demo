@@ -17,6 +17,8 @@ additions from my [fork](https://github.com/RatJuggler/led-shim/tree/more-exampl
 - Random Blink - Some random blinking.
 - Solid Colours - A basic effect which just shows a sequence of solid colours.
 
+**Note**, this project is somewhat over-engineered for what it actually does because it's being used as a learning exercise.
+
 # Installing
 
 Install on Raspbian from PyPi using:
@@ -36,16 +38,19 @@ Usage: ledshimdemo [OPTIONS]
 
 Options:
   --version                       Show the version and exit.
-  -s, --show_effects [CYCLE|RANDOM]
+  -d, --effect_display [CYCLE|RANDOM]
                                   How the effects are displayed.  [default:
                                   CYCLE]
-  -t, --effect_time INTEGER RANGE
+  -u, --effect_duration INTEGER RANGE
                                   How long to display each effect for, in
-                                  seconds (1-3600).  [default: 10]
+                                  seconds (1-180).  [default: 10]
+  -r, --effect_run INTEGER RANGE  How many times to run effects before
+                                  stopping (1-240).  [default: 24]
   -b, --brightness INTEGER RANGE  How bright the effects will be (1-10).
                                   [default: 8]
   -i, --invert                    Change the display orientation.
-  -l, --log [NONE|INFO|EFFECT|DEBUG]
+  -l, --loglevel [DEBUG|INFO|WARNING]
                                   Show additional logging information.
+                                  [default: WARNING]
   --help                          Show this message and exit.
 ```
