@@ -57,7 +57,7 @@ def show_options(effect_display: str, effect_duration: int, effect_run: int,
 @click.option('-i', '--invert', is_flag=True,
               help="Change the display orientation.")
 @click.option('-l', '--loglevel', type=click.Choice(["DEBUG", "INFO", "WARNING"]), default="WARNING",
-              help="Show additional logging information.")
+              help="Show additional logging information.", show_default=True)
 @click.option('--test', is_flag=True, hidden=True,
               help="Hidden flag for testing options.")
 def display_effects(effect_display: str, effect_duration: int, effect_run: int,
