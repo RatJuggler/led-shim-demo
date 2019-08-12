@@ -51,9 +51,11 @@ def render(effect_display: str, effect_duration: int, effect_run: int, invert: b
     show_time = 0
     effect = effects[0]  # type: AbstractEffect
     try:
-        while effect_run >= 0:
+        while True:
             if show_time <= 0:
                 effect_run -= 1
+                if effect_run < 0:
+                    break
                 effect = get_next_effect(effect_display, effects)
                 show_time = effect_duration / effect.get_speed()
                 logging.info(str(effect))
