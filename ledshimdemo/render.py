@@ -4,7 +4,7 @@ from time import sleep
 
 import ledshim
 
-from .effects import AbstractEffect
+from ledshimdemo.effects import AbstractEffect
 
 
 def get_next_effect(effect_display: str, effects: list):
@@ -14,7 +14,7 @@ def get_next_effect(effect_display: str, effects: list):
     :param effects: A list of the effects to show
     :return: The next effect to show
     """
-    if "counter" not in get_next_effect.__dict__:
+    if "effect_no" not in get_next_effect.__dict__:
         get_next_effect.effect_no = -1
     if effect_display == "CYCLE":
         get_next_effect.effect_no = (get_next_effect.effect_no + 1) % len(effects)
