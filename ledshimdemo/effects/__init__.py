@@ -1,3 +1,4 @@
+from .abstract_effect import AbstractEffect
 from .binary_clock import BinaryClock
 from .candle import Candle
 from .cheerlights import CheerLights

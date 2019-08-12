@@ -8,22 +8,39 @@ class ColouredLights(AbstractEffect):
     """
 
     __LIGHT_COLOURS = [Colours.RED, Colours.GREEN, Colours.BLUE, Colours.WHITE]
-    __NUM_COLOURS = len(__LIGHT_COLOURS)
+
+    @staticmethod
+    def factors(n: int):
+        result = set()
+        for i in range(1, int(n ** 0.5) + 1):
+            div, mod = divmod(n, i)
+            if mod == 0:
+                result |= {i, div}
+        return result
+
+    @classmethod
+    def get_num_colours(cls, canvas_size: int) -> int:
+        factors = cls.factors(canvas_size)
+        for i in range(len(cls.__LIGHT_COLOURS), 1, -1):
+            if i in factors:
+                return i
+        return 1
 
     def __init__(self, canvas):
-        assert 28 % self.__NUM_COLOURS == 0, "The number of colours to be used must be a factor of 28!"
-        self.__light = 0
-        super(ColouredLights, self).__init__("colour_procession", 0.5, canvas)
+        self.__NUM_COLOURS = self.get_num_colours(canvas.get_size())
+        self.__NUM_SETS = canvas.get_size() // self.__NUM_COLOURS
+        self.__colour = 0  # type: int
+        super(ColouredLights, self).__init__("coloured_lights", 0.5, canvas)
 
-    def show_lights(self, light):
-        for i in range(7):
+    def show_lights(self, light: int):
+        for i in range(self.__NUM_SETS):
             offset = (i * self.__NUM_COLOURS) + light
             self.canvas.set_pixel(offset, self.__LIGHT_COLOURS[light])
 
     def compose(self):
         self.canvas.clear_all()
-        self.show_lights(self.__light)
-        self.__light = (self.__light + 1) % self.__NUM_COLOURS
+        self.show_lights(self.__colour)
+        self.__colour = (self.__colour + 1) % self.__NUM_COLOURS
 
     def __repr__(self):
-        return "ColouredLights(Light:{0})".format(self.__light)
+        return "ColouredLights(Number Colours:{0}, Colour:{1})".format(self.__NUM_COLOURS, self.__colour)
