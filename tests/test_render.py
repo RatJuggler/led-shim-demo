@@ -3,18 +3,26 @@ import mock
 import sys
 
 from ledshimdemo.canvas import Canvas
-from ledshimdemo.effects import SolidColours
+from ledshimdemo.effects import SolidColours, RandomBlink, Rainbow
 
 
 class TestRender(unittest.TestCase):
 
     def setUp(self):
         canvas = Canvas(3)
-        self.effects = [SolidColours(canvas)]
+        self.effects = [SolidColours(canvas),
+                        RandomBlink(canvas),
+                        Rainbow(canvas)]
 
     def test_get_next_effect_cycle(self):
         sys.modules['ledshim'] = mock.Mock()
         from render import get_next_effect
+        effect = get_next_effect('CYCLE', self.effects)
+        self.assertIsInstance(effect, SolidColours)
+        effect = get_next_effect('CYCLE', self.effects)
+        self.assertIsInstance(effect, RandomBlink)
+        effect = get_next_effect('CYCLE', self.effects)
+        self.assertIsInstance(effect, Rainbow)
         effect = get_next_effect('CYCLE', self.effects)
         self.assertIsInstance(effect, SolidColours)
 
@@ -22,7 +30,7 @@ class TestRender(unittest.TestCase):
         sys.modules['ledshim'] = mock.Mock()
         from render import get_next_effect
         effect = get_next_effect('RANDOM', self.effects)
-        self.assertIsInstance(effect, SolidColours)
+        self.assertTrue(isinstance(effect, (SolidColours, RandomBlink, Rainbow)))
 
     def test_copy_to_shim(self):
         sys.modules['ledshim'] = mock.Mock()
