@@ -24,7 +24,8 @@ setup(
         'click >=6.6, <=7.0',
         'ledshim ==0.0.1',
         'numpy >=1.12.1, <=1.16.4',
-        'requests >=2.20.0, <=2.21.0'  # Updated from 2.12.4 due to CVE.
+        'requests >=2.20.0, <=2.21.0',  # Updated from 2.12.4 due to CVE.
+        'mock'
     ],
     test_suite='tests',
     license='MIT',
