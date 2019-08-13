@@ -11,10 +11,10 @@ from ledshimdemo.effects import AbstractEffect, SolidColours, RandomBlink, Rainb
 
 class TestRender(unittest.TestCase):
 
-    CANVAS_SIZE = 3  # type: int
-    EFFECT_DISPLAY = 'CYCLE'  # type: str
-    EFFECT_DURATION = 3  # type: int
-    EFFECT_RUN = 1  # type: int
+    CANVAS_SIZE = 3
+    EFFECT_DISPLAY = 'CYCLE'
+    EFFECT_DURATION = 3
+    EFFECT_RUN = 1
 
     def setUp(self):
         canvas = Canvas(self.CANVAS_SIZE)
@@ -33,13 +33,15 @@ class TestRender(unittest.TestCase):
         self.assertIsInstance(effect, SolidColours)
 
     def test_get_next_effect_random(self):
-        effect = get_next_effect('RANDOM', self.effects)  # type: AbstractEffect
+        effect = get_next_effect('RANDOM', self.effects)
         self.assertTrue(isinstance(effect, (SolidColours, RandomBlink, Rainbow)))
 
     @mock.patch('ledshim.set_pixel')
     @mock.patch('ledshim.show')
     def test_copy_to_shim(self, show_mock, set_pixel_mock):
-        effect = self.effects[0]  # type: AbstractEffect
+        set_pixel_mock.reset_mock()
+        show_mock.reset_mock()
+        effect = self.effects[0]
         copy_to_shim(effect, False)
         self.assertEqual(set_pixel_mock.call_count, self.CANVAS_SIZE)
         show_mock.assert_called_once()
@@ -51,9 +53,12 @@ class TestRender(unittest.TestCase):
     def test_render(self, clear_mock, show_mock, set_pixel_mock, clear_on_exit_mock):
         set_pixel_mock.reset_mock()
         show_mock.reset_mock()
-        effects = [self.effects[0]]  # We just want to test with one effect.
+        # We just want to test with one effect and SolidColours is the simplest.
+        effects = [self.effects[0]]
         render(self.EFFECT_DISPLAY, self.EFFECT_DURATION, self.EFFECT_RUN, False, effects)
         clear_on_exit_mock.assert_called_once()
-        self.assertEqual(set_pixel_mock.call_count, 18)
-        self.assertEqual(show_mock.call_count, 6 + 1)
+        self.assertEqual(set_pixel_mock.call_count,
+                         self.CANVAS_SIZE * (self.EFFECT_DURATION / effects[0].get_speed()) * self.EFFECT_RUN)
+        self.assertEqual(show_mock.call_count,
+                         (self.EFFECT_RUN * (self.EFFECT_DURATION / effects[0].get_speed())) + 1)
         clear_mock.assert_called_once()
