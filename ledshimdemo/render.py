@@ -1,13 +1,14 @@
 import logging
 from random import randint
 from time import sleep
+from typing import List
 
 import ledshim
 
 from ledshimdemo.effects import AbstractEffect
 
 
-def get_next_effect(effect_display: str, effects: list):
+def get_next_effect(effect_display: str, effects: List[AbstractEffect]) -> AbstractEffect:
     """
     Pick the next effect to display.
     :param effect_display: In a CYCLE or at RANDOM
@@ -23,7 +24,7 @@ def get_next_effect(effect_display: str, effects: list):
     return effects[get_next_effect.effect_no]
 
 
-def copy_to_shim(effect: AbstractEffect, invert: bool):
+def copy_to_shim(effect: AbstractEffect, invert: bool) -> None:
     """
     Display the effect canvas on the shim.
     :param effect: being shown
@@ -37,7 +38,7 @@ def copy_to_shim(effect: AbstractEffect, invert: bool):
     ledshim.show()
 
 
-def render(effect_display: str, effect_duration: int, effect_run: int, invert: bool, effects: list):
+def render(effect_display: str, effect_duration: int, effect_run: int, invert: bool, effects: List[AbstractEffect]):
     """
     Render the effects provided,
     :param effect_display: In a CYCLE or at RANDOM
@@ -49,7 +50,7 @@ def render(effect_display: str, effect_duration: int, effect_run: int, invert: b
     """
     ledshim.set_clear_on_exit()
     show_time = 0
-    effect = effects[0]  # type: AbstractEffect
+    effect = effects[0]
     try:
         while True:
             if show_time <= 0:

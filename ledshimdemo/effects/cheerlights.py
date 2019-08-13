@@ -1,5 +1,6 @@
 import requests
 
+from ..canvas import Canvas
 from ..pixel import Pixel
 from .abstract_effect import AbstractEffect
 
@@ -20,11 +21,11 @@ class CheerLights(AbstractEffect):
         except requests.exceptions.RequestException:
             return None
 
-    def __init__(self, canvas):
+    def __init__(self, canvas: Canvas) -> None:
         self.__colour = None
         super(CheerLights, self).__init__("cheerlights", 5, canvas)
 
-    def compose(self):
+    def compose(self) -> None:
         self.__colour = self.get_colour_from_channel(self.URL)
         if self.__colour is None:
             pixel = self.canvas.BLANK_PIXEL
@@ -32,5 +33,5 @@ class CheerLights(AbstractEffect):
             pixel = Pixel.hex_to_pixel(self.__colour)
         self.canvas.set_all(pixel)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "CheerLights(Colour:{0})".format(self.__colour)

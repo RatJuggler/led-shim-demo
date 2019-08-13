@@ -5,10 +5,10 @@ class Pixel:
     Abstract representation of a pixel LED.
     """
 
-    __default_brightness = 0.8  # type: float
+    __default_brightness = 0.8
 
     @staticmethod
-    def __validate_component(colour: str, c: int):
+    def __validate_component(colour: str, c: int) -> None:
         """
         Validate an RGB component is in the range 0-255.
         :param colour: name of the component being validated
@@ -19,7 +19,7 @@ class Pixel:
             raise ValueError(colour + " colour component out of range (0-255) for Pixel!")
 
     @staticmethod
-    def __validate_components(r: int, g: int, b: int):
+    def __validate_components(r: int, g: int, b: int) -> None:
         """
         Validate the R,G and B components.
         :param r: red component value
@@ -32,7 +32,7 @@ class Pixel:
         Pixel.__validate_component("Blue", b)
 
     @staticmethod
-    def __validate_brightness(b: float):
+    def __validate_brightness(b: float) -> None:
         """
         Validate the brightness level is in the range 0.0-1.0.
         :param b: the brightness level to validate
@@ -50,7 +50,7 @@ class Pixel:
         return cls.__default_brightness
 
     @classmethod
-    def set_default_brightness(cls, default_brightness: float):
+    def set_default_brightness(cls, default_brightness: float) -> None:
         """
         Set the default brightness level, must be in the range 0.0-1.0.
         :param default_brightness: the default brightness level to set
@@ -59,7 +59,7 @@ class Pixel:
         Pixel.__validate_brightness(default_brightness)
         cls.__default_brightness = default_brightness
 
-    def __init__(self, r: int, g: int, b: int, brightness: float = None):
+    def __init__(self, r: int, g: int, b: int, brightness: float = None) -> None:
         """
         Initialise a Pixel.
         :param r: red component
@@ -129,5 +129,5 @@ class Pixel:
         else:
             return self.__brightness
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Pixel(r:{0}, g:{1}, b:{2}, brightness:{3})".format(self.__r, self.__g, self.__b, self.__brightness)

@@ -8,9 +8,9 @@ class Canvas:
     Each LED is represented by a Pixel instance though all instances may not be unique.
     """
 
-    BLANK_PIXEL = Pixel(0, 0, 0, 0)   # An unlit pixel.
+    BLANK_PIXEL = Pixel(0, 0, 0, 0)  # An unlit pixel.
 
-    def __init__(self, size: int):
+    def __init__(self, size: int) -> None:
         """
         Initialise the line of pixels.
         :param size: the number of pixels in the line
@@ -19,7 +19,7 @@ class Canvas:
             raise ValueError("Canvas size outside reasonable range of 1 to 100!")
         self.__canvas = [self.BLANK_PIXEL] * size
 
-    def __validate_index(self, p: int):
+    def __validate_index(self, p: int) -> None:
         """
         Validate an index position on the current shim is in range.
         :param p: the position on the shim to validate
@@ -37,7 +37,7 @@ class Canvas:
         self.__validate_index(p)
         return self.__canvas[p]
 
-    def set_pixel(self, p: int, pixel: Pixel):
+    def set_pixel(self, p: int, pixel: Pixel) -> None:
         """
         Set a pixel.
         :param p: the position of the pixel to set
@@ -47,7 +47,7 @@ class Canvas:
         self.__validate_index(p)
         self.__canvas[p] = pixel
 
-    def blank_pixel(self, p: int):
+    def blank_pixel(self, p: int) -> None:
         """
         Blank a pixel.
         :param p: the position of the pixel to blank
@@ -56,7 +56,7 @@ class Canvas:
         self.__validate_index(p)
         self.set_pixel(p, self.BLANK_PIXEL)
 
-    def is_blank_pixel(self, p: int):
+    def is_blank_pixel(self, p: int) -> bool:
         """
         Check if a pixel is blank.
         :param p: the position of the pixel to check
@@ -64,14 +64,14 @@ class Canvas:
         """
         return self.get_pixel(p) is self.BLANK_PIXEL
 
-    def clear_all(self):
+    def clear_all(self) -> None:
         """
         Clear all the pixels.
         :return: No meaningful return
         """
         self.set_all(self.BLANK_PIXEL)
 
-    def set_all(self, pixel: Pixel):
+    def set_all(self, pixel: Pixel) -> None:
         """
         Set all the pixels.
         :param pixel: the pixel instance to set
@@ -87,7 +87,7 @@ class Canvas:
         """
         return len(self.__canvas)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         canvas = ["Canvas("]
         for i in range(self.get_size()):
             canvas.append("[{0:2d}, {1}]".format(i, repr(self.get_pixel(i))))

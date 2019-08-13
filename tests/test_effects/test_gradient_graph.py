@@ -12,4 +12,4 @@ class TestGradientGraph(unittest.TestCase):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
         effect = GradientGraph(canvas)
         effect.compose()
-        self.assertRegex(repr(effect), "^GradientGraph\\(Height:0\\.\\d{1,18}\\)$")
+        self.assertRegex(repr(effect), "^GradientGraph\\(Height:0\\.\\d{1,20}\\)$")

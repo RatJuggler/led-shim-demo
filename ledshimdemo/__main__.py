@@ -6,10 +6,10 @@ from .effects import BinaryClock, Candle, CheerLights, ColouredLights, GradientG
 from .pixel import Pixel
 from .render import render
 
-NUM_PIXELS = 28     # The number of LEDs on the shim.
+NUM_PIXELS = 28  # The number of LEDs on the shim.
 
 
-def configure_logging(loglevel: str):
+def configure_logging(loglevel: str) -> None:
     """
     Configure basic logging to the console.
     :param loglevel: from the command line or default
@@ -22,7 +22,7 @@ def configure_logging(loglevel: str):
 
 
 def show_options(effect_display: str, effect_duration: int, effect_run: int,
-                 brightness: int, invert: bool, loglevel: str):
+                 brightness: int, invert: bool, loglevel: str) -> str:
     """
     Human readable string showing the command line options to be used.
     :param effect_display: from command line option or default
@@ -61,7 +61,7 @@ def show_options(effect_display: str, effect_duration: int, effect_run: int,
 @click.option('--test', is_flag=True, hidden=True,
               help="Hidden flag for testing options.")
 def display_effects(effect_display: str, effect_duration: int, effect_run: int,
-                    brightness: int, invert: bool, loglevel: str, test: bool):
+                    brightness: int, invert: bool, loglevel: str, test: bool) -> None:
     """
     Show various effects on a Pimoroni LED shim.
     :param effect_display: In a CYCLE or at RANDOM
