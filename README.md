@@ -17,14 +17,17 @@ additions from my [fork](https://github.com/RatJuggler/led-shim/tree/more-exampl
 - Random Blink - Some random blinking.
 - Solid Colours - A basic effect which just shows a sequence of solid colours.
 
-**Note**, this project is somewhat over-engineered for what it actually does because it's being used as a learning exercise.
+**Note**: This project is completely over-engineered for what it actually does because it's being used as a learning exercise.
 
 # Installing
 
 Install on Raspbian from PyPi using:
-
 ```
-sudo pip3 install led-shim-demo
+pip3 install led-shim-demo
+```
+Or update using:
+```
+pip3 install --update led-shim-demo
 ```
 
 # Running
@@ -54,3 +57,16 @@ Options:
                                   [default: WARNING]
   --help                          Show this message and exit.
 ```
+
+# Troubleshooting
+
+If anything is going to cause a problem trying to run `ledshimdemo` it will be NumPy which is used by a couple of the 
+demos. The NumPy package is included in most builds of Raspbian, but installed with `apt-get`, this then causes problems
+if anything tries to install a different version with `pip3`. For this reason `ledshimdemo` is set to use the Raspbian
+default version (see setup.py) to try and avoid installing a different version with `pip3`. However, if you do get a 
+runtime error indicating a corrupted NumPy you could first try uninstalling any `pip3` versions of it to see if that
+helps.
+```
+pip3 uninstall numpy
+```
+
