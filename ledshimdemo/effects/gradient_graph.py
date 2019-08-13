@@ -2,6 +2,7 @@ from colorsys import hsv_to_rgb
 from math import sin
 from time import time
 
+from ..canvas import Canvas
 from ..pixel import Pixel
 from .abstract_effect import AbstractEffect
 
@@ -14,12 +15,12 @@ class GradientGraph(AbstractEffect):
     HUE_RANGE = 120
     HUE_START = 180
 
-    def __init__(self, canvas):
+    def __init__(self, canvas: Canvas) -> None:
         self.__v = 0
         self.__HUE_SPACING = self.HUE_RANGE / canvas.get_size()
         super(GradientGraph, self).__init__("gradient_graph", 0.01, canvas)
 
-    def show_graph(self, v):
+    def show_graph(self, v: int) -> None:
         for i in range(self.canvas.get_size()):
             offset = self.__HUE_SPACING * i
             hue = (self.HUE_START + offset) % 360
@@ -29,9 +30,9 @@ class GradientGraph(AbstractEffect):
             self.canvas.set_pixel(i, Pixel.from_tuple(pixel))
             v -= 1
 
-    def compose(self):
+    def compose(self) -> None:
         self.__v = (sin(time() * 2) + 1) / 2           # Get the next point on the graph, a value between 0 and 1
         self.show_graph(self.__v * self.canvas.get_size())    # Scale to the graph height to show.
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "GradientGraph(Height:{0})".format(self.__v)

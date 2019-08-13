@@ -1,5 +1,6 @@
 from time import localtime, strftime
 
+from ..canvas import Canvas
 from ..colours import Colours
 from .abstract_effect import AbstractEffect
 
@@ -20,19 +21,19 @@ class BinaryClock(AbstractEffect):
                                                                 32 16 08 04 02 01
     """
 
-    def __init__(self, canvas):
+    def __init__(self, canvas: Canvas) -> None:
         assert canvas.get_size() > 25, "This effect requires at least 26 LEDs!"
         self.__t = localtime()
         super(BinaryClock, self).__init__("binary_clock", 1, canvas)
 
-    def compose_binary(self, n, start):
+    def compose_binary(self, n: int, start: int) -> None:
         for x in range(6):
             if (n & (1 << x)) > 0:
                 self.canvas.set_pixel(start - x, Colours.OLDLACE)
             else:
                 self.canvas.blank_pixel(start - x)
 
-    def compose(self):
+    def compose(self) -> None:
         self.__t = localtime()
         self.canvas.set_pixel(0, Colours.RED)
         self.canvas.blank_pixel(1)
@@ -48,5 +49,5 @@ class BinaryClock(AbstractEffect):
         self.canvas.blank_pixel(26)
         self.canvas.blank_pixel(27)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "BinaryClock(Time:{0})".format(strftime("%H:%M:%S", self.__t))
