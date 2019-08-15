@@ -25,8 +25,6 @@ additions from my [fork](https://github.com/RatJuggler/led-shim/tree/more-exampl
 - Random Blink - Some random blinking.
 - Solid Colours - A basic effect which just shows a sequence of solid colours.
 
-**Note**: This project is somewhat over-engineered for what it actually does because it's being used as a learning exercise.
-
 # Installing
 
 Install on Raspbian using:
@@ -37,10 +35,6 @@ Or update using:
 ```
 pip3 install --update led-shim-demo
 ```
-**Note on Packaging**: The development work for this project was done using PyCharm on an Intel x64 machine, as the
-project was designed to be run on an ARM based Raspberry Pi only a source distribution is uploaded to PyPi. However, when installing
-under Raspbian it should install the ARM wheel from [PiWheels](https://www.piwheels.hostedpi.com/) making the installation
-much faster. See the [PiWheels FAQ](https://www.piwheels.hostedpi.com/faq.html) for more information.
 
 # Running
 
@@ -82,3 +76,16 @@ that helps.
 pip3 uninstall numpy
 ```
 
+# Addendum
+
+This project is somewhat over-engineered for what it actually does because it's being used as a learning exercise.
+
+The development work for this project was done using PyCharm on an Intel x64 machine, as the
+project was designed to be run on an ARM based Raspberry Pi only a source distribution is uploaded to PyPi. However,
+when installing under Raspbian it should install the ARM wheel from [PiWheels](https://www.piwheels.hostedpi.com/)
+making the installation much faster. See the [PiWheels FAQ](https://www.piwheels.hostedpi.com/faq.html) for more
+information.
+
+Badges showing the build status and code coverage for both the master and develop branches are shown at the top. This is
+ a simple solution to the problem of trying to make this file specific to the branch it is in.
+ 
