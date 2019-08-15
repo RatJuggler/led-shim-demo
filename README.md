@@ -1,11 +1,15 @@
 # led-shim-demo
 
-[![Travis](https://img.shields.io/travis/com/RatJuggler/led-shim-demo/develop.svg)](https://travis-ci.org/RatJuggler/led-shim-demo)
-[![Coverage Status](https://coveralls.io/repos/github/RatJuggler/led-shim-demo/badge.svg?branch=develop)](https://coveralls.io/github/RatJuggler/led-shim-demo?branch=develop)
 ![GitHub](https://img.shields.io/github/license/RatJuggler/led-shim-demo)
 ![Over-Engineered](https://img.shields.io/badge/over--engineered-somewhat-red)
 [![PyPi Package](https://img.shields.io/pypi/v/ledshimdemo.svg)](https://pypi.python.org/pypi/ledshimdemo)
 [![Python Versions](https://img.shields.io/pypi/pyversions/ledshimdemo.svg)](https://pypi.python.org/pypi/ledshimdemo)
+
+[![Travis](https://img.shields.io/travis/com/RatJuggler/led-shim-demo/master.svg?label=master%20build)](https://travis-ci.org/RatJuggler/led-shim-demo)
+[![Coverage Status](https://coveralls.io/repos/github/RatJuggler/led-shim-demo/badge.svg?branch=master)](https://coveralls.io/github/RatJuggler/led-shim-demo?branch=master)
+
+[![Travis](https://img.shields.io/travis/com/RatJuggler/led-shim-demo/develop.svg?label=develop%20build)](https://travis-ci.org/RatJuggler/led-shim-demo)
+[![Coverage Status](https://coveralls.io/repos/github/RatJuggler/led-shim-demo/badge.svg?branch=develop)](https://coveralls.io/github/RatJuggler/led-shim-demo?branch=develop)
 
 Display a variety of effects on the Raspberry Pi [led-shim](https://shop.pimoroni.com/products/led-shim) from Pimoroni.
 
