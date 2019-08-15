@@ -25,7 +25,7 @@ additions from my [fork](https://github.com/RatJuggler/led-shim/tree/more-exampl
 
 # Installing
 
-Install on Raspbian from PyPi using:
+Install on Raspbian using:
 ```
 pip3 install led-shim-demo
 ```
@@ -33,6 +33,10 @@ Or update using:
 ```
 pip3 install --update led-shim-demo
 ```
+**Note on Packaging**: The development work for this project was done using PyCharm on an Intel x64 machine, as the
+project was designed to be run on an ARM based Raspberry Pi only a source distribution is uploaded to PyPi. However, when installing
+under Raspbian it should install the ARM wheel from [PiWheels](https://www.piwheels.hostedpi.com/) making the installation
+much faster. See the [PiWheels FAQ](https://www.piwheels.hostedpi.com/faq.html) for more information.
 
 # Running
 
@@ -68,8 +72,8 @@ If anything is going to cause a problem trying to run `ledshimdemo` it will be N
 demos. The NumPy package is included in most builds of Raspbian, but installed with `apt-get`, this then causes problems
 if anything tries to install a different version with `pip3`. For this reason `ledshimdemo` is set to use the Raspbian
 default version (see setup.py) to try and avoid installing a different version with `pip3`. However, if you do get a 
-runtime error indicating a corrupted NumPy you could first try uninstalling any `pip3` versions of it to see if that
-helps.
+runtime error indicating a corrupted NumPy you could first try uninstalling any local `pip3` versions of it to see if
+that helps.
 ```
 pip3 uninstall numpy
 ```
