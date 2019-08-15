@@ -2,6 +2,8 @@
 
 [![Travis](https://img.shields.io/travis/com/RatJuggler/led-shim-demo/develop.svg)](https://travis-ci.org/RatJuggler/led-shim-demo)
 [![Coverage Status](https://coveralls.io/repos/github/RatJuggler/led-shim-demo/badge.svg?branch=develop)](https://coveralls.io/github/RatJuggler/led-shim-demo?branch=develop)
+![GitHub](https://img.shields.io/github/license/RatJuggler/led-shim-demo)
+![Over-Engineered](https://img.shields.io/badge/over--engineered-somewhat-red)
 [![PyPi Package](https://img.shields.io/pypi/v/ledshimdemo.svg)](https://pypi.python.org/pypi/ledshimdemo)
 [![Python Versions](https://img.shields.io/pypi/pyversions/ledshimdemo.svg)](https://pypi.python.org/pypi/ledshimdemo)
 
@@ -19,7 +21,7 @@ additions from my [fork](https://github.com/RatJuggler/led-shim/tree/more-exampl
 - Random Blink - Some random blinking.
 - Solid Colours - A basic effect which just shows a sequence of solid colours.
 
-**Note**: This project is completely over-engineered for what it actually does because it's being used as a learning exercise.
+**Note**: This project is somewhat over-engineered for what it actually does because it's being used as a learning exercise.
 
 # Installing
 
