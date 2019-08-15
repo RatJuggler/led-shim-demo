@@ -90,4 +90,4 @@ def display_effects(effect_display: str, effect_duration: int, effect_run: int,
 
 
 if __name__ == '__main__':
-    display_effects()
+    display_effects()   # pragma: no cover
