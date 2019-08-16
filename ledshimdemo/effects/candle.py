@@ -4,7 +4,7 @@ import numpy as np
 from ..canvas import Canvas
 from ..colours import Colours
 from ..pixel import Pixel
-from .abstract_effect import AbstractEffect
+from ..effects import AbstractEffect
 
 
 class Candle(AbstractEffect):
@@ -28,9 +28,7 @@ class Candle(AbstractEffect):
     def get_flame_size(max_size: int) -> int:
         n = np.random.choice(np.random.noncentral_chisquare(max_size / 2, 0.1, 1000), 1)
         flame_size = int(n[0])
-        if flame_size > max_size:
-            flame_size = max_size
-        return flame_size
+        return max_size if flame_size > max_size else flame_size
 
     def show_flame(self, size: int) -> None:
         for i in range(size):
