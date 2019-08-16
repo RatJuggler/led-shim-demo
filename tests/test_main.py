@@ -53,15 +53,25 @@ class Test(unittest.TestCase):
         self.assertEqual(result.output, "")
         render_mock.assert_not_called()
 
-    def test_default_options_log(self, render_mock):
+    def test_default_options_info_log(self, render_mock):
         runner = CliRunner()
         result = runner.invoke(display_effects, ['--log-level', 'INFO',
                                                  '--test'])
         self.assertEqual(result.exit_code, 0)
+        self.assertIn(" - INFO - Logging level enabled!", result.output)
         self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10, effect-run=24, brightness=8, invert=False, log-level=INFO)", result.output)
         render_mock.assert_not_called()
 
-    def test_all_options(self, render_mock):
+    def test_default_options_debug_log(self, render_mock):
+        runner = CliRunner()
+        result = runner.invoke(display_effects, ['--log-level', 'DEBUG',
+                                                 '--test'])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn(" - DEBUG - Logging level enabled!", result.output)
+        self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10, effect-run=24, brightness=8, invert=False, log-level=DEBUG)", result.output)
+        render_mock.assert_not_called()
+
+    def test_all_options_verbose_log(self, render_mock):
         runner = CliRunner()
         result = runner.invoke(display_effects, ['--effect-display', 'RANDOM',
                                                  '--effect-duration', '180',
@@ -71,5 +81,6 @@ class Test(unittest.TestCase):
                                                  '--log-level', 'VERBOSE',
                                                  '--test'])
         self.assertEqual(result.exit_code, 0)
+        self.assertIn(" - VERBOSE - Logging level enabled!", result.output)
         self.assertIn(" - INFO - Active Options(effect-display=RANDOM, effect-duration=180, effect-run=240, brightness=3, invert=True, log-level=VERBOSE)", result.output)
         render_mock.assert_not_called()
