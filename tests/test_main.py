@@ -31,6 +31,13 @@ class Test(unittest.TestCase):
         self.assertNotIn(" --test ", result.output)
         render_mock.assert_not_called()
 
+    def test_version(self, render_mock):
+        runner = CliRunner()
+        result = runner.invoke(display_effects, ['--version'])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn("display-effects, version ", result.output)
+        render_mock.assert_not_called()
+
     def test_default_options_no_log(self, render_mock):
         runner = CliRunner()
         result = runner.invoke(display_effects, ['--test'])
