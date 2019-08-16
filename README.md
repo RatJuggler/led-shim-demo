@@ -21,6 +21,7 @@ additions from my [fork](https://github.com/RatJuggler/led-shim/tree/more-exampl
 - Candle - A flickering candle.
 - CheerLights - Synchronize with the [CheerLights](https://cheerlights.com) "Internet of Things" project.
 - Coloured Lights - Simple coloured lights like Xmas lights.
+- Digital Rain - Cut price Matrix effect.
 - Gradient Graph - A moving colour gradient determined by the height of a sine wave.
 - Rainbow - A slowly moving rainbow effect.
 - Random Blink - Some random blinking.
