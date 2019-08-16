@@ -26,7 +26,7 @@ def configure_logging(loglevel: str) -> None:
     :param loglevel: from the command line or default
     :return: No meaningful return
     """
-    numeric_level = getattr(logging, loglevel.upper(), logging.WARNING)
+    numeric_level = logging.getLevelName(loglevel.upper())
     if not isinstance(numeric_level, int):
         raise ValueError('Invalid log level: %s' % loglevel)
     logging.basicConfig(level=numeric_level, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -68,7 +68,7 @@ def list_effects(ctx, param, value):
 @click.command(help="Show various effects on a Pimoroni LED shim.")
 @click.version_option()
 @click.option('-l', '--effect_list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
-              help='List the effects avaialable.')
+              help='List the effects available.')
 @click.option('-d', '--effect_display', type=click.Choice(["CYCLE", "RANDOM"]), default="CYCLE",
               help="How the effects are displayed.", show_default=True)
 @click.option('-u', '--effect_duration', type=click.IntRange(1, 180), default=10,
@@ -79,7 +79,7 @@ def list_effects(ctx, param, value):
               help="How bright the effects will be (1-10).", show_default=True)
 @click.option('-i', '--invert', is_flag=True,
               help="Change the display orientation.")
-@click.option('-o', '--loglevel', type=click.Choice(["DEBUG", "INFO", "WARNING"]), default="WARNING",
+@click.option('-o', '--loglevel', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]), default="WARNING",
               help="Show additional logging information.", show_default=True)
 @click.option('--test', is_flag=True, hidden=True,
               help="Hidden flag for testing options.")

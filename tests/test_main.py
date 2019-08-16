@@ -67,8 +67,8 @@ class Test(unittest.TestCase):
                                                  '--effect_run', '240',
                                                  '--brightness', '3',
                                                  '--invert',
-                                                 '--loglevel', 'DEBUG',
+                                                 '--loglevel', 'VERBOSE',
                                                  '--test'])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn(" - INFO - Active Options(effect_display=RANDOM, effect_duration=180, effect_run=240, brightness=3, invert=True, loglevel=DEBUG)", result.output)
+        self.assertIn(" - INFO - Active Options(effect_display=RANDOM, effect_duration=180, effect_run=240, brightness=3, invert=True, loglevel=VERBOSE)", result.output)
         render_mock.assert_not_called()

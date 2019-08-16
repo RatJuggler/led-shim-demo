@@ -61,7 +61,7 @@ def render(effect_display: str, effect_duration: int, effect_run: int, invert: b
                 show_time = effect_duration / effect.get_speed()
                 logging.info(str(effect))
             effect.compose()
-            logging.info(repr(effect))
+            logging.verbose(repr(effect))
             logging.debug(repr(effect.canvas))
             copy_to_shim(effect, invert)
             show_time -= 1
