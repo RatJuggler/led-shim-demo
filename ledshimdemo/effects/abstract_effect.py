@@ -29,4 +29,4 @@ class AbstractEffect(ABC):
 
     @abstractmethod
     def compose(self) -> None:
-        pass
+        pass   # pragma: no cover
