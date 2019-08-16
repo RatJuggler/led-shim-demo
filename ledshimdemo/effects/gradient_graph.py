@@ -4,7 +4,7 @@ from time import time
 
 from ..canvas import Canvas
 from ..pixel import Pixel
-from .abstract_effect import AbstractEffect
+from ..effects import AbstractEffect
 
 
 class GradientGraph(AbstractEffect):

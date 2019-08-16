@@ -2,7 +2,7 @@ from random import randint, sample
 
 from ..canvas import Canvas
 from ..colours import Colours
-from .abstract_effect import AbstractEffect
+from ..effects import AbstractEffect
 
 
 class RandomBlink(AbstractEffect):

@@ -2,7 +2,7 @@ from typing import Set
 
 from ..canvas import Canvas
 from ..colours import Colours
-from .abstract_effect import AbstractEffect
+from ..effects import AbstractEffect
 
 
 class ColouredLights(AbstractEffect):
