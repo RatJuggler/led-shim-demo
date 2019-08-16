@@ -1,7 +1,8 @@
 import unittest
+import mock
 
 from ledshimdemo.canvas import Canvas
-from ledshimdemo.effects.cheerlights import CheerLights
+from ledshimdemo.effects import CheerLights
 
 
 class TestCheerLights(unittest.TestCase):
@@ -11,9 +12,18 @@ class TestCheerLights(unittest.TestCase):
     def test_cheerlight_call(self):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
         effect = CheerLights(canvas)
-        self.assertIsNone(effect.get_colour_from_channel("http://invalidtest.com"))
+        self.assertIsNone(effect.get_colour_from_channel("http://ejiferfneciudwedwojcmeiocnw.com"))
 
-    def test_effect(self):
+    @mock.patch('ledshimdemo.effects.CheerLights.get_colour_from_channel', return_value=None)
+    def test_effect_failed_cheerlights(self, patch_function):
+        canvas = Canvas(self.TEST_CANVAS_SIZE)
+        effect = CheerLights(canvas)
+        self.assertIsNone(effect.get_colour_from_channel(effect.URL))
+        effect.compose()
+        for i in range(canvas.get_size()):
+            self.assertEqual(canvas.get_pixel(i), canvas.BLANK_PIXEL)
+
+    def test_effect_working_cheerlights(self):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
         effect = CheerLights(canvas)
         # Must check before and after in case it changes during the test.
