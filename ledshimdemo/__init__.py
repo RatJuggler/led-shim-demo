@@ -1,5 +1,5 @@
 """
-Add a custom VERBOSE logging level.
+Add a custom VERBOSE logging level between DEBUG and INFO.
 """
 import logging
 
