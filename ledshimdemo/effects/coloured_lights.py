@@ -27,7 +27,8 @@ class ColouredLights(AbstractEffect):
         for i in range(len(cls.__LIGHT_COLOURS), 1, -1):
             if i in factors:
                 return i
-        return 1
+        # Should never reach here as 1 will always be a factor.
+        return 1   # pragma: no cover
 
     def __init__(self, canvas: Canvas) -> None:
         self.__NUM_COLOURS = self.get_num_colours(canvas.get_size())
