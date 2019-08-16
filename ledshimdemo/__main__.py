@@ -30,6 +30,8 @@ def configure_logging(loglevel: str) -> None:
     if not isinstance(numeric_level, int):
         raise ValueError('Invalid log level: %s' % loglevel)
     logging.basicConfig(level=numeric_level, format='%(asctime)s - %(levelname)s - %(message)s')
+    if numeric_level < logging.WARNING:
+        logging.log(numeric_level, "Logging level enabled!")
 
 
 def show_options(display: str, duration: int, run: int, brightness: int, invert: bool, level: str) -> str:
