@@ -8,6 +8,17 @@ from .render import render
 
 NUM_PIXELS = 28  # The number of LEDs on the shim.
 
+CANVAS = Canvas(NUM_PIXELS)
+EFFECTS = [BinaryClock(CANVAS),
+           Candle(CANVAS),
+           CheerLights(CANVAS),
+           ColouredLights(CANVAS),
+           DigitalRain(CANVAS),
+           GradientGraph(CANVAS),
+           Rainbow(CANVAS),
+           RandomBlink(CANVAS),
+           SolidColours(CANVAS)]
+
 
 def configure_logging(loglevel: str) -> None:
     """
@@ -44,8 +55,20 @@ def show_options(effect_display: str, effect_duration: int, effect_run: int,
     return "".join(options)
 
 
+def list_effects(ctx, param, value):
+    if not value or ctx.resilient_parsing:
+        return
+    effects = ["Available Effects:"]
+    for effect in EFFECTS:
+        effects.append(effect.get_name())
+    click.echo("\n".join(effects))
+    ctx.exit()
+
+
 @click.command(help="Show various effects on a Pimoroni LED shim.")
 @click.version_option()
+@click.option('-l', '--effect_list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
+              help='List the effects avaialable.')
 @click.option('-d', '--effect_display', type=click.Choice(["CYCLE", "RANDOM"]), default="CYCLE",
               help="How the effects are displayed.", show_default=True)
 @click.option('-u', '--effect_duration', type=click.IntRange(1, 180), default=10,
@@ -56,7 +79,7 @@ def show_options(effect_display: str, effect_duration: int, effect_run: int,
               help="How bright the effects will be (1-10).", show_default=True)
 @click.option('-i', '--invert', is_flag=True,
               help="Change the display orientation.")
-@click.option('-l', '--loglevel', type=click.Choice(["DEBUG", "INFO", "WARNING"]), default="WARNING",
+@click.option('-o', '--loglevel', type=click.Choice(["DEBUG", "INFO", "WARNING"]), default="WARNING",
               help="Show additional logging information.", show_default=True)
 @click.option('--test', is_flag=True, hidden=True,
               help="Hidden flag for testing options.")
@@ -76,18 +99,8 @@ def display_effects(effect_display: str, effect_duration: int, effect_run: int,
     configure_logging(loglevel)
     logging.info(show_options(effect_display, effect_duration, effect_run, brightness, invert, loglevel))
     Pixel.set_default_brightness(brightness / 10.0)
-    canvas = Canvas(NUM_PIXELS)
-    effects = [BinaryClock(canvas),
-               Candle(canvas),
-               CheerLights(canvas),
-               ColouredLights(canvas),
-               DigitalRain(canvas),
-               GradientGraph(canvas),
-               Rainbow(canvas),
-               RandomBlink(canvas),
-               SolidColours(canvas)]
     if not test:
-        render(effect_display, effect_duration, effect_run, invert, effects)
+        render(effect_display, effect_duration, effect_run, invert, EFFECTS)
 
 
 if __name__ == '__main__':
