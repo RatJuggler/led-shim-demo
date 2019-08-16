@@ -2,7 +2,7 @@ import click
 import logging
 
 from .canvas import Canvas
-from .effects import BinaryClock, Candle, CheerLights, ColouredLights, GradientGraph, Rainbow, RandomBlink, SolidColours
+from .effects import BinaryClock, Candle, CheerLights, ColouredLights, DigitalRain, GradientGraph, Rainbow, RandomBlink, SolidColours
 from .pixel import Pixel
 from .render import render
 
@@ -81,6 +81,7 @@ def display_effects(effect_display: str, effect_duration: int, effect_run: int,
                Candle(canvas),
                CheerLights(canvas),
                ColouredLights(canvas),
+               DigitalRain(canvas),
                GradientGraph(canvas),
                Rainbow(canvas),
                RandomBlink(canvas),
