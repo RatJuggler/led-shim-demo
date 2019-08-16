@@ -29,7 +29,7 @@ class DigitalRain(AbstractEffect):
     def __init__(self, canvas: Canvas) -> None:
         self.__tick = 0
         self.__drops = []
-        super(DigitalRain, self).__init__("digital_rain", 0.02, canvas)
+        super(DigitalRain, self).__init__("DigitalRain", "Cut price Matrix effect.", 0.02, canvas)
 
     def rain_drop(self, drop: Drop) -> None:
         intensity = 255

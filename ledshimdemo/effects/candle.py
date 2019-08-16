@@ -18,7 +18,7 @@ class Candle(AbstractEffect):
         self.__flame_size = 0
         # Flame hue goes from 0 (red) to 60 (yellow).
         self.__HUE_SPACING = 60 / float(self.__FLAME_MAX)
-        super(Candle, self).__init__("candle", 0.01, canvas)
+        super(Candle, self).__init__("Candle", "A flickering candle.", 0.01, canvas)
 
     def show_candle(self, size: int) -> None:
         for i in range(size):

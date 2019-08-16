@@ -18,7 +18,7 @@ class GradientGraph(AbstractEffect):
     def __init__(self, canvas: Canvas) -> None:
         self.__v = 0
         self.__HUE_SPACING = self.HUE_RANGE / canvas.get_size()
-        super(GradientGraph, self).__init__("gradient_graph", 0.01, canvas)
+        super(GradientGraph, self).__init__("GradientGraph", "Sine wave colour gradient effect.", 0.01, canvas)
 
     def show_graph(self, v: int) -> None:
         for i in range(self.canvas.get_size()):

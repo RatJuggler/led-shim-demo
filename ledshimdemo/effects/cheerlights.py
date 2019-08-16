@@ -23,7 +23,8 @@ class CheerLights(AbstractEffect):
 
     def __init__(self, canvas: Canvas) -> None:
         self.__colour = None
-        super(CheerLights, self).__init__("cheerlights", 5, canvas)
+        super(CheerLights, self).__init__("CheerLights",
+                                          "Synchronize with the CheerLights \"Internet of Things\" project.", 5, canvas)
 
     def compose(self) -> None:
         self.__colour = self.get_colour_from_channel(self.URL)

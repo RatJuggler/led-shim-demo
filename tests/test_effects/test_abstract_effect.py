@@ -12,7 +12,8 @@ class TestAbstractEffect(unittest.TestCase):
     @patch.multiple(AbstractEffect, __abstractmethods__=set())
     def test_something(self):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
-        effect = AbstractEffect("Test", 7, canvas)
+        effect = AbstractEffect("Test", "Test description.", 7, canvas)
         self.assertEqual(effect.get_name(), "Test")
+        self.assertEqual(effect.get_description(), "Test description.")
         self.assertEqual(effect.get_speed(), 7)
         self.assertEqual(str(effect), "Effect: Test, Speed: 7")

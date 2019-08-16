@@ -14,7 +14,7 @@ class RandomBlink(AbstractEffect):
         # Number to blink must be within range of canvas size.
         self.__number_to_blink = (canvas.get_size() // 5) + 1
         self.__pixels = None
-        super(RandomBlink, self).__init__("random_blink", 0.05, canvas)
+        super(RandomBlink, self).__init__("RandomBlink", "Some random blinking.", 0.05, canvas)
 
     def compose(self) -> None:
         self.__pixels = sample(range(self.canvas.get_size()), randint(1, self.__number_to_blink))

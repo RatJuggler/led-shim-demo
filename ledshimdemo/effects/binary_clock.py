@@ -24,7 +24,7 @@ class BinaryClock(AbstractEffect):
     def __init__(self, canvas: Canvas) -> None:
         assert canvas.get_size() > 25, "This effect requires at least 26 LEDs!"
         self.__t = localtime()
-        super(BinaryClock, self).__init__("binary_clock", 1, canvas)
+        super(BinaryClock, self).__init__("BinaryClock", "Shows hours, minutes and seconds.", 1, canvas)
 
     def compose_binary(self, n: int, start: int) -> None:
         for x in range(6):

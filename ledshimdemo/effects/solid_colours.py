@@ -10,7 +10,7 @@ class SolidColours(AbstractEffect):
 
     def __init__(self, canvas: Canvas) -> None:
         self.__colour = 0
-        super(SolidColours, self).__init__("solid_colours", 0.5, canvas)
+        super(SolidColours, self).__init__("SolidColours", "A sequence of solid colours.", 0.5, canvas)
 
     def compose(self) -> None:
         self.canvas.set_all(Colours.COLOURS[self.__colour])

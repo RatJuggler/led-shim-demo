@@ -43,7 +43,7 @@ class Test(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(display_effects, ['--effect-list'])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn("Available Effects:\nbinary_clock\ncandle\ncheerlights\ncoloured_lights\ndigital_rain\ngradient_graph\nrainbow\nrandom_blink\nsolid_colours\n", result.output)
+        self.assertIn("Available Effects:\nBinaryClock\nCandle\nCheerLights\nColouredLights\nDigitalRain\nGradientGraph\nRainbow\nRandomBlink\nSolidColours\n", result.output)
         render_mock.assert_not_called()
 
     def test_default_options_no_log(self, render_mock):

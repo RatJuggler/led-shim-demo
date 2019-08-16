@@ -33,7 +33,7 @@ class ColouredLights(AbstractEffect):
         self.__NUM_COLOURS = self.get_num_colours(canvas.get_size())
         self.__NUM_SETS = canvas.get_size() // self.__NUM_COLOURS
         self.__colour = 0
-        super(ColouredLights, self).__init__("coloured_lights", 0.5, canvas)
+        super(ColouredLights, self).__init__("ColouredLights", "Simple coloured lights like Xmas lights.", 0.5, canvas)
 
     def show_lights(self, light: int) -> None:
         for i in range(self.__NUM_SETS):
