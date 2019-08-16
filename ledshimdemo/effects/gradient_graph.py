@@ -31,7 +31,7 @@ class GradientGraph(AbstractEffect):
             v -= 1
 
     def compose(self) -> None:
-        self.__v = (sin(time() * 2) + 1) / 2           # Get the next point on the graph, a value between 0 and 1
+        self.__v = round((sin(time() * 2) + 1) / 2, 8)        # Get the next point on the graph, a value between 0 and 1
         self.show_graph(self.__v * self.canvas.get_size())    # Scale to the graph height to show.
 
     def __repr__(self) -> str:
