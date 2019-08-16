@@ -32,25 +32,24 @@ def configure_logging(loglevel: str) -> None:
     logging.basicConfig(level=numeric_level, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
-def show_options(effect_display: str, effect_duration: int, effect_run: int,
-                 brightness: int, invert: bool, loglevel: str) -> str:
+def show_options(display: str, duration: int, run: int, brightness: int, invert: bool, level: str) -> str:
     """
     Human readable string showing the command line options to be used.
-    :param effect_display: from command line option or default
-    :param effect_duration: from command line option or default
-    :param effect_run: from command line option or default
+    :param display: from command line option or default
+    :param duration: from command line option or default
+    :param run: from command line option or default
     :param brightness: from command line option or default
     :param invert: from command line option or default
-    :param loglevel: from command line option or default
+    :param level: from command line option or default
     :return: One line string of the command line options to be used.
     """
     options = ["Active Options(",
-               "effect_display={0}, ".format(effect_display),
-               "effect_duration={0}, ".format(effect_duration),
-               "effect_run={0}, ".format(effect_run),
+               "effect-display={0}, ".format(display),
+               "effect-duration={0}, ".format(duration),
+               "effect-run={0}, ".format(run),
                "brightness={0}, ".format(brightness),
                "invert={0}, ".format(invert),
-               "loglevel={0}".format(loglevel),
+               "log-level={0}".format(level),
                ")"]
     return "".join(options)
 
@@ -67,40 +66,40 @@ def list_effects(ctx, param, value):
 
 @click.command(help="Show various effects on a Pimoroni LED shim.")
 @click.version_option()
-@click.option('-l', '--effect_list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
+@click.option('-l', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
               help='List the effects available.')
-@click.option('-d', '--effect_display', type=click.Choice(["CYCLE", "RANDOM"]), default="CYCLE",
-              help="How the effects are displayed.", show_default=True)
-@click.option('-u', '--effect_duration', type=click.IntRange(1, 180), default=10,
-              help="How long to display each effect for, in seconds (1-180).", show_default=True)
-@click.option('-r', '--effect_run', type=click.IntRange(1, 240), default=24,
-              help="How many times to run effects before stopping (1-240).", show_default=True)
-@click.option('-b', '--brightness', type=click.IntRange(1, 10), default=8,
-              help="How bright the effects will be (1-10).", show_default=True)
+@click.option('-d', '--effect-display', 'display', type=click.Choice(["CYCLE", "RANDOM"]),
+              help="How the effects are displayed.", default="CYCLE", show_default=True)
+@click.option('-u', '--effect-duration', 'duration', type=click.IntRange(1, 180),
+              help="How long to display each effect for, in seconds (1-180).", default=10, show_default=True)
+@click.option('-r', '--effect-run', 'run', type=click.IntRange(1, 240),
+              help="How many times to run effects before stopping (1-240).", default=24, show_default=True)
+@click.option('-b', '--brightness', type=click.IntRange(1, 10),
+              help="How bright the effects will be (1-10).", default=8, show_default=True)
 @click.option('-i', '--invert', is_flag=True,
               help="Change the display orientation.")
-@click.option('-o', '--loglevel', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]), default="WARNING",
-              help="Show additional logging information.", show_default=True)
+@click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
+              help="Show additional logging information.", default="WARNING", show_default=True)
 @click.option('--test', is_flag=True, hidden=True,
               help="Hidden flag for testing options.")
-def display_effects(effect_display: str, effect_duration: int, effect_run: int,
-                    brightness: int, invert: bool, loglevel: str, test: bool) -> None:
+def display_effects(display: str, duration: int, run: int,
+                    brightness: int, invert: bool, level: str, test: bool) -> None:
     """
     Show various effects on a Pimoroni LED shim.
-    :param effect_display: In a CYCLE or at RANDOM
-    :param effect_duration: How long to display each effect for
-    :param effect_run: How many times to run effects
+    :param display: In a CYCLE or at RANDOM
+    :param duration: How long to display each effect for
+    :param run: How many times to run effects
     :param brightness: How bright the effects will be
     :param invert: Depending on which way round the Pi is
-    :param loglevel: Set a logging level; DEBUG, INFO or WARNING
+    :param level: Set a logging level; DEBUG, VERBOSE, INFO or WARNING
     :param test: Indicates option testing only
     :return: No meaningful return
     """
-    configure_logging(loglevel)
-    logging.info(show_options(effect_display, effect_duration, effect_run, brightness, invert, loglevel))
+    configure_logging(level)
+    logging.info(show_options(display, duration, run, brightness, invert, level))
     Pixel.set_default_brightness(brightness / 10.0)
     if not test:
-        render(effect_display, effect_duration, effect_run, invert, EFFECTS)
+        render(display, duration, run, invert, EFFECTS)
 
 
 if __name__ == '__main__':

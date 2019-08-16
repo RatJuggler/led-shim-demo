@@ -21,12 +21,13 @@ class Test(unittest.TestCase):
         result = runner.invoke(display_effects, ['--help'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" --version ", result.output)
-        self.assertIn(" --effect_display ", result.output)
-        self.assertIn(" --effect_duration ", result.output)
-        self.assertIn(" --effect_run ", result.output)
+        self.assertIn(" --effect-list ", result.output)
+        self.assertIn(" --effect-display ", result.output)
+        self.assertIn(" --effect-duration ", result.output)
+        self.assertIn(" --effect-run ", result.output)
         self.assertIn(" --brightness ", result.output)
         self.assertIn(" --invert ", result.output)
-        self.assertIn(" --loglevel ", result.output)
+        self.assertIn(" --log-level ", result.output)
         self.assertIn(" --help ", result.output)
         self.assertNotIn(" --test ", result.output)
         render_mock.assert_not_called()
@@ -40,7 +41,7 @@ class Test(unittest.TestCase):
 
     def test_effect_list(self, render_mock):
         runner = CliRunner()
-        result = runner.invoke(display_effects, ['--effect_list'])
+        result = runner.invoke(display_effects, ['--effect-list'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn("Available Effects:\nbinary_clock\ncandle\ncheerlights\ncoloured_lights\ndigital_rain\ngradient_graph\nrainbow\nrandom_blink\nsolid_colours\n", result.output)
         render_mock.assert_not_called()
@@ -54,21 +55,21 @@ class Test(unittest.TestCase):
 
     def test_default_options_log(self, render_mock):
         runner = CliRunner()
-        result = runner.invoke(display_effects, ['--loglevel', 'INFO',
+        result = runner.invoke(display_effects, ['--log-level', 'INFO',
                                                  '--test'])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn(" - INFO - Active Options(effect_display=CYCLE, effect_duration=10, effect_run=24, brightness=8, invert=False, loglevel=INFO)", result.output)
+        self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10, effect-run=24, brightness=8, invert=False, log-level=INFO)", result.output)
         render_mock.assert_not_called()
 
     def test_all_options(self, render_mock):
         runner = CliRunner()
-        result = runner.invoke(display_effects, ['--effect_display', 'RANDOM',
-                                                 '--effect_duration', '180',
-                                                 '--effect_run', '240',
+        result = runner.invoke(display_effects, ['--effect-display', 'RANDOM',
+                                                 '--effect-duration', '180',
+                                                 '--effect-run', '240',
                                                  '--brightness', '3',
                                                  '--invert',
-                                                 '--loglevel', 'VERBOSE',
+                                                 '--log-level', 'VERBOSE',
                                                  '--test'])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn(" - INFO - Active Options(effect_display=RANDOM, effect_duration=180, effect_run=240, brightness=3, invert=True, loglevel=VERBOSE)", result.output)
+        self.assertIn(" - INFO - Active Options(effect-display=RANDOM, effect-duration=180, effect-run=240, brightness=3, invert=True, log-level=VERBOSE)", result.output)
         render_mock.assert_not_called()
