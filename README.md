@@ -12,7 +12,7 @@
 [![Travis](https://img.shields.io/travis/com/RatJuggler/led-shim-demo/develop.svg?label=develop%20build)](https://travis-ci.org/RatJuggler/led-shim-demo)
 [![Coverage Status](https://coveralls.io/repos/github/RatJuggler/led-shim-demo/badge.svg?branch=develop)](https://coveralls.io/github/RatJuggler/led-shim-demo?branch=develop)
 
-Display a variety of effects on the Raspberry Pi [led-shim](https://shop.pimoroni.com/products/led-shim) from Pimoroni.
+An application to display a variety of effects on the Raspberry Pi [led-shim](https://shop.pimoroni.com/products/led-shim) from Pimoroni.
 
 The effects are based on the examples given in the base [library](https://github.com/pimoroni/led-shim) plus some 
 additions from my [fork](https://github.com/RatJuggler/led-shim/tree/more-examples).
@@ -82,6 +82,13 @@ pip3 uninstall numpy
 # Addendum
 
 This project is somewhat over-engineered for what it actually does because it's being used as a learning exercise.
+
+The application has a number of output logging levels built into it, including a custom VERBOSE level, to show some of
+the inner workings. This is just because.  
+
+The code coverage for this project is a good example of why measuring unit test coverage can be a misleading indicator
+of quality. Whilst it does have plenty of unit tests those for the effects are mostly simple smoke tests which show that
+the code will run. They don't actually confirm that the effect is producing the desired output.
 
 The development work for this project was done using PyCharm on an Intel x64 machine, as the
 project was designed to be run on an ARM based Raspberry Pi only a source distribution is uploaded to PyPi. However,
