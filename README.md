@@ -49,18 +49,19 @@ Usage: ledshimdemo [OPTIONS]
 
 Options:
   --version                       Show the version and exit.
-  -d, --effect_display [CYCLE|RANDOM]
+  -l, --effect-list               List the effects available.
+  -d, --effect-display [CYCLE|RANDOM]
                                   How the effects are displayed.  [default:
                                   CYCLE]
-  -u, --effect_duration INTEGER RANGE
+  -u, --effect-duration INTEGER RANGE
                                   How long to display each effect for, in
                                   seconds (1-180).  [default: 10]
-  -r, --effect_run INTEGER RANGE  How many times to run effects before
+  -r, --effect-run INTEGER RANGE  How many times to run effects before
                                   stopping (1-240).  [default: 24]
   -b, --brightness INTEGER RANGE  How bright the effects will be (1-10).
                                   [default: 8]
   -i, --invert                    Change the display orientation.
-  -l, --loglevel [DEBUG|INFO|WARNING]
+  -o, --log-level [DEBUG|VERBOSE|INFO|WARNING]
                                   Show additional logging information.
                                   [default: WARNING]
   --help                          Show this message and exit.
