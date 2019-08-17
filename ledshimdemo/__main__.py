@@ -57,11 +57,18 @@ def show_options(display: str, duration: int, run: int, brightness: int, invert:
 
 
 def list_effects(ctx, param, value):
+    """
+    List the effects currently available.
+    :param ctx: see callbacks for the click options
+    :param param: see callbacks for the click options
+    :param value: see callbacks for the click options
+    :return: A string listing all the effect names and descriptions.
+    """
     if not value or ctx.resilient_parsing:
         return
     effects = ["Available Effects:"]
     for effect in EFFECTS:
-        effects.append(effect.get_name())
+        effects.append(effect.get_name() + " - " + effect.get_description())
     click.echo("\n".join(effects))
     ctx.exit()
 

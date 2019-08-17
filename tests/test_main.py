@@ -41,7 +41,18 @@ class Test(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(main.display_effects, ['--effect-list'])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn("Available Effects:\nBinaryClock\nCandle\nCheerLights\nColouredLights\nDigitalRain\nGradientGraph\nRainbow\nRandomBlink\nSolidColours\n", result.output)
+        effects = ["Available Effects:",
+                   "BinaryClock - Shows hours, minutes and seconds.",
+                   "Candle - A flickering candle.",
+                   "CheerLights - Synchronize with the CheerLights \"Internet of Things\" project.",
+                   "ColouredLights - Simple coloured lights like Xmas lights.",
+                   "DigitalRain - Cut price Matrix effect.",
+                   "GradientGraph - Sine wave colour gradient effect.",
+                   "Rainbow - A slowly moving rainbow.",
+                   "RandomBlink - Some random blinking.",
+                   "SolidColours - A sequence of solid colours."]
+        effects_list = "\n".join(effects)
+        self.assertIn(effects_list, result.output)
         render_mock.assert_not_called()
 
     def test_default_options_no_log(self, render_mock):
