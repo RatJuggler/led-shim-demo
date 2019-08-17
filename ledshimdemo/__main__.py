@@ -82,10 +82,7 @@ def list_effects(ctx, param, value):
               help="Change the display orientation.")
 @click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
               help="Show additional logging information.", default="WARNING", show_default=True)
-@click.option('--test', is_flag=True, hidden=True,
-              help="Hidden flag for testing options.")
-def display_effects(display: str, duration: int, run: int,
-                    brightness: int, invert: bool, level: str, test: bool) -> None:
+def display_effects(display: str, duration: int, run: int, brightness: int, invert: bool, level: str) -> None:
     """
     Show various effects on a Pimoroni LED shim.
     :param display: In a CYCLE or at RANDOM
@@ -94,14 +91,12 @@ def display_effects(display: str, duration: int, run: int,
     :param brightness: How bright the effects will be
     :param invert: Depending on which way round the Pi is
     :param level: Set a logging level; DEBUG, VERBOSE, INFO or WARNING
-    :param test: Indicates option testing only
     :return: No meaningful return
     """
     configure_logging(level)
     logging.info(show_options(display, duration, run, brightness, invert, level))
     Pixel.set_default_brightness(brightness / 10.0)
-    if not test:
-        render(display, duration, run, invert, EFFECTS)
+    render(display, duration, run, invert, EFFECTS)
 
 
 if __name__ == '__main__':

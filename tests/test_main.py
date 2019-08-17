@@ -28,7 +28,6 @@ class Test(unittest.TestCase):
         self.assertIn(" --invert ", result.output)
         self.assertIn(" --log-level ", result.output)
         self.assertIn(" --help ", result.output)
-        self.assertNotIn(" --test ", result.output)
         render_mock.assert_not_called()
 
     def test_version(self, render_mock):
@@ -47,15 +46,14 @@ class Test(unittest.TestCase):
 
     def test_default_options_no_log(self, render_mock):
         runner = CliRunner()
-        result = runner.invoke(main.display_effects, ['--test'])
+        result = runner.invoke(main.display_effects, [])
         self.assertEqual(result.exit_code, 0)
         self.assertEqual(result.output, "")
         render_mock.assert_called_once()
 
     def test_default_options_info_log(self, render_mock):
         runner = CliRunner()
-        result = runner.invoke(main.display_effects, ['--log-level', 'INFO',
-                                                      '--test'])
+        result = runner.invoke(main.display_effects, ['--log-level', 'INFO'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - INFO - Logging level enabled!", result.output)
         self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10, effect-run=24, brightness=8, invert=False, log-level=INFO)", result.output)
@@ -63,8 +61,7 @@ class Test(unittest.TestCase):
 
     def test_default_options_debug_log(self, render_mock):
         runner = CliRunner()
-        result = runner.invoke(main.display_effects, ['--log-level', 'DEBUG',
-                                                      '--test'])
+        result = runner.invoke(main.display_effects, ['--log-level', 'DEBUG'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - DEBUG - Logging level enabled!", result.output)
         self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10, effect-run=24, brightness=8, invert=False, log-level=DEBUG)", result.output)
@@ -77,8 +74,7 @@ class Test(unittest.TestCase):
                                                       '--effect-run', '240',
                                                       '--brightness', '3',
                                                       '--invert',
-                                                      '--log-level', 'VERBOSE',
-                                                      '--test'])
+                                                      '--log-level', 'VERBOSE'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - VERBOSE - Logging level enabled!", result.output)
         self.assertIn(" - INFO - Active Options(effect-display=RANDOM, effect-duration=180, effect-run=240, brightness=3, invert=True, log-level=VERBOSE)", result.output)
