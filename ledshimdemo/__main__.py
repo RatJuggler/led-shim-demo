@@ -4,20 +4,12 @@ import logging
 from .canvas import Canvas
 from .pixel import Pixel
 from .render import render
-from .load_effect import load_effect
+from .load_effect import load_effects
 
 NUM_PIXELS = 28  # The number of LEDs on the shim.
 
 CANVAS = Canvas(NUM_PIXELS)
-EFFECTS = [load_effect("binary_clock.BinaryClockEffect", CANVAS),
-           load_effect("candle.CandleEffect", CANVAS),
-           load_effect("cheerlights.CheerLightsEffect", CANVAS),
-           load_effect("coloured_lights.ColouredLightsEffect", CANVAS),
-           load_effect("digital_rain.DigitalRainEffect", CANVAS),
-           load_effect("gradient_graph.GradientGraphEffect", CANVAS),
-           load_effect("rainbow.RainbowEffect", CANVAS),
-           load_effect("random_blink.RandomBlinkEffect", CANVAS),
-           load_effect("solid_colours.SolidColoursEffect", CANVAS)]
+EFFECTS = load_effects(CANVAS)
 
 
 def configure_logging(loglevel: str) -> None:
