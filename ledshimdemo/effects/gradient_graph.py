@@ -2,9 +2,9 @@ from colorsys import hsv_to_rgb
 from math import sin
 from time import time
 
-from ..canvas import Canvas
-from ..pixel import Pixel
-from ..effects import AbstractEffect
+from ledshimdemo.canvas import Canvas
+from ledshimdemo.pixel import Pixel
+from ledshimdemo.abstract_effect import AbstractEffect
 
 
 class GradientGraphEffect(AbstractEffect):

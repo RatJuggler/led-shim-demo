@@ -6,7 +6,7 @@ sys.modules['smbus'] = mock.Mock()  # Mock the hardware layer to avoid errors.
 
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.render import get_next_effect, copy_to_shim, render
-from ledshimdemo.effects import SolidColoursEffect, RandomBlinkEffect, RainbowEffect
+from ledshimdemo.load_effect import load_effect
 
 
 class TestRender(unittest.TestCase):
@@ -18,23 +18,23 @@ class TestRender(unittest.TestCase):
 
     def setUp(self):
         canvas = Canvas(self.CANVAS_SIZE)
-        self.effects = [SolidColoursEffect(canvas),
-                        RandomBlinkEffect(canvas),
-                        RainbowEffect(canvas)]
+        self.effects = [load_effect("solid_colours.SolidColoursEffect", canvas),
+                        load_effect("random_blink.RandomBlinkEffect", canvas),
+                        load_effect("rainbow.RainbowEffect", canvas)]
 
     def test_get_next_effect_cycle(self):
         effect = get_next_effect(self.EFFECT_DISPLAY, self.effects)
-        self.assertIsInstance(effect, SolidColoursEffect)
+        self.assertIsInstance(effect, type(self.effects[0]))
         effect = get_next_effect(self.EFFECT_DISPLAY, self.effects)
-        self.assertIsInstance(effect, RandomBlinkEffect)
+        self.assertIsInstance(effect, type(self.effects[1]))
         effect = get_next_effect(self.EFFECT_DISPLAY, self.effects)
-        self.assertIsInstance(effect, RainbowEffect)
+        self.assertIsInstance(effect, type(self.effects[2]))
         effect = get_next_effect(self.EFFECT_DISPLAY, self.effects)
-        self.assertIsInstance(effect, SolidColoursEffect)
+        self.assertIsInstance(effect, type(self.effects[0]))
 
     def test_get_next_effect_random(self):
         effect = get_next_effect('RANDOM', self.effects)
-        self.assertTrue(isinstance(effect, (SolidColoursEffect, RandomBlinkEffect, RainbowEffect)))
+        self.assertTrue(isinstance(effect, (type(self.effects[0]), type(self.effects[1]), type(self.effects[2]))))
 
     @mock.patch('ledshim.set_pixel')
     @mock.patch('ledshim.show')

@@ -1,10 +1,10 @@
 from colorsys import hsv_to_rgb
 import numpy as np
 
-from ..canvas import Canvas
-from ..colours import Colours
-from ..pixel import Pixel
-from ..effects import AbstractEffect
+from ledshimdemo.canvas import Canvas
+from ledshimdemo.colours import Colours
+from ledshimdemo.pixel import Pixel
+from ledshimdemo.abstract_effect import AbstractEffect
 
 
 class CandleEffect(AbstractEffect):

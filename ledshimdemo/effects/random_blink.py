@@ -1,8 +1,8 @@
 from random import randint, sample
 
-from ..canvas import Canvas
-from ..colours import Colours
-from ..effects import AbstractEffect
+from ledshimdemo.canvas import Canvas
+from ledshimdemo.colours import Colours
+from ledshimdemo.abstract_effect import AbstractEffect
 
 
 class RandomBlinkEffect(AbstractEffect):

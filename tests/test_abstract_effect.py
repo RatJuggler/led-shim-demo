@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 
 from ledshimdemo.canvas import Canvas
-from ledshimdemo.effects.abstract_effect import AbstractEffect
+from ledshimdemo.abstract_effect import AbstractEffect
 
 
 class TestAbstractEffect(unittest.TestCase):

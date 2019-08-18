@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from ..canvas import Canvas
+from ledshimdemo.canvas import Canvas
 
 
 class AbstractEffect(ABC):

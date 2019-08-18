@@ -5,7 +5,7 @@ from typing import List
 
 import ledshim
 
-from ledshimdemo.effects import AbstractEffect
+from .abstract_effect import AbstractEffect
 
 
 def get_next_effect(effect_display: str, effects: List[AbstractEffect]) -> AbstractEffect:

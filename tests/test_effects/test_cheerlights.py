@@ -2,7 +2,7 @@ import unittest
 import mock
 
 from ledshimdemo.canvas import Canvas
-from ledshimdemo.effects import CheerLightsEffect
+from ledshimdemo.effects.cheerlights import CheerLightsEffect
 
 
 class TestCheerLights(unittest.TestCase):
@@ -14,7 +14,7 @@ class TestCheerLights(unittest.TestCase):
         effect = CheerLightsEffect(canvas)
         self.assertIsNone(effect.get_colour_from_channel("http://ejiferfneciudwedwojcmeiocnw.com"))
 
-    @mock.patch('ledshimdemo.effects.CheerLightsEffect.get_colour_from_channel', return_value=None)
+    @mock.patch('ledshimdemo.effects.cheerlights.get_colour_from_channel', return_value=None)
     def test_effect_failed_cheerlights(self, patch_function):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
         effect = CheerLightsEffect(canvas)
