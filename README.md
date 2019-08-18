@@ -84,7 +84,10 @@ pip3 uninstall numpy
 This project is somewhat over-engineered for what it actually does because it's being used as a learning exercise.
 
 The application has a number of output logging levels built into it, including a custom VERBOSE level, to show some of
-the inner workings. This is just because.  
+the inner workings. This is just because.
+
+The effects are loaded dynamically using a mechanism loosely based on code from
+[this](https://github.com/BNMetrics/factory_pattern_sample) Python3 factory pattern example.
 
 The code coverage for this project is a good example of why measuring unit test coverage can be a misleading indicator
 of quality. Whilst it does have plenty of unit tests those for the effects are mostly simple smoke tests which show that
