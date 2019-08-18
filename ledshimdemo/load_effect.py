@@ -13,7 +13,7 @@ def load_effect(effect_name, *args, **kwargs):
         effect_module = import_module('.' + module_name, package='ledshimdemo.effects')
         effect_class = getattr(effect_module, class_name)
         instance = effect_class(*args, **kwargs)
-    except (AttributeError, ModuleNotFoundError):
+    except (AttributeError, ImportError):
         raise ImportError('{} is not part of the effect collection!'.format(effect_name))
     else:
         if not issubclass(effect_class, AbstractEffect):
