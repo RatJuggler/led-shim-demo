@@ -5,7 +5,7 @@ from ..colours import Colours
 from ..effects import AbstractEffect
 
 
-class RandomBlink(AbstractEffect):
+class RandomBlinkEffect(AbstractEffect):
     """
     Blink a random subset of pixels.
     """
@@ -14,7 +14,7 @@ class RandomBlink(AbstractEffect):
         # Number to blink must be within range of canvas size.
         self.__number_to_blink = (canvas.get_size() // 5) + 1
         self.__pixels = None
-        super(RandomBlink, self).__init__("RandomBlink", "Some random blinking.", 0.05, canvas)
+        super(RandomBlinkEffect, self).__init__("RandomBlink", "Some random blinking.", 0.05, canvas)
 
     def compose(self) -> None:
         self.__pixels = sample(range(self.canvas.get_size()), randint(1, self.__number_to_blink))

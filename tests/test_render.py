@@ -6,7 +6,7 @@ sys.modules['smbus'] = mock.Mock()  # Mock the hardware layer to avoid errors.
 
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.render import get_next_effect, copy_to_shim, render
-from ledshimdemo.effects import SolidColours, RandomBlink, Rainbow
+from ledshimdemo.effects import SolidColoursEffect, RandomBlinkEffect, RainbowEffect
 
 
 class TestRender(unittest.TestCase):
@@ -18,23 +18,23 @@ class TestRender(unittest.TestCase):
 
     def setUp(self):
         canvas = Canvas(self.CANVAS_SIZE)
-        self.effects = [SolidColours(canvas),
-                        RandomBlink(canvas),
-                        Rainbow(canvas)]
+        self.effects = [SolidColoursEffect(canvas),
+                        RandomBlinkEffect(canvas),
+                        RainbowEffect(canvas)]
 
     def test_get_next_effect_cycle(self):
         effect = get_next_effect(self.EFFECT_DISPLAY, self.effects)
-        self.assertIsInstance(effect, SolidColours)
+        self.assertIsInstance(effect, SolidColoursEffect)
         effect = get_next_effect(self.EFFECT_DISPLAY, self.effects)
-        self.assertIsInstance(effect, RandomBlink)
+        self.assertIsInstance(effect, RandomBlinkEffect)
         effect = get_next_effect(self.EFFECT_DISPLAY, self.effects)
-        self.assertIsInstance(effect, Rainbow)
+        self.assertIsInstance(effect, RainbowEffect)
         effect = get_next_effect(self.EFFECT_DISPLAY, self.effects)
-        self.assertIsInstance(effect, SolidColours)
+        self.assertIsInstance(effect, SolidColoursEffect)
 
     def test_get_next_effect_random(self):
         effect = get_next_effect('RANDOM', self.effects)
-        self.assertTrue(isinstance(effect, (SolidColours, RandomBlink, Rainbow)))
+        self.assertTrue(isinstance(effect, (SolidColoursEffect, RandomBlinkEffect, RainbowEffect)))
 
     @mock.patch('ledshim.set_pixel')
     @mock.patch('ledshim.show')

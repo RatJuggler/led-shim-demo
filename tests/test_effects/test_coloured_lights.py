@@ -1,7 +1,7 @@
 import unittest
 
 from ledshimdemo.canvas import Canvas
-from ledshimdemo.effects.coloured_lights import ColouredLights
+from ledshimdemo.effects.coloured_lights import ColouredLightsEffect
 
 
 class TestColouredLights(unittest.TestCase):
@@ -10,6 +10,6 @@ class TestColouredLights(unittest.TestCase):
 
     def test_effect(self):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
-        effect = ColouredLights(canvas)
+        effect = ColouredLightsEffect(canvas)
         effect.compose()
         self.assertEqual(repr(effect), "ColouredLights(Number Colours:3, Colour:1)")

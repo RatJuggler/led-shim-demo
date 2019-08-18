@@ -6,7 +6,7 @@ from ..pixel import Pixel
 from ..effects import AbstractEffect
 
 
-class Rainbow(AbstractEffect):
+class RainbowEffect(AbstractEffect):
     """
     A slowly moving rainbow.
     """
@@ -14,7 +14,7 @@ class Rainbow(AbstractEffect):
     def __init__(self, canvas: Canvas) -> None:
         self.__HUE_SPACING = 360.0 / canvas.get_size()
         self.__base_hue = 0
-        super(Rainbow, self).__init__("Rainbow", "A slowly moving rainbow.", 0.01, canvas)
+        super(RainbowEffect, self).__init__("Rainbow", "A slowly moving rainbow.", 0.01, canvas)
 
     def show_rainbow(self, base_hue: int) -> None:
         for i in range(self.canvas.get_size()):

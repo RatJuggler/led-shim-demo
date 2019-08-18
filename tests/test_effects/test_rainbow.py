@@ -1,7 +1,7 @@
 import unittest
 
 from ledshimdemo.canvas import Canvas
-from ledshimdemo.effects.rainbow import Rainbow
+from ledshimdemo.effects.rainbow import RainbowEffect
 
 
 class TestRainbow(unittest.TestCase):
@@ -10,6 +10,6 @@ class TestRainbow(unittest.TestCase):
 
     def test_effect(self):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
-        effect = Rainbow(canvas)
+        effect = RainbowEffect(canvas)
         effect.compose()
         self.assertRegex(repr(effect), "^Rainbow\\(Base Hue:\\d{1,3}\\)$")

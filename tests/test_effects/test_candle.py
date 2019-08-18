@@ -1,7 +1,7 @@
 import unittest
 
 from ledshimdemo.canvas import Canvas
-from ledshimdemo.effects.candle import Candle
+from ledshimdemo.effects.candle import CandleEffect
 
 
 class TestCandle(unittest.TestCase):
@@ -10,6 +10,6 @@ class TestCandle(unittest.TestCase):
 
     def test_effect(self):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
-        effect = Candle(canvas)
+        effect = CandleEffect(canvas)
         effect.compose()
         self.assertEqual(repr(effect), "Candle(Candle Size:14, Flame Size:14)")

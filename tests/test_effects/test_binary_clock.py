@@ -2,7 +2,7 @@ from time import localtime, strftime
 import unittest
 
 from ledshimdemo.canvas import Canvas
-from ledshimdemo.effects.binary_clock import BinaryClock
+from ledshimdemo.effects.binary_clock import BinaryClockEffect
 
 
 class TestBinaryClock(unittest.TestCase):
@@ -11,7 +11,7 @@ class TestBinaryClock(unittest.TestCase):
 
     def test_effect(self):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
-        effect = BinaryClock(canvas)
+        effect = BinaryClockEffect(canvas)
         # Must check before and after in case it changes during the test.
         before = strftime("%H:%M:%S", localtime())
         effect.compose()

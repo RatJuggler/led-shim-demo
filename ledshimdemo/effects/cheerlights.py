@@ -5,7 +5,7 @@ from ..pixel import Pixel
 from ..effects import AbstractEffect
 
 
-class CheerLights(AbstractEffect):
+class CheerLightsEffect(AbstractEffect):
     """
     Synchronize with the CheerLights "Internet of Things" project, see https://cheerlights.com
     """
@@ -23,7 +23,7 @@ class CheerLights(AbstractEffect):
 
     def __init__(self, canvas: Canvas) -> None:
         self.__colour = None
-        super(CheerLights, self).__init__("CheerLights",
+        super(CheerLightsEffect, self).__init__("CheerLights",
                                           "Synchronize with the CheerLights \"Internet of Things\" project.", 5, canvas)
 
     def compose(self) -> None:

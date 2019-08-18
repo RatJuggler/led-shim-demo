@@ -21,7 +21,7 @@ class Drop:
         return "Drop(Falling:{0}, Trail:{1}, IntensityStep:{2}, Speed:{3})".format(self.falling, self.trail, self.intensity_step, self.speed)
 
 
-class DigitalRain(AbstractEffect):
+class DigitalRainEffect(AbstractEffect):
     """
     A digital rain effect.
     """
@@ -29,7 +29,7 @@ class DigitalRain(AbstractEffect):
     def __init__(self, canvas: Canvas) -> None:
         self.__tick = 0
         self.__drops = []
-        super(DigitalRain, self).__init__("DigitalRain", "Cut price Matrix effect.", 0.02, canvas)
+        super(DigitalRainEffect, self).__init__("DigitalRain", "Cut price Matrix effect.", 0.02, canvas)
 
     def rain_drop(self, drop: Drop) -> None:
         intensity = 255
