@@ -35,7 +35,7 @@ def show_options(display: str, duration: int, run: int, brightness: int, invert:
     :param brightness: from command line option or default
     :param invert: from command line option or default
     :param level: from command line option or default
-    :return: One line string of the command line options to be used.
+    :return: One line string of the command line options to be used
     """
     options = ["Active Options(",
                "effect-display={0}, ".format(display),
@@ -48,13 +48,13 @@ def show_options(display: str, duration: int, run: int, brightness: int, invert:
     return "".join(options)
 
 
-def list_effects(ctx, param, value):
+def list_effects(ctx, param, value) -> None:
     """
-    List the effects currently available.
+    List the names and descriptions of the effects currently available.
     :param ctx: see callbacks for the click options
     :param param: see callbacks for the click options
     :param value: see callbacks for the click options
-    :return: A string listing all the effect names and descriptions.
+    :return: No meaningful return
     """
     if not value or ctx.resilient_parsing:
         return
