@@ -38,7 +38,7 @@ def copy_to_shim(effect: AbstractEffect, invert: bool) -> None:
     ledshim.show()
 
 
-def render(effect_display: str, effect_duration: int, effect_run: int, invert: bool, effects: List[AbstractEffect]):
+def render(effect_display: str, effect_duration: int, effect_run: int, invert: bool, effects: List[AbstractEffect]) -> None:
     """
     Render the effects provided,
     :param effect_display: In a CYCLE or at RANDOM
