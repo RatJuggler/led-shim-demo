@@ -10,7 +10,8 @@ def load_effect(effect_name, *args, **kwargs):
         else:
             module_name = effect_name
             class_name = effect_name.capitalize()
-        effect_module = import_module('.' + module_name, package='ledshimdemo.effects')
+        effect_module = import_module('ledshimdemo.effects.' + module_name)
+#        effect_module = import_module('.' + module_name, package='ledshimdemo.effects')
         effect_class = getattr(effect_module, class_name)
         instance = effect_class(*args, **kwargs)
     except (AttributeError, ImportError):
