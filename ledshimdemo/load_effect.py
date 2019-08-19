@@ -25,5 +25,5 @@ def load_effect(effect_module, effect_class: str, *args, **kwargs) -> AbstractEf
         raise ImportError('{} is not part of the effect collection!'.format(effect_module))
     else:
         if not issubclass(effect_class, AbstractEffect):
-            raise ImportError("{} is not a valid effect class!".format(effect_class))
+            raise TypeError("{} is not a valid effect class!".format(effect_class))
     return instance

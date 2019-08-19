@@ -13,7 +13,7 @@ class TestLoadEffect(unittest.TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int
 
-    def test_load_effects(self):
+    def test_load_dummy_effects(self):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
         effects = load_effects(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", canvas)
         self.assertEqual(len(effects), 3)
@@ -27,5 +27,9 @@ class TestLoadEffect(unittest.TestCase):
 
     def test_load_existent_effect(self):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
-        test_effect = load_effect("tests.test_effects.dummy1_effect", "Dummy1Effect", canvas)
-        self.assertIsInstance(test_effect, Dummy1Effect)
+        dummy_effect = load_effect("tests.test_effects.dummy1_effect", "Dummy1Effect", canvas)
+        self.assertIsInstance(dummy_effect, Dummy1Effect)
+
+    def test_load_misnamed_effect(self):
+        with self.assertRaises(TypeError):
+            load_effect("tests.effects.not_an_effect", "NotAnEffect")
