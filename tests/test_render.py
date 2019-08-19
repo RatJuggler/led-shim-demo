@@ -18,9 +18,9 @@ class TestRender(unittest.TestCase):
 
     def setUp(self):
         canvas = Canvas(self.CANVAS_SIZE)
-        self.effects = [load_effect("solid_colours.SolidColoursEffect", canvas),
-                        load_effect("random_blink.RandomBlinkEffect", canvas),
-                        load_effect("rainbow.RainbowEffect", canvas)]
+        self.effects = [load_effect("ledshimdemo.effects.solid_colours", "SolidColoursEffect", canvas),
+                        load_effect("ledshimdemo.effects.random_blink", "RandomBlinkEffect", canvas),
+                        load_effect("ledshimdemo.effects.rainbow", "RainbowEffect", canvas)]
 
     def test_get_next_effect_cycle(self):
         effect = get_next_effect(self.EFFECT_DISPLAY, self.effects)

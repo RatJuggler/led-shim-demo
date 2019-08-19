@@ -1,5 +1,6 @@
 import click
 import logging
+import os
 
 from .canvas import Canvas
 from .pixel import Pixel
@@ -9,7 +10,7 @@ from .load_effect import load_effects
 NUM_PIXELS = 28  # The number of LEDs on the shim.
 
 CANVAS = Canvas(NUM_PIXELS)
-EFFECTS = load_effects(CANVAS)
+EFFECTS = load_effects(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", CANVAS)
 
 
 def configure_logging(loglevel: str) -> None:
