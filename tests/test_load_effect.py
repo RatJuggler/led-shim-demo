@@ -12,4 +12,4 @@ class TestLoadEffect(unittest.TestCase):
 
     def test_load_effect(self):
         with self.assertRaises(ImportError):
-            load_effect("test.test_effects.dummy_effect", "DummyEffect")
+            load_effect("test.effects.dummy_effect", "DummyEffect")

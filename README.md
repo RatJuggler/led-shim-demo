@@ -12,7 +12,8 @@
 [![Travis](https://img.shields.io/travis/com/RatJuggler/led-shim-demo/develop.svg?label=develop%20build)](https://travis-ci.org/RatJuggler/led-shim-demo)
 [![Coverage Status](https://coveralls.io/repos/github/RatJuggler/led-shim-demo/badge.svg?branch=develop)](https://coveralls.io/github/RatJuggler/led-shim-demo?branch=develop)
 
-An application to display a variety of effects on the Raspberry Pi [led-shim](https://shop.pimoroni.com/products/led-shim) from Pimoroni.
+An application to display a variety of effects on the Raspberry Pi [led-shim](https://shop.pimoroni.com/products/led-shim)
+from Pimoroni.
 
 The effects are based on the examples given in the base [library](https://github.com/pimoroni/led-shim) plus some 
 additions from my [fork](https://github.com/RatJuggler/led-shim/tree/more-examples).
@@ -101,4 +102,3 @@ information.
 
 Badges showing the build status and code coverage for both the master and develop branches are shown at the top. This is
  a simple solution to the problem of trying to make this file specific to the branch it is in.
- 
