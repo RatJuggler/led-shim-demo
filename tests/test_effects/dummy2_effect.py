@@ -12,7 +12,7 @@ class Dummy2Effect(AbstractEffect):
         super(Dummy2Effect, self).__init__("Dummy2Effect", "A dummy effect.", 1, canvas)
 
     def compose(self) -> None:
-        pass
+        pass   # pragma: no cover
 
     def __repr__(self) -> str:
-        return "Dummy2Effect()"
+        return "Dummy2Effect()"   # pragma: no cover

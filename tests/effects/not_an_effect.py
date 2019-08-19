@@ -9,7 +9,7 @@ class NotAnEffect():
         pass
 
     def compose(self) -> None:
-        pass
+        pass   # pragma: no cover
 
     def __repr__(self) -> str:
-        return "NotAnEffect()"
+        return "NotAnEffect()"   # pragma: no cover
