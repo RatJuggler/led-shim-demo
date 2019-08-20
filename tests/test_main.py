@@ -42,15 +42,15 @@ class TestMain(unittest.TestCase):
         result = runner.invoke(main.display_effects, ['--effect-list'])
         self.assertEqual(result.exit_code, 0)
         effects = ["Available Effects:",
-                   "BinaryClock - Shows hours, minutes and seconds.",
-                   "Candle - A flickering candle.",
-                   "CheerLights - Synchronize with the CheerLights \"Internet of Things\" project.",
+                   "BinaryClock    - Shows hours, minutes and seconds.",
+                   "Candle         - A flickering candle.",
+                   "CheerLights    - Synchronize with the CheerLights \"Internet of Things\" project.",
                    "ColouredLights - Simple coloured lights like Xmas lights.",
-                   "DigitalRain - Cut price Matrix effect.",
-                   "GradientGraph - Sine wave colour gradient effect.",
-                   "Rainbow - A slowly moving rainbow.",
-                   "RandomBlink - Some random blinking.",
-                   "SolidColours - A sequence of solid colours."]
+                   "DigitalRain    - Cut price Matrix effect.",
+                   "GradientGraph  - Sine wave colour gradient effect.",
+                   "Rainbow        - A slowly moving rainbow.",
+                   "RandomBlink    - Some random blinking.",
+                   "SolidColours   - A sequence of solid colours."]
         effects_list = "\n".join(effects)
         self.assertIn(effects_list, result.output)
         render_mock.assert_not_called()
