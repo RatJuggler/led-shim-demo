@@ -12,8 +12,8 @@ class TestMain(unittest.TestCase):
 
     def test_verbose_log_level(self):
         test_message = "Test message..."
-        with LogCapture() as l:
+        with LogCapture() as log_out:
             my_logging.configure_logging(my_logging.VERBOSE)
             my_logging.verbose(test_message)
-        l.check(("root", my_logging.VERBOSE, "Logging level enabled!"),
-                ("root", my_logging.VERBOSE, test_message),)
+        log_out.check(("root", my_logging.VERBOSE, "Logging level enabled!"),
+                      ("root", my_logging.VERBOSE, test_message),)
