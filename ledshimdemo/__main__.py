@@ -3,28 +3,15 @@ import logging
 import os
 
 from .canvas import Canvas
+from .configure_logging import configure_logging
+from .load_effect import load_effects
 from .pixel import Pixel
 from .render import render
-from .load_effect import load_effects
 
 NUM_PIXELS = 28  # The number of LEDs on the shim.
 
 CANVAS = Canvas(NUM_PIXELS)
 EFFECTS = load_effects(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", CANVAS)
-
-
-def configure_logging(loglevel: str) -> None:
-    """
-    Configure basic logging to the console.
-    :param loglevel: from the command line or default
-    :return: No meaningful return
-    """
-    numeric_level = logging.getLevelName(loglevel.upper())
-    if not isinstance(numeric_level, int):
-        raise ValueError('Invalid log level: %s' % loglevel)
-    logging.basicConfig(level=numeric_level, format='%(asctime)s - %(levelname)s - %(message)s')
-    if numeric_level < logging.WARNING:
-        logging.log(numeric_level, "Logging level enabled!")
 
 
 def show_options(display: str, duration: int, run: int, brightness: int, invert: bool, level: str) -> str:

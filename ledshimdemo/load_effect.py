@@ -1,3 +1,6 @@
+"""
+Functions for dynamically loading effects.
+"""
 from importlib import import_module
 import pkgutil
 from typing import List

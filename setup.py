@@ -31,7 +31,8 @@ setup(
         'coverage',
         'docutils',
         'flake8',
-        'mock'
+        'mock',
+        'testfixtures'
     ],
     license='MIT',
     classifiers=[
