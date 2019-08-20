@@ -3,23 +3,24 @@ Functions for dynamically loading effects.
 """
 from importlib import import_module
 import pkgutil
-from typing import List
+from typing import Dict
 
 from .abstract_effect import AbstractEffect
 
 
-def load_effects(effects_path, effects_package, *args, **kwargs) -> List[AbstractEffect]:
+def load_effects(effects_path, effects_package, *args, **kwargs) -> Dict[str, AbstractEffect]:
     """
     Load all the effects from a given path/package.
     :param effects_path: path on the file system to the effects to load
     :param effects_package: the name of the associated package
     :param args: parameters for new effect instances
     :param kwargs: parameters for new effect instances
-    :return: A list of instances of the effects loaded
+    :return: A dictionary of the effect instances loaded indexed by name
     """
-    effects = []
+    effects = {}
     for (_, effect_module, _) in pkgutil.iter_modules([effects_path]):
-        effects.append(load_effect(effects_package + effect_module, None, *args, **kwargs))
+        effect = load_effect(effects_package + effect_module, None, *args, **kwargs)
+        effects[effect.get_name()] = effect
     return effects
 
 

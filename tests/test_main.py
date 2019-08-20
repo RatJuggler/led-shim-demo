@@ -96,3 +96,20 @@ class TestMain(unittest.TestCase):
                       "brightness=3, invert=True, log-level=VERBOSE, effects_selected=('Candle', 'Rainbow'))",
                       result.output)
         render_mock.assert_called_once()
+
+    def test_invalid_effect_name(self, render_mock):
+        runner = CliRunner()
+        result = runner.invoke(main.display_effects, ['Rainbow',
+                                                      'Unicorn'])
+        self.assertEqual(result.exit_code, 2)
+        self.assertIn('Error: Invalid value for "[EFFECTS_SELECTED]...": Unknown effect: Unicorn', result.output)
+        render_mock.assert_not_called()
+
+    def test_invalid_effect_names(self, render_mock):
+        runner = CliRunner()
+        result = runner.invoke(main.display_effects, ['Candle',
+                                                      'Apple',
+                                                      'Banana'])
+        self.assertEqual(result.exit_code, 2)
+        self.assertIn('Error: Invalid value for "[EFFECTS_SELECTED]...": Unknown effects: Apple, Banana', result.output)
+        render_mock.assert_not_called()

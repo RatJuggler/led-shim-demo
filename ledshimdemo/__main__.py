@@ -51,12 +51,24 @@ def list_effects(ctx, param, value) -> None:
     if not value or ctx.resilient_parsing:
         return
     effects = ["Available Effects:"]
-    effect_names = [effect.get_name() for effect in EFFECTS_AVAILABLE]
-    pad_size = len(max(effect_names, key=len))
-    for effect in EFFECTS_AVAILABLE:
-        effects.append(effect.get_name().ljust(pad_size, ' ') + " - " + effect.get_description())
+    pad_size = len(max(EFFECTS_AVAILABLE.keys(), key=len))
+    for name, effect in EFFECTS_AVAILABLE.items():
+        effects.append(name.ljust(pad_size, ' ') + " - " + effect.get_description())
     click.echo("\n".join(effects))
     ctx.exit()
+
+
+def validate_effect_names(ctx, param, value) -> None:
+    names_in_error = []
+    for name in value:
+        try:
+            EFFECTS_AVAILABLE[name]
+        except KeyError:
+            names_in_error.append(name)
+    if names_in_error:
+        raise click.BadParameter("Unknown effect{0}: {1}"
+                                 .format('s' if len(names_in_error) > 1 else "", ", ".join(names_in_error)))
+    return value
 
 
 @click.command(help="""
@@ -79,7 +91,7 @@ def list_effects(ctx, param, value) -> None:
               help="Change the display orientation.")
 @click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
               help="Show additional logging information.", default="WARNING", show_default=True)
-@click.argument('effects_selected', nargs=-1, required=False)
+@click.argument('effects_selected', nargs=-1, callback=validate_effect_names, required=False)
 def display_effects(display: str, duration: int, run: int, brightness: int,
                     invert: bool, level: str, effects_selected: List[str]) -> None:
     """
@@ -97,9 +109,11 @@ def display_effects(display: str, duration: int, run: int, brightness: int,
     logging.info(show_options(display, duration, run, brightness, invert, level, effects_selected))
     Pixel.set_default_brightness(brightness / 10.0)
     if not effects_selected:
-        effects_to_render = EFFECTS_AVAILABLE
+        effects_to_render = EFFECTS_AVAILABLE.values()
     else:
-        effects_to_render = [effect for effect in EFFECTS_AVAILABLE if effect.get_name()[:-6] in effects_selected]
+        effects_to_render = []
+        for name in effects_selected:
+            effects_to_render.append(EFFECTS_AVAILABLE[name])
     render(display, duration, run, invert, effects_to_render)
 
 

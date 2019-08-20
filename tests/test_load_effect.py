@@ -17,9 +17,9 @@ class TestLoadEffect(unittest.TestCase):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
         effects = load_effects(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", canvas)
         self.assertEqual(len(effects), 3)
-        self.assertIsInstance(effects[0], Dummy1Effect)
-        self.assertIsInstance(effects[1], Dummy2Effect)
-        self.assertIsInstance(effects[2], Dummy3Effect)
+        self.assertIsInstance(effects["Dummy1Effect"], Dummy1Effect)
+        self.assertIsInstance(effects["Dummy2Effect"], Dummy2Effect)
+        self.assertIsInstance(effects["Dummy3Effect"], Dummy3Effect)
 
     def test_load_non_existent_effect(self):
         with self.assertRaises(ImportError):
