@@ -79,7 +79,7 @@ def list_effects(ctx, param, value) -> None:
               help="Change the display orientation.")
 @click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
               help="Show additional logging information.", default="WARNING", show_default=True)
-@click.argument('effects_selected', nargs=len(EFFECTS_AVAILABLE), required=False)
+@click.argument('effects_selected', nargs=-1, required=False)
 def display_effects(display: str, duration: int, run: int, brightness: int,
                     invert: bool, level: str, effects_selected: List[str]) -> None:
     """

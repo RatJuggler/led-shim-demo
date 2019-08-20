@@ -67,7 +67,8 @@ class TestMain(unittest.TestCase):
         result = runner.invoke(main.display_effects, ['--log-level', 'INFO'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - INFO - Logging level enabled!", result.output)
-        self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10, effect-run=24, brightness=8, invert=False, log-level=INFO, effects_selected=())", result.output)
+        self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10, effect-run=24, brightness=8, "
+                      "invert=False, log-level=INFO, effects_selected=())", result.output)
         render_mock.assert_called_once()
 
     def test_default_options_debug_log(self, render_mock):
@@ -75,7 +76,8 @@ class TestMain(unittest.TestCase):
         result = runner.invoke(main.display_effects, ['--log-level', 'DEBUG'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - DEBUG - Logging level enabled!", result.output)
-        self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10, effect-run=24, brightness=8, invert=False, log-level=DEBUG, effects_selected=())", result.output)
+        self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10, effect-run=24, brightness=8, "
+                      "invert=False, log-level=DEBUG, effects_selected=())", result.output)
         render_mock.assert_called_once()
 
     def test_all_options_verbose_log(self, render_mock):
@@ -85,8 +87,12 @@ class TestMain(unittest.TestCase):
                                                       '--effect-run', '240',
                                                       '--brightness', '3',
                                                       '--invert',
-                                                      '--log-level', 'VERBOSE'])
+                                                      '--log-level', 'VERBOSE',
+                                                      'Candle',
+                                                      'Rainbow'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - VERBOSE - Logging level enabled!", result.output)
-        self.assertIn(" - INFO - Active Options(effect-display=RANDOM, effect-duration=180, effect-run=240, brightness=3, invert=True, log-level=VERBOSE, effects_selected=())", result.output)
+        self.assertIn(" - INFO - Active Options(effect-display=RANDOM, effect-duration=180, effect-run=240, "
+                      "brightness=3, invert=True, log-level=VERBOSE, effects_selected=('Candle', 'Rainbow'))",
+                      result.output)
         render_mock.assert_called_once()
