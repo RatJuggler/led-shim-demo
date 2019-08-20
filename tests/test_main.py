@@ -6,7 +6,7 @@ from click.testing import CliRunner
 
 sys.modules['smbus'] = mock.Mock()  # Mock the hardware layer to avoid errors.
 import ledshimdemo.__main__ as main
-
+from ledshimdemo.__init__ import verbose
 
 @mock.patch('ledshimdemo.__main__.render')
 class Test(unittest.TestCase):
@@ -90,3 +90,8 @@ class Test(unittest.TestCase):
         self.assertIn(" - VERBOSE - Logging level enabled!", result.output)
         self.assertIn(" - INFO - Active Options(effect-display=RANDOM, effect-duration=180, effect-run=240, brightness=3, invert=True, log-level=VERBOSE)", result.output)
         render_mock.assert_called_once()
+
+    def test_invalid_log_level(self, render_mock):
+        with self.assertRaises(ValueError):
+            main.configure_logging("INVALID")
+        render_mock.assert_not_called()
