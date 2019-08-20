@@ -15,7 +15,8 @@ CANVAS = Canvas(NUM_PIXELS)
 EFFECTS_AVAILABLE = load_effects(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", CANVAS)
 
 
-def show_options(display: str, duration: int, run: int, brightness: int, invert: bool, level: str) -> str:
+def show_options(display: str, duration: int, run: int, brightness: int,
+                 invert: bool, level: str, effects_selected: List[str]) -> str:
     """
     Human readable string showing the command line options to be used.
     :param display: from command line option or default
@@ -24,6 +25,7 @@ def show_options(display: str, duration: int, run: int, brightness: int, invert:
     :param brightness: from command line option or default
     :param invert: from command line option or default
     :param level: from command line option or default
+    :param effects_selected: from command line arguments or default
     :return: One line string of the command line options to be used
     """
     options = ["Active Options(",
@@ -32,7 +34,8 @@ def show_options(display: str, duration: int, run: int, brightness: int, invert:
                "effect-run={0}, ".format(run),
                "brightness={0}, ".format(brightness),
                "invert={0}, ".format(invert),
-               "log-level={0}".format(level),
+               "log-level={0}, ".format(level),
+               "effects_selected={0}".format(effects_selected),
                ")"]
     return "".join(options)
 
@@ -58,7 +61,8 @@ def list_effects(ctx, param, value) -> None:
 
 @click.command(help="""
     Show various effects on a Pimoroni LED shim.\n
-    To limit the effects shown use the effect-list option to list the effects available then add them to the command line as required.
+    To limit the effects shown use the effect-list option to list the effects available then add them to the command
+    line as required. Otherwise all effects will be shown.
                     """)
 @click.version_option()
 @click.option('-l', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
@@ -75,9 +79,9 @@ def list_effects(ctx, param, value) -> None:
               help="Change the display orientation.")
 @click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
               help="Show additional logging information.", default="WARNING", show_default=True)
-@click.argument('effects', nargs=len(EFFECTS_AVAILABLE), required=False)
+@click.argument('effects_selected', nargs=len(EFFECTS_AVAILABLE), required=False)
 def display_effects(display: str, duration: int, run: int, brightness: int,
-                    invert: bool, level: str, effects: List[str]) -> None:
+                    invert: bool, level: str, effects_selected: List[str]) -> None:
     """
     Show various effects on a Pimoroni LED shim.
     :param display: In a CYCLE or at RANDOM
@@ -86,13 +90,17 @@ def display_effects(display: str, duration: int, run: int, brightness: int,
     :param brightness: How bright the effects will be
     :param invert: Depending on which way round the Pi is
     :param level: Set a logging level; DEBUG, VERBOSE, INFO or WARNING
-    :param effects: User entered list of effects to use, defaults to all effects
+    :param effects_selected: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
     configure_logging(level)
-    logging.info(show_options(display, duration, run, brightness, invert, level))
+    logging.info(show_options(display, duration, run, brightness, invert, level, effects_selected))
     Pixel.set_default_brightness(brightness / 10.0)
-    render(display, duration, run, invert, EFFECTS_AVAILABLE)
+    if not effects_selected:
+        effects_to_render = EFFECTS_AVAILABLE
+    else:
+        effects_to_render = [effect for effect in EFFECTS_AVAILABLE if effect.get_name()[:-6] in effects_selected]
+    render(display, duration, run, invert, effects_to_render)
 
 
 if __name__ == '__main__':
