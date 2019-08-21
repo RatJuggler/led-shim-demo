@@ -12,12 +12,13 @@ def create_list_effects_display(effects_available: Dict[str, AbstractEffect]) ->
     """
     Build a display list of the effects available.
     :param effects_available: to form the list
-    :return: A string showing the name and description of each effect available
+    :return: A string showing the name and description of each effect available sorted by name
     """
     effects = ["Available Effects:"]
     pad_size = len(max(effects_available.keys(), key=len))
-    for name, effect in effects_available.items():
-        effects.append(effect.get_name().ljust(pad_size, ' ') + " - " + effect.get_description())
+    for key in sorted(effects_available):
+        effects.append(effects_available[key].get_name().ljust(pad_size, ' ') + " - " +
+                       effects_available[key].get_description())
     return "\n".join(effects)
 
 
