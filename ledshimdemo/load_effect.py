@@ -3,9 +3,25 @@ Functions for dynamically loading effects.
 """
 from importlib import import_module
 import pkgutil
-from typing import Dict
+from typing import Dict, List
 
 from .abstract_effect import AbstractEffect
+
+
+def validate_effect_names(effects_selected: List[str], effects_available: Dict[str, AbstractEffect]) -> List[str]:
+    """
+    Check that the effect names supplied are in the list of effects available.
+    :param effects_selected: names from command line
+    :param effects_available: found when effects loaded
+    :return: List of names which don't match with anything in the available list
+    """
+    names_in_error = []
+    for name in effects_selected:
+        try:
+            effects_available[name]
+        except KeyError:
+            names_in_error.append(name)
+    return names_in_error
 
 
 def load_effects(effects_path: str, effects_package: str, *args, **kwargs) -> Dict[str, AbstractEffect]:

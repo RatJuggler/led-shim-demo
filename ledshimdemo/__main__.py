@@ -5,7 +5,7 @@ from typing import List
 
 from .canvas import Canvas
 from .configure_logging import configure_logging
-from .load_effect import load_effects
+from .load_effect import validate_effect_names, load_effects
 from .pixel import Pixel
 from .render import render
 
@@ -58,7 +58,7 @@ def list_effects(ctx, param, value) -> None:
     ctx.exit()
 
 
-def validate_effect_names(ctx, param, value) -> None:
+def validate_effects_selected(ctx, param, value) -> None:
     """
     Validate entered effect names.
     :param ctx: see callbacks for click options
@@ -66,12 +66,7 @@ def validate_effect_names(ctx, param, value) -> None:
     :param value: see callbacks for click options
     :return: Validated names otherwise a click.BadParameter exception is raised
     """
-    names_in_error = []
-    for name in value:
-        try:
-            EFFECTS_AVAILABLE[name]
-        except KeyError:
-            names_in_error.append(name)
+    names_in_error = validate_effect_names(value, EFFECTS_AVAILABLE)
     if names_in_error:
         raise click.BadParameter("Unknown effect{0}: {1}"
                                  .format('s' if len(names_in_error) > 1 else "", ", ".join(names_in_error)))
@@ -98,7 +93,7 @@ def validate_effect_names(ctx, param, value) -> None:
               help="Change the display orientation.")
 @click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
               help="Show additional logging information.", default="WARNING", show_default=True)
-@click.argument('effects_selected', nargs=-1, callback=validate_effect_names, required=False)
+@click.argument('effects_selected', nargs=-1, callback=validate_effects_selected, required=False)
 def display_effects(display: str, duration: int, run: int, brightness: int,
                     invert: bool, level: str, effects_selected: List[str]) -> None:
     """
