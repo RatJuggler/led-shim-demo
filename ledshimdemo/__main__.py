@@ -111,7 +111,7 @@ def display_effects(display: str, duration: int, run: int, brightness: int,
     else:
         effects_to_render = []
         for name in effects_selected:
-            effects_to_render.append(EFFECTS_AVAILABLE[name])
+            effects_to_render.append(EFFECTS_AVAILABLE[name.upper()])
     render(display, duration, run, invert, effects_to_render)
 
 

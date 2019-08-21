@@ -15,9 +15,9 @@ class TestLoadEffect(unittest.TestCase):
 
     def setUp(self):
         self.canvas = Canvas(self.TEST_CANVAS_SIZE)
-        self.dummy_available = {"Dummy1Effect": Dummy1Effect(self.canvas),
-                                "Dummy2Effect": Dummy2Effect(self.canvas),
-                                "Dummy3Effect": Dummy3Effect(self.canvas)}
+        self.dummy_available = {"DUMMY1EFFECT": Dummy1Effect(self.canvas),
+                                "DUMMY2EFFECT": Dummy2Effect(self.canvas),
+                                "DUMMY3EFFECT": Dummy3Effect(self.canvas)}
 
     def test_create_list(self):
         effects = ["Available Effects:",
@@ -27,8 +27,18 @@ class TestLoadEffect(unittest.TestCase):
         display = create_list_effects_display(self.dummy_available)
         self.assertEqual(display, "\n".join(effects))
 
-    def test_validate_effect_names_valid(self):
+    def test_validate_effect_names_valid1(self):
         effects_selected = ["Dummy1Effect"]
+        names_in_error = validate_effect_names(effects_selected, self.dummy_available)
+        self.assertFalse(names_in_error)
+
+    def test_validate_effect_names_valid2(self):
+        effects_selected = ["duMmy1eFFect"]
+        names_in_error = validate_effect_names(effects_selected, self.dummy_available)
+        self.assertFalse(names_in_error)
+
+    def test_validate_effect_names_valid3(self):
+        effects_selected = ["Dummy3Effect", "duMmy1eFFect"]
         names_in_error = validate_effect_names(effects_selected, self.dummy_available)
         self.assertFalse(names_in_error)
 
@@ -40,9 +50,9 @@ class TestLoadEffect(unittest.TestCase):
     def test_load_dummy_effects(self):
         effects = load_effects(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", self.canvas)
         self.assertEqual(len(effects), 3)
-        self.assertIsInstance(effects["Dummy1Effect"], Dummy1Effect)
-        self.assertIsInstance(effects["Dummy2Effect"], Dummy2Effect)
-        self.assertIsInstance(effects["Dummy3Effect"], Dummy3Effect)
+        self.assertIsInstance(effects["DUMMY1EFFECT"], Dummy1Effect)
+        self.assertIsInstance(effects["DUMMY2EFFECT"], Dummy2Effect)
+        self.assertIsInstance(effects["DUMMY3EFFECT"], Dummy3Effect)
 
     def test_load_non_existent_effect(self):
         with self.assertRaises(ImportError):

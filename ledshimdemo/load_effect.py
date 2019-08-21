@@ -17,7 +17,7 @@ def create_list_effects_display(effects_available: Dict[str, AbstractEffect]) ->
     effects = ["Available Effects:"]
     pad_size = len(max(effects_available.keys(), key=len))
     for name, effect in effects_available.items():
-        effects.append(name.ljust(pad_size, ' ') + " - " + effect.get_description())
+        effects.append(effect.get_name().ljust(pad_size, ' ') + " - " + effect.get_description())
     return "\n".join(effects)
 
 
@@ -31,7 +31,7 @@ def validate_effect_names(effects_selected: List[str], effects_available: Dict[s
     names_in_error = []
     for name in effects_selected:
         try:
-            effects_available[name]
+            effects_available[name.upper()]
         except KeyError:
             names_in_error.append(name)
     return names_in_error
@@ -49,7 +49,7 @@ def load_effects(effects_path: str, effects_package: str, *args, **kwargs) -> Di
     effects = {}
     for (_, effect_module, _) in pkgutil.iter_modules([effects_path]):
         effect = load_effect(effects_package + effect_module, None, *args, **kwargs)
-        effects[effect.get_name()] = effect
+        effects[effect.get_name().upper()] = effect
     return effects
 
 
