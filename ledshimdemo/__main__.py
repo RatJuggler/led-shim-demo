@@ -5,14 +5,14 @@ from typing import List
 
 from .canvas import Canvas
 from .configure_logging import configure_logging
-from .effect_factory import create_list_effects_display, validate_effect_names, load_effects
+from .effect_factory import EffectFactory
 from .pixel import Pixel
 from .render import render
 
 NUM_PIXELS = 28  # The number of LEDs on the shim.
 
 CANVAS = Canvas(NUM_PIXELS)
-EFFECTS_AVAILABLE = load_effects(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", CANVAS)
+EFFECT_FACTORY = EffectFactory(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", CANVAS)
 
 
 def show_options(display: str, duration: int, run: int, brightness: int,
@@ -50,7 +50,7 @@ def list_effects(ctx, param, value) -> None:
     """
     if not value or ctx.resilient_parsing:
         return
-    click.echo(create_list_effects_display(EFFECTS_AVAILABLE))
+    click.echo(EFFECT_FACTORY.create_list_effects_display())
     ctx.exit()
 
 
@@ -62,7 +62,7 @@ def validate_effects_selected(ctx, param, value) -> None:
     :param value: see callbacks for click options
     :return: Validated names otherwise a click.BadParameter exception is raised
     """
-    names_in_error = validate_effect_names(value, EFFECTS_AVAILABLE)
+    names_in_error = EFFECT_FACTORY.validate_effect_names(value)
     if names_in_error:
         raise click.BadParameter("Unknown effect{0}: {1}"
                                  .format('s' if len(names_in_error) > 1 else "", ", ".join(names_in_error)))
@@ -107,11 +107,11 @@ def display_effects(display: str, duration: int, run: int, brightness: int,
     logging.info(show_options(display, duration, run, brightness, invert, level, effects_selected))
     Pixel.set_default_brightness(brightness / 10.0)
     if not effects_selected:
-        effects_to_render = EFFECTS_AVAILABLE.values()
+        effects_to_render = EFFECT_FACTORY.get_effects_available().values()
     else:
         effects_to_render = []
         for name in effects_selected:
-            effects_to_render.append(EFFECTS_AVAILABLE[name.upper()])
+            effects_to_render.append(EFFECT_FACTORY.get_effects_available()[name.upper()])
     render(display, duration, run, invert, effects_to_render)
 
 

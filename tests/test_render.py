@@ -6,8 +6,8 @@ import os
 sys.modules['smbus'] = mock.Mock()  # Mock the hardware layer to avoid errors.
 
 from ledshimdemo.canvas import Canvas
+from ledshimdemo.effect_factory import EffectFactory
 from ledshimdemo.render import get_next_effect, copy_to_shim, render
-from ledshimdemo.effect_factory import load_effects
 
 
 class TestRender(unittest.TestCase):
@@ -18,8 +18,8 @@ class TestRender(unittest.TestCase):
 
     def setUp(self):
         canvas = Canvas(self.CANVAS_SIZE)
-        effects_dict = load_effects(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", canvas)
-        self.effects = list(effects_dict.values())
+        effect_factory = EffectFactory(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", canvas)
+        self.effects = list(effect_factory.get_effects_available().values())
 
     def test_get_next_effect_cycle(self):
         effect = get_next_effect(self.EFFECT_DISPLAY, self.effects)
