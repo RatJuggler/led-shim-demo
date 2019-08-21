@@ -30,7 +30,7 @@ def show_options(display: str, duration: int, run: int, brightness: int,
     options = ["Active Options(",
                "effect-display={0}, ".format(display),
                "effect-duration={0}, ".format(duration),
-               "effect-run={0}, ".format(run),
+               "repeat-run={0}, ".format(run),
                "brightness={0}, ".format(brightness),
                "invert={0}, ".format(invert),
                "log-level={0}, ".format(level),
@@ -80,8 +80,8 @@ def validate_effects_selected(ctx, param, value) -> None:
               help="How the effects are displayed.", default="CYCLE", show_default=True)
 @click.option('-u', '--effect-duration', 'duration', type=click.IntRange(1, 180),
               help="How long to display each effect for, in seconds (1-180).", default=10, show_default=True)
-@click.option('-r', '--effect-run', 'run', type=click.IntRange(1, 240),
-              help="How many times to run effects before stopping (1-240).", default=24, show_default=True)
+@click.option('-r', '--repeat-run', 'run', type=click.IntRange(1, 240),
+              help="How many times to run the effects before stopping (1-240).", default=1, show_default=True)
 @click.option('-b', '--brightness', type=click.IntRange(1, 10),
               help="How bright the effects will be (1-10).", default=8, show_default=True)
 @click.option('-i', '--invert', is_flag=True,
@@ -95,7 +95,7 @@ def display_effects(display: str, duration: int, run: int, brightness: int,
     Show various effects on a Pimoroni LED shim.
     :param display: In a CYCLE or at RANDOM
     :param duration: How long to display each effect for
-    :param run: How many times to run effects
+    :param run: How many times to run the effects
     :param brightness: How bright the effects will be
     :param invert: Depending on which way round the Pi is
     :param level: Set a logging level; DEBUG, VERBOSE, INFO or WARNING
@@ -111,7 +111,7 @@ def display_effects(display: str, duration: int, run: int, brightness: int,
         effects_to_render = []
         for name in effects_selected:
             effects_to_render.append(EFFECT_FACTORY.get_effect(name.upper()))
-    render(display, duration, run, invert, effects_to_render)
+    render(display, duration, run * len(effects_to_render), invert, effects_to_render)
 
 
 if __name__ == '__main__':
