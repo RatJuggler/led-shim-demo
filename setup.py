@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='ledshimdemo',
-    version='1.0.0',
+    version='1.0.1',
     description='Show various effects on a Pimoroni LED shim.',
     long_description=long_description,
     long_description_content_type='text/markdown',
