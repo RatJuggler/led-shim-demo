@@ -1,11 +1,11 @@
 from time import localtime, strftime
 
-from ..canvas import Canvas
-from ..colours import Colours
-from .abstract_effect import AbstractEffect
+from ledshimdemo.canvas import Canvas
+from ledshimdemo.colours import Colours
+from ledshimdemo.abstract_effect import AbstractEffect
 
 
-class BinaryClock(AbstractEffect):
+class BinaryClockEffect(AbstractEffect):
     """
     A binary clock.
 
@@ -24,7 +24,7 @@ class BinaryClock(AbstractEffect):
     def __init__(self, canvas: Canvas) -> None:
         assert canvas.get_size() > 25, "This effect requires at least 26 LEDs!"
         self.__t = localtime()
-        super(BinaryClock, self).__init__("binary_clock", 1, canvas)
+        super(BinaryClockEffect, self).__init__("BinaryClock", "Shows hours, minutes and seconds.", 1, canvas)
 
     def compose_binary(self, n: int, start: int) -> None:
         for x in range(6):

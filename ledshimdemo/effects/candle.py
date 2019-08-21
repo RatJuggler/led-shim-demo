@@ -1,13 +1,13 @@
 from colorsys import hsv_to_rgb
 import numpy as np
 
-from ..canvas import Canvas
-from ..colours import Colours
-from ..pixel import Pixel
-from .abstract_effect import AbstractEffect
+from ledshimdemo.canvas import Canvas
+from ledshimdemo.colours import Colours
+from ledshimdemo.pixel import Pixel
+from ledshimdemo.abstract_effect import AbstractEffect
 
 
-class Candle(AbstractEffect):
+class CandleEffect(AbstractEffect):
     """
     A candle in the wind.
     """
@@ -18,7 +18,7 @@ class Candle(AbstractEffect):
         self.__flame_size = 0
         # Flame hue goes from 0 (red) to 60 (yellow).
         self.__HUE_SPACING = 60 / float(self.__FLAME_MAX)
-        super(Candle, self).__init__("candle", 0.01, canvas)
+        super(CandleEffect, self).__init__("Candle", "A flickering candle.", 0.01, canvas)
 
     def show_candle(self, size: int) -> None:
         for i in range(size):
@@ -28,9 +28,7 @@ class Candle(AbstractEffect):
     def get_flame_size(max_size: int) -> int:
         n = np.random.choice(np.random.noncentral_chisquare(max_size / 2, 0.1, 1000), 1)
         flame_size = int(n[0])
-        if flame_size > max_size:
-            flame_size = max_size
-        return flame_size
+        return max_size if flame_size > max_size else flame_size
 
     def show_flame(self, size: int) -> None:
         for i in range(size):

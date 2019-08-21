@@ -1,7 +1,7 @@
 import unittest
 
 from ledshimdemo.canvas import Canvas
-from ledshimdemo.effects.solid_colours import SolidColours
+from ledshimdemo.effects.solid_colours import SolidColoursEffect
 
 
 class TestSolidColours(unittest.TestCase):
@@ -10,6 +10,6 @@ class TestSolidColours(unittest.TestCase):
 
     def test_effect(self):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
-        effect = SolidColours(canvas)
+        effect = SolidColoursEffect(canvas)
         effect.compose()
         self.assertEqual(repr(effect), "SolidColours(Step:1)")

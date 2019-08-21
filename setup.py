@@ -24,10 +24,16 @@ setup(
         'click ==7.0',
         'ledshim ==0.0.1',
         'numpy ==1.12.1',
-        'requests ==2.21.0',  # Updated from 2.12.4 due to CVE.
-        'mock ==3.0.5'
+        'requests ==2.21.0'  # Updated from 2.12.4 due to CVE.
     ],
     test_suite='tests',
+    tests_require=[
+        'coverage',
+        'docutils',
+        'flake8',
+        'mock',
+        'testfixtures'
+    ],
     license='MIT',
     classifiers=[
         # Trove classifiers

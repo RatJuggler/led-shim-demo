@@ -2,12 +2,12 @@ from colorsys import hsv_to_rgb
 from math import sin
 from time import time
 
-from ..canvas import Canvas
-from ..pixel import Pixel
-from .abstract_effect import AbstractEffect
+from ledshimdemo.canvas import Canvas
+from ledshimdemo.pixel import Pixel
+from ledshimdemo.abstract_effect import AbstractEffect
 
 
-class GradientGraph(AbstractEffect):
+class GradientGraphEffect(AbstractEffect):
     """
     A moving colour gradient effect determined by the height of a sine wave.
     """
@@ -18,7 +18,7 @@ class GradientGraph(AbstractEffect):
     def __init__(self, canvas: Canvas) -> None:
         self.__v = 0
         self.__HUE_SPACING = self.HUE_RANGE / canvas.get_size()
-        super(GradientGraph, self).__init__("gradient_graph", 0.01, canvas)
+        super(GradientGraphEffect, self).__init__("GradientGraph", "Sine wave colour gradient effect.", 0.01, canvas)
 
     def show_graph(self, v: int) -> None:
         for i in range(self.canvas.get_size()):
@@ -31,7 +31,7 @@ class GradientGraph(AbstractEffect):
             v -= 1
 
     def compose(self) -> None:
-        self.__v = (sin(time() * 2) + 1) / 2           # Get the next point on the graph, a value between 0 and 1
+        self.__v = round((sin(time() * 2) + 1) / 2, 8)        # Get the next point on the graph, a value between 0 and 1
         self.show_graph(self.__v * self.canvas.get_size())    # Scale to the graph height to show.
 
     def __repr__(self) -> str:

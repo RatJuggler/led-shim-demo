@@ -1,16 +1,16 @@
-from ..canvas import Canvas
-from ..colours import Colours
-from .abstract_effect import AbstractEffect
+from ledshimdemo.canvas import Canvas
+from ledshimdemo.colours import Colours
+from ledshimdemo.abstract_effect import AbstractEffect
 
 
-class SolidColours(AbstractEffect):
+class SolidColoursEffect(AbstractEffect):
     """
     A basic effect which just shows a sequence of solid colours.
     """
 
     def __init__(self, canvas: Canvas) -> None:
         self.__colour = 0
-        super(SolidColours, self).__init__("solid_colours", 0.5, canvas)
+        super(SolidColoursEffect, self).__init__("SolidColours", "A sequence of solid colours.", 0.5, canvas)
 
     def compose(self) -> None:
         self.canvas.set_all(Colours.COLOURS[self.__colour])

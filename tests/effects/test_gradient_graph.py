@@ -1,7 +1,7 @@
 import unittest
 
 from ledshimdemo.canvas import Canvas
-from ledshimdemo.effects.gradient_graph import GradientGraph
+from ledshimdemo.effects.gradient_graph import GradientGraphEffect
 
 
 class TestGradientGraph(unittest.TestCase):
@@ -10,6 +10,6 @@ class TestGradientGraph(unittest.TestCase):
 
     def test_effect(self):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
-        effect = GradientGraph(canvas)
+        effect = GradientGraphEffect(canvas)
         effect.compose()
-        self.assertRegex(repr(effect), "^GradientGraph\\(Height:0\\.\\d{1,20}\\)$")
+        self.assertRegex(repr(effect), "^GradientGraph\\(Height:0\\.\\d{1,8}\\)$")

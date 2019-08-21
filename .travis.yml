@@ -1,0 +1,28 @@
+language: python
+sudo: false
+cache: pip
+branches:
+  only:
+  - master
+  - develop
+matrix:
+  include:
+  - python: '3.5'
+install:
+- pip install --ignore-installed --upgrade setuptools pip tox coveralls
+script:
+- tox -vv
+after_success:
+- coveralls
+notifications:
+  email: false
+deploy:
+  provider: pypi
+  user: RatJuggler
+  password:
+    secure: IhHGbWxVqPCq2qmyoTIU+5Kdy3LQZYJp7/5eD8cTxFwA12p4xvmKLtU5PXb2ET6YpXzQ2/GCNQlSfd/MTByZdBAcx3k+tRs4MHLJfOlDtwFAexBgn/5QNejspZVG+ionLSXPaRAN6OMERT6JzBl+QxL95U9kEO6/da/PdWKSuRUUbDGX/zJW/p6YKxDI2A90xGWM8W5VnAr58CMGOEV31bakQaaEqZkjdXWHntvO/bUkNBIEi8ktmc6HXPJKNp50elGjQWPgDHFFixSyIljPHPFRVL3SVkoxEHZjXfzq8ZE6T5/4zGYdVwdPZh7NyzHRIuVy6FN818GJYJTQaCWdGyjE7RblbJFWP3u+SO2tmwz3DG08uqSpTwoJg+s0Qr3q5Dtuvm2vZk4rwaoEYh4YvEPA5SyO38Q6sytzBCeto6/oQyxb23Fnx1RBGMleio7LMRVmbJiP4Ot7cntsBJfTxmg/FliJwjcszGkCi1Ojt8MnETO62nkZ3I8cTwHpXaSdSobhSsCrWRhdwkWMB4Akqw5HT3OC/gXzr8SvJ6HddYMtVMs3OSmfk1X7APZttw8qV9uK3rtmPSHfMITWp7ORwFs8mcVo0EIl5owa+zAMJOaknrpNNS27a/okUmeD3VaxzGbhIWkDkNM37X/p9yQmMQD9SBfWp+VLI7wPgoe4tOA=
+  distributions: sdist
+  skip_existing: true
+  on:
+    tags: true
+    branch: master
