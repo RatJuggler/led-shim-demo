@@ -24,5 +24,4 @@ deploy:
   distributions: sdist
   skip_existing: true
   on:
-    tags: true
     branch: master

@@ -32,11 +32,11 @@ additions from my [fork](https://github.com/RatJuggler/led-shim/tree/more-exampl
 
 Install on Raspbian using:
 ```
-pip3 install led-shim-demo
+sudo pip3 install ledshimdemo
 ```
 Or update using:
 ```
-pip3 install --update led-shim-demo
+sudo pip3 install -U ledshimdemo
 ```
 
 # Running
@@ -61,8 +61,8 @@ Options:
   -u, --effect-duration INTEGER RANGE
                                   How long to display each effect for, in
                                   seconds (1-180).  [default: 10]
-  -r, --effect-run INTEGER RANGE  How many times to run effects before
-                                  stopping (1-240).  [default: 24]
+  -r, --repeat-run INTEGER RANGE  How many times to run the effects before
+                                  stopping (1-240).  [default: 1]
   -b, --brightness INTEGER RANGE  How bright the effects will be (1-10).
                                   [default: 8]
   -i, --invert                    Change the display orientation.
