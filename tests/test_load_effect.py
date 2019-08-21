@@ -19,7 +19,7 @@ class TestLoadEffect(unittest.TestCase):
                                 "DUMMY2EFFECT": Dummy2Effect(self.canvas),
                                 "DUMMY3EFFECT": Dummy3Effect(self.canvas)}
 
-    def test_create_list(self):
+    def test_create_list_effects_display(self):
         effects = ["Available Effects:",
                    "Dummy1Effect - A dummy effect 1.",
                    "Dummy2Effect - A dummy effect 2.",
@@ -27,18 +27,23 @@ class TestLoadEffect(unittest.TestCase):
         display = create_list_effects_display(self.dummy_available)
         self.assertEqual(display, "\n".join(effects))
 
-    def test_validate_effect_names_valid1(self):
+    def test_validate_effect_names_valid(self):
         effects_selected = ["Dummy1Effect"]
         names_in_error = validate_effect_names(effects_selected, self.dummy_available)
         self.assertFalse(names_in_error)
 
-    def test_validate_effect_names_valid2(self):
+    def test_validate_effect_names_valid_case_insensitive(self):
         effects_selected = ["duMmy1eFFect"]
         names_in_error = validate_effect_names(effects_selected, self.dummy_available)
         self.assertFalse(names_in_error)
 
-    def test_validate_effect_names_valid3(self):
+    def test_validate_effect_names_valid_multiple_effects(self):
         effects_selected = ["Dummy3Effect", "duMmy1eFFect"]
+        names_in_error = validate_effect_names(effects_selected, self.dummy_available)
+        self.assertFalse(names_in_error)
+
+    def test_validate_effect_names_valid_multiple_with_duplicates(self):
+        effects_selected = ["Dummy3Effect", "Dummy1Effect", "Dummy2Effect", "Dummy1Effect"]
         names_in_error = validate_effect_names(effects_selected, self.dummy_available)
         self.assertFalse(names_in_error)
 
