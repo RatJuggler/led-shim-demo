@@ -42,10 +42,10 @@ def show_options(display: str, duration: int, run: int, brightness: int,
 
 def list_effects(ctx, param, value) -> None:
     """
-    List the names and descriptions of the effects currently available.
-    :param ctx: see callbacks for the click options
-    :param param: see callbacks for the click options
-    :param value: see callbacks for the click options
+    List the names and descriptions of the effects currently available then exit.
+    :param ctx: see callbacks for click options
+    :param param: see callbacks for click options
+    :param value: see callbacks for click options
     :return: No meaningful return
     """
     if not value or ctx.resilient_parsing:
@@ -59,6 +59,13 @@ def list_effects(ctx, param, value) -> None:
 
 
 def validate_effect_names(ctx, param, value) -> None:
+    """
+    Validate entered effect names.
+    :param ctx: see callbacks for click options
+    :param param: see callbacks for click options
+    :param value: see callbacks for click options
+    :return: Validated names otherwise a click.BadParameter exception is raised
+    """
     names_in_error = []
     for name in value:
         try:
