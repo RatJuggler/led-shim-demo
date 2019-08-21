@@ -52,7 +52,9 @@ class TestLoadEffect(unittest.TestCase):
         self.assertEqual(names_in_error, effects_selected)
 
     def test_load_dummy_effects(self):
-        self.assertEqual(len(self.effect_factory.get_all_effects()), 3)
+        effects = self.effect_factory.get_all_effects()
+        self.assertIsInstance(effects, list)
+        self.assertEqual(len(effects), 3)
         self.assertIsInstance(self.effect_factory.get_effect("DUMMY1EFFECT"), Dummy1Effect)
         self.assertIsInstance(self.effect_factory.get_effect("DUMMY2EFFECT"), Dummy2Effect)
         self.assertIsInstance(self.effect_factory.get_effect("DUMMY3EFFECT"), Dummy3Effect)
@@ -68,3 +70,16 @@ class TestLoadEffect(unittest.TestCase):
     def test_load_misnamed_effect(self):
         with self.assertRaises(TypeError):
             EffectFactory.load_effect("tests.effects.not_an_effect", "NotAnEffect")
+
+    def test_get_all_effects(self):
+        effects = self.effect_factory.get_all_effects()
+        self.assertIsInstance(effects, list)
+        self.assertEqual(len(effects), 3)
+
+    def test_get_effect_valid(self):
+        effect = self.effect_factory.get_effect("dummy1effect")
+        self.assertIsInstance(effect, Dummy1Effect)
+
+    def test_get_effect_invalid(self):
+        with self.assertRaises(KeyError):
+            self.effect_factory.get_effect("apple")
