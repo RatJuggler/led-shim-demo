@@ -8,6 +8,19 @@ from typing import Dict, List
 from .abstract_effect import AbstractEffect
 
 
+def create_list_effects_display(effects_available: Dict[str, AbstractEffect]) -> str:
+    """
+    Build a display list of the effects available.
+    :param effects_available: to form the list
+    :return: A string showing the name and description of each effect available
+    """
+    effects = ["Available Effects:"]
+    pad_size = len(max(effects_available.keys(), key=len))
+    for name, effect in effects_available.items():
+        effects.append(name.ljust(pad_size, ' ') + " - " + effect.get_description())
+    return "\n".join(effects)
+
+
 def validate_effect_names(effects_selected: List[str], effects_available: Dict[str, AbstractEffect]) -> List[str]:
     """
     Check that the effect names supplied are in the list of effects available.

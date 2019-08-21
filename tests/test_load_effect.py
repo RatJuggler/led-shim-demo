@@ -2,7 +2,7 @@ import unittest
 import os
 
 from ledshimdemo.canvas import Canvas
-from ledshimdemo.load_effect import validate_effect_names, load_effect, load_effects
+from ledshimdemo.load_effect import create_list_effects_display, validate_effect_names, load_effect, load_effects
 
 from tests.test_effects.dummy1_effect import Dummy1Effect
 from tests.test_effects.dummy2_effect import Dummy2Effect
@@ -18,6 +18,14 @@ class TestLoadEffect(unittest.TestCase):
         self.dummy_available = {"Dummy1Effect": Dummy1Effect(self.canvas),
                                 "Dummy2Effect": Dummy2Effect(self.canvas),
                                 "Dummy3Effect": Dummy3Effect(self.canvas)}
+
+    def test_create_list(self):
+        effects = ["Available Effects:",
+                   "Dummy1Effect - A dummy effect 1.",
+                   "Dummy2Effect - A dummy effect 2.",
+                   "Dummy3Effect - A dummy effect 3."]
+        display = create_list_effects_display(self.dummy_available)
+        self.assertEqual(display, "\n".join(effects))
 
     def test_validate_effect_names_valid(self):
         effects_selected = ["Dummy1Effect"]

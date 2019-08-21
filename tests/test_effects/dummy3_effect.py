@@ -9,7 +9,7 @@ class Dummy3Effect(AbstractEffect):
 
     def __init__(self, canvas: Canvas) -> None:
         self.__colour = 0
-        super(Dummy3Effect, self).__init__("Dummy3Effect", "A dummy effect.", 1, canvas)
+        super(Dummy3Effect, self).__init__("Dummy3Effect", "A dummy effect 3.", 3, canvas)
 
     def compose(self) -> None:
         pass   # pragma: no cover

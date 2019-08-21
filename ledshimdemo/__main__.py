@@ -5,7 +5,7 @@ from typing import List
 
 from .canvas import Canvas
 from .configure_logging import configure_logging
-from .load_effect import validate_effect_names, load_effects
+from .load_effect import create_list_effects_display, validate_effect_names, load_effects
 from .pixel import Pixel
 from .render import render
 
@@ -35,7 +35,7 @@ def show_options(display: str, duration: int, run: int, brightness: int,
                "brightness={0}, ".format(brightness),
                "invert={0}, ".format(invert),
                "log-level={0}, ".format(level),
-               "effects_selected={0}".format(effects_selected),
+               "effects_selected={0}".format(),
                ")"]
     return "".join(options)
 
@@ -50,11 +50,7 @@ def list_effects(ctx, param, value) -> None:
     """
     if not value or ctx.resilient_parsing:
         return
-    effects = ["Available Effects:"]
-    pad_size = len(max(EFFECTS_AVAILABLE.keys(), key=len))
-    for name, effect in EFFECTS_AVAILABLE.items():
-        effects.append(name.ljust(pad_size, ' ') + " - " + effect.get_description())
-    click.echo("\n".join(effects))
+    click.echo(create_list_effects_display(EFFECTS_AVAILABLE))
     ctx.exit()
 
 
