@@ -15,7 +15,7 @@ def get_next_effect(effect_display: str, effects: List[AbstractEffect]) -> Abstr
     :param effects: A list of the effects to show
     :return: The next effect to show
     """
-    if "effect_no" not in get_next_effect.__dict__:
+    if "effect_no" not in get_next_effect.__dict__:  # Dynamically add tracker if not already defined.
         get_next_effect.effect_no = -1
     if effect_display == "CYCLE":
         get_next_effect.effect_no = (get_next_effect.effect_no + 1) % len(effects)
@@ -38,7 +38,8 @@ def copy_to_shim(effect: AbstractEffect, invert: bool) -> None:
     ledshim.show()
 
 
-def render(effect_display: str, effect_duration: int, effect_run: int, invert: bool, effects: List[AbstractEffect]) -> None:
+def render(effect_display: str, effect_duration: int, effect_run: int,
+           invert: bool, effects: List[AbstractEffect]) -> None:
     """
     Render the effects provided,
     :param effect_display: In a CYCLE or at RANDOM

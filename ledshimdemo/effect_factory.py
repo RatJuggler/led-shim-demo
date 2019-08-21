@@ -7,6 +7,9 @@ from .canvas import Canvas
 
 
 class EffectFactory:
+    """
+    Class to store and control access to the available effects.
+    """
 
     @staticmethod
     def load_effect(effect_module: str, effect_class: str, *args, **kwargs) -> AbstractEffect:
@@ -61,10 +64,19 @@ class EffectFactory:
         self.EFFECTS_AVAILABLE = self.load_effects(effects_path, effects_package, canvas)
 
     def get_all_effects(self) -> List[AbstractEffect]:
+        """
+        Get instances of all the effects.
+        :return: A list of all the available instances.
+        """
         return list(self.EFFECTS_AVAILABLE.values())
 
     def get_effect(self, effect_name) -> AbstractEffect:
-        return self.EFFECTS_AVAILABLE.get(effect_name)
+        """
+        Get the instance of the named effect.
+        :param effect_name: name of the instance required, will be converted to uppercase
+        :return: An effect instance, will raise a KeyError if not found
+        """
+        return self.EFFECTS_AVAILABLE[effect_name.upper()]
 
     def create_list_effects_display(self) -> str:
         """
