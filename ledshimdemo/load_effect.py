@@ -8,7 +8,7 @@ from typing import Dict
 from .abstract_effect import AbstractEffect
 
 
-def load_effects(effects_path, effects_package, *args, **kwargs) -> Dict[str, AbstractEffect]:
+def load_effects(effects_path: str, effects_package: str, *args, **kwargs) -> Dict[str, AbstractEffect]:
     """
     Load all the effects from a given path/package.
     :param effects_path: path on the file system to the effects to load
@@ -24,7 +24,7 @@ def load_effects(effects_path, effects_package, *args, **kwargs) -> Dict[str, Ab
     return effects
 
 
-def load_effect(effect_module, effect_class: str, *args, **kwargs) -> AbstractEffect:
+def load_effect(effect_module: str, effect_class: str, *args, **kwargs) -> AbstractEffect:
     """
     Load an effect class and create an instance of it.
     An effect class must be a subclass of AbstractEffect and the name must end in "Effect".
