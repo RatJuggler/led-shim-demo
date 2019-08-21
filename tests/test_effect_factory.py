@@ -52,11 +52,10 @@ class TestLoadEffect(unittest.TestCase):
         self.assertEqual(names_in_error, effects_selected)
 
     def test_load_dummy_effects(self):
-        self.assertFalse(True)
-#        self.assertEqual(len(effects), 3)
-#        self.assertIsInstance(effects["DUMMY1EFFECT"], Dummy1Effect)
-#        self.assertIsInstance(effects["DUMMY2EFFECT"], Dummy2Effect)
-#        self.assertIsInstance(effects["DUMMY3EFFECT"], Dummy3Effect)
+        self.assertEqual(len(self.effect_factory.get_all_effects()), 3)
+        self.assertIsInstance(self.effect_factory.get_effect("DUMMY1EFFECT"), Dummy1Effect)
+        self.assertIsInstance(self.effect_factory.get_effect("DUMMY2EFFECT"), Dummy2Effect)
+        self.assertIsInstance(self.effect_factory.get_effect("DUMMY3EFFECT"), Dummy3Effect)
 
     def test_load_non_existent_effect(self):
         with self.assertRaises(ImportError):

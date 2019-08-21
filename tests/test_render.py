@@ -19,7 +19,7 @@ class TestRender(unittest.TestCase):
     def setUp(self):
         canvas = Canvas(self.CANVAS_SIZE)
         effect_factory = EffectFactory(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", canvas)
-        self.effects = list(effect_factory.get_effects_available().values())
+        self.effects = effect_factory.get_all_effects()
 
     def test_get_next_effect_cycle(self):
         effect = get_next_effect(self.EFFECT_DISPLAY, self.effects)

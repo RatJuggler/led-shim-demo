@@ -60,8 +60,11 @@ class EffectFactory:
         """
         self.EFFECTS_AVAILABLE = self.load_effects(effects_path, effects_package, canvas)
 
-    def get_effects_available(self):
-        return self.EFFECTS_AVAILABLE
+    def get_all_effects(self) -> List[AbstractEffect]:
+        return list(self.EFFECTS_AVAILABLE.values())
+
+    def get_effect(self, effect_name) -> AbstractEffect:
+        return self.EFFECTS_AVAILABLE.get(effect_name)
 
     def create_list_effects_display(self) -> str:
         """
