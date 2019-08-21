@@ -17,8 +17,8 @@ def create_list_effects_display(effects_available: Dict[str, AbstractEffect]) ->
     effects = ["Available Effects:"]
     pad_size = len(max(effects_available.keys(), key=len))
     for key in sorted(effects_available):
-        effects.append(effects_available[key].get_name().ljust(pad_size, ' ') + " - " +
-                       effects_available[key].get_description())
+        effect = effects_available[key]
+        effects.append(effect.get_name().ljust(pad_size, ' ') + " - " + effect.get_description())
     return "\n".join(effects)
 
 
