@@ -11,8 +11,7 @@ from .render import render
 
 NUM_PIXELS = 28  # The number of LEDs on the shim.
 
-CANVAS = Canvas(NUM_PIXELS)
-EFFECT_FACTORY = EffectFactory(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", CANVAS)
+EFFECT_FACTORY = EffectFactory(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", Canvas(NUM_PIXELS))
 
 
 def show_options(display: str, duration: int, run: int, brightness: int,
