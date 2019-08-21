@@ -44,13 +44,17 @@ pip3 install --update led-shim-demo
 ```
 $ ledshimdemo --help
 
-Usage: ledshimdemo [OPTIONS]
+Usage: ledshimdemo [OPTIONS] [EFFECTS_SELECTED]...
 
   Show various effects on a Pimoroni LED shim.
 
+  To limit the effects shown use the effect-list option to list the effects
+  available then add them to the command line as required. Otherwise all
+  effects will be shown.
+
 Options:
   --version                       Show the version and exit.
-  -l, --effect-list               List the effects available.
+  -l, --effect-list               List the effects available and exit.
   -d, --effect-display [CYCLE|RANDOM]
                                   How the effects are displayed.  [default:
                                   CYCLE]
@@ -92,7 +96,7 @@ The effects are loaded dynamically using a mechanism loosely based on code from
 
 The code coverage for this project is a good example of why measuring unit test coverage can be a misleading indicator
 of quality. Whilst it does have plenty of unit tests those for the effects are mostly simple smoke tests which show that
-the code will run. They don't actually confirm that the effect is producing the desired output.
+the code will run. They don't actually confirm that the effects are producing the desired output.
 
 The development work for this project was done using PyCharm on an Intel x64 machine, as the
 project was designed to be run on an ARM based Raspberry Pi only a source distribution is uploaded to PyPi. However,
