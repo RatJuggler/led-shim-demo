@@ -32,11 +32,11 @@ additions from my [fork](https://github.com/RatJuggler/led-shim/tree/more-exampl
 
 Install on Raspbian using:
 ```
-pip3 install led-shim-demo
+pip3 install ledshimdemo
 ```
 Or update using:
 ```
-pip3 install --update led-shim-demo
+pip3 install -U ledshimdemo
 ```
 
 # Running
