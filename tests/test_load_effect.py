@@ -2,7 +2,7 @@ import unittest
 import os
 
 from ledshimdemo.canvas import Canvas
-from ledshimdemo.load_effect import create_list_effects_display, validate_effect_names, load_effect, load_effects
+from ledshimdemo.effect_factory import create_list_effects_display, validate_effect_names, load_effect, load_effects
 
 from tests.test_effects.dummy1_effect import Dummy1Effect
 from tests.test_effects.dummy2_effect import Dummy2Effect

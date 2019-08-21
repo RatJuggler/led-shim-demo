@@ -5,7 +5,7 @@ from typing import List
 
 from .canvas import Canvas
 from .configure_logging import configure_logging
-from .load_effect import create_list_effects_display, validate_effect_names, load_effects
+from .effect_factory import create_list_effects_display, validate_effect_names, load_effects
 from .pixel import Pixel
 from .render import render
 

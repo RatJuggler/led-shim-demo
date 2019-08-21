@@ -7,7 +7,7 @@ sys.modules['smbus'] = mock.Mock()  # Mock the hardware layer to avoid errors.
 
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.render import get_next_effect, copy_to_shim, render
-from ledshimdemo.load_effect import load_effects
+from ledshimdemo.effect_factory import load_effects
 
 
 class TestRender(unittest.TestCase):
