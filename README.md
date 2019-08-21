@@ -62,7 +62,7 @@ Options:
                                   How long to display each effect for, in
                                   seconds (1-180).  [default: 10]
   -r, --repeat-run INTEGER RANGE  How many times to run the effects before
-                                  stopping (1-240).  [default: 1]
+                                  stopping (1-240).  [default: 1
   -b, --brightness INTEGER RANGE  How bright the effects will be (1-10).
                                   [default: 8]
   -i, --invert                    Change the display orientation.
