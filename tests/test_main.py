@@ -64,7 +64,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - INFO - Logging level enabled!", result.output)
         self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10, effect-run=24, brightness=8, "
-                      "invert=False, log-level=INFO, effects_selected=())", result.output)
+                      "invert=False, log-level=INFO, effects_selected=ALL)", result.output)
         render_mock.assert_called_once()
 
     def test_default_options_debug_log(self, render_mock):
@@ -72,7 +72,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - DEBUG - Logging level enabled!", result.output)
         self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10, effect-run=24, brightness=8, "
-                      "invert=False, log-level=DEBUG, effects_selected=())", result.output)
+                      "invert=False, log-level=DEBUG, effects_selected=ALL)", result.output)
         render_mock.assert_called_once()
 
     def test_all_options_verbose_log(self, render_mock):

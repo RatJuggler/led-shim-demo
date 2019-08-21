@@ -35,7 +35,7 @@ def show_options(display: str, duration: int, run: int, brightness: int,
                "brightness={0}, ".format(brightness),
                "invert={0}, ".format(invert),
                "log-level={0}, ".format(level),
-               "effects_selected={0}".format(),
+               "effects_selected={0}".format(effects_selected if effects_selected else "ALL"),
                ")"]
     return "".join(options)
 
