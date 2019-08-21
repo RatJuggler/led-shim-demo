@@ -12,23 +12,21 @@ from tests.test_effects.dummy3_effect import Dummy3Effect
 class TestLoadEffect(unittest.TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int
-    canvas = Canvas(TEST_CANVAS_SIZE)  # type: Canvas
 
-    def build_dummy_effects_available(self):
-        return {"Dummy1Effect": Dummy1Effect(self.canvas),
-                "Dummy2Effect": Dummy2Effect(self.canvas),
-                "Dummy3Effect": Dummy3Effect(self.canvas)}
+    def setUp(self):
+        self.canvas = Canvas(self.TEST_CANVAS_SIZE)
+        self.dummy_available = {"Dummy1Effect": Dummy1Effect(self.canvas),
+                                "Dummy2Effect": Dummy2Effect(self.canvas),
+                                "Dummy3Effect": Dummy3Effect(self.canvas)}
 
     def test_validate_effect_names_valid(self):
         effects_selected = ["Dummy1Effect"]
-        effects_available = self.build_dummy_effects_available()
-        names_in_error = validate_effect_names(effects_selected, effects_available)
+        names_in_error = validate_effect_names(effects_selected, self.dummy_available)
         self.assertFalse(names_in_error)
 
     def test_validate_effect_names_invalid(self):
         effects_selected = ["Apple", "Banana"]
-        effects_available = self.build_dummy_effects_available()
-        names_in_error = validate_effect_names(effects_selected, effects_available)
+        names_in_error = validate_effect_names(effects_selected, self.dummy_available)
         self.assertEqual(names_in_error, effects_selected)
 
     def test_load_dummy_effects(self):
