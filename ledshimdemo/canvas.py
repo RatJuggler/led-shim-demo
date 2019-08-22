@@ -1,4 +1,5 @@
 import ledshim
+import logging
 
 from .pixel import Pixel
 
@@ -102,6 +103,7 @@ class Canvas:
         :param invert: Orientation of the display
         :return: No meaningful return
         """
+        logging.debug(repr(self.__canvas))
         for i in range(self.get_size()):
             pixel = self.get_pixel(i)
             position = (self.get_size() - 1 - i) if invert else i

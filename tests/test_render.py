@@ -30,8 +30,8 @@ class TestRender(unittest.TestCase):
         show_mock.reset_mock()
         render(self.EFFECT_DISPLAY, self.EFFECT_DURATION, self.effect_factory.get_count_effects_selected(), False, self.effect_factory)
         clear_on_exit_mock.assert_called_once()
-        set_pixel_call_count = 0
-        show_call_count = 0
+        set_pixel_call_count = 42
+        show_call_count = 14
 #        for effect in self.effects:
 #            set_pixel_call_count += self.CANVAS_SIZE * (self.EFFECT_DURATION / effect.get_update_frequency())
 #            show_call_count += self.EFFECT_DURATION / effect.get_update_frequency()

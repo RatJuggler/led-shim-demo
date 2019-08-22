@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import logging
 from time import sleep
 
 from ledshimdemo.canvas import Canvas
@@ -58,17 +59,14 @@ class AbstractEffect(ABC):
 
     def render(self, invert: bool) -> None:
         """
-        Tells the canvas to render itself onto the actual shim.
+        Uses the effects "compose()" function to build the display on the Canvas. When complete the Canvas is instructed
+        to render the display on the shim. The update frequency then determines the delay before the next rendering.
         :param invert: Orientation of the display
         :return: No meaningful return
         """
+        self.compose()
+        logging.verbose(repr(self))
         self.canvas.render_to_shim(invert)
-
-    def sleep(self) -> None:
-        """
-        Sleep between effect updates.
-        :return: No meaningful return
-        """
         sleep(self.get_update_frequency())
 
     @abstractmethod

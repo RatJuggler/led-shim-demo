@@ -30,11 +30,7 @@ def render(effect_display: str, effect_duration: int, effect_run: int,
                 effect = effect_factory.get_next_effect(effect_display)
                 logging.info(str(effect))
                 start_effect = time()
-            effect.compose()
-            logging.verbose(repr(effect))
-            logging.debug(repr(effect.canvas))
             effect.render(invert)
-            effect.sleep()
     except KeyboardInterrupt:
         logging.info("Execution interrupted!")
     except:
