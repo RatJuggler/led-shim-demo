@@ -7,8 +7,9 @@ class AbstractEffect(ABC):
     """
     An abstract class which forms the basis of all effects.
 
-    Effects inheriting this class must implement the "compose()" function and render their display onto the virtual
-    canvas. They must also override the "__repr__" function to provide details on internal state.
+    Effects inheriting this class must implement the "compose()" function and compose their display onto the virtual
+    canvas each time the function is called. They must also override the "__repr__" function to provide details on their
+    internal state at that time.
     """
 
     def __init__(self, name: str, description: str, speed: float, canvas: Canvas) -> None:
@@ -17,7 +18,7 @@ class AbstractEffect(ABC):
         :param name: of the effect
         :param description: of the effect
         :param speed: of the effect, in seconds or fractions thereof
-        :param canvas: on which the effect should draw
+        :param canvas: on which the effect should compose
         """
         self.__name = name
         self.__description = description
@@ -55,7 +56,7 @@ class AbstractEffect(ABC):
 
     @abstractmethod
     def __repr__(self) -> str:
-        pass
+        pass   # pragma: no cover
 
     @abstractmethod
     def compose(self) -> None:
