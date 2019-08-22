@@ -18,18 +18,17 @@ def render(effect_display: str, effect_duration: int, effect_run: int,
     :return: No meaningful return
     """
     ledshim.set_clear_on_exit()
-    start_effect = time() - effect_duration
-    effect = None
+    effect = effect_factory.get_next_effect(effect_display)
+    start_effect = time()
     try:
         while True:
-            elapsed_time = time() - start_effect
-            if elapsed_time > effect_duration:
+            effect.render(invert)
+            if (time() - start_effect) > effect_duration:
                 effect_run -= 1
-                if effect_run < 0:
+                if effect_run == 0:
                     break
                 effect = effect_factory.get_next_effect(effect_display)
                 start_effect = time()
-            effect.render(invert)
     except KeyboardInterrupt:
         logging.info("Execution interrupted!")
     finally:
