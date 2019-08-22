@@ -38,8 +38,8 @@ class EffectFactory:
                 raise TypeError("{} is not a valid effect class!".format(effect_class))
         return instance
 
-    @classmethod
-    def load_effects(cls, effects_path: str, effects_package: str, *args, **kwargs) -> Dict[str, AbstractEffect]:
+    @staticmethod
+    def load_effects(effects_path: str, effects_package: str, *args, **kwargs) -> Dict[str, AbstractEffect]:
         """
         Load all the effects from a given path/package.
         :param effects_path: path on the file system to the effects to load
@@ -50,7 +50,7 @@ class EffectFactory:
         """
         effects = {}
         for (_, effect_module, _) in pkgutil.iter_modules([effects_path]):
-            effect = cls.load_effect(effects_package + effect_module, None, *args, **kwargs)
+            effect = EffectFactory.load_effect(effects_package + effect_module, None, *args, **kwargs)
             effects[effect.get_name().upper()] = effect
         return effects
 
@@ -61,14 +61,15 @@ class EffectFactory:
         :param effects_package: the name of the associated package
         :param canvas: to be used by all effects
         """
-        self.EFFECTS_AVAILABLE = self.load_effects(effects_path, effects_package, canvas)
+        self.effects_available = self.load_effects(effects_path, effects_package, canvas)
+        self.effects_selected = ()
 
     def get_all_effects(self) -> List[AbstractEffect]:
         """
         Get instances of all the effects.
         :return: A list of all the available instances.
         """
-        return list(self.EFFECTS_AVAILABLE.values())
+        return list(self.effects_available.values())
 
     def get_effect(self, effect_name) -> AbstractEffect:
         """
@@ -76,7 +77,7 @@ class EffectFactory:
         :param effect_name: name of the instance required, will be converted to uppercase
         :return: An effect instance, will raise a KeyError if not found
         """
-        return self.EFFECTS_AVAILABLE[effect_name.upper()]
+        return self.effects_available[effect_name.upper()]
 
     def create_list_effects_display(self) -> str:
         """
@@ -84,9 +85,9 @@ class EffectFactory:
         :return: A string showing the name and description of each effect available sorted by name
         """
         effects = ["Available Effects:"]
-        pad_size = len(max(self.EFFECTS_AVAILABLE.keys(), key=len))
-        for key in sorted(self.EFFECTS_AVAILABLE):
-            effect = self.EFFECTS_AVAILABLE[key]
+        pad_size = len(max(self.effects_available.keys(), key=len))
+        for key in sorted(self.effects_available):
+            effect = self.effects_available[key]
             effects.append(effect.get_name().ljust(pad_size, ' ') + " - " + effect.get_description())
         return "\n".join(effects)
 
@@ -99,7 +100,17 @@ class EffectFactory:
         names_in_error = []
         for name in effects_selected:
             try:
-                self.EFFECTS_AVAILABLE[name.upper()]
+                self.effects_available[name.upper()]
             except KeyError:
                 names_in_error.append(name)
         return names_in_error
+
+    def get_effects_to_render(self, effects_selected: List[str]) -> List[AbstractEffect]:
+        self.effects_selected = effects_selected
+        if not effects_selected:
+            effects_to_render = self.get_all_effects()
+        else:
+            effects_to_render = []
+            for name in effects_selected:
+                effects_to_render.append(self.get_effect(name.upper()))
+        return effects_to_render
