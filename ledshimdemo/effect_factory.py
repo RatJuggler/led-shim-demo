@@ -10,7 +10,7 @@ from .canvas import Canvas
 
 class EffectFactory:
     """
-    Class to store and control access to the available effects.
+    Class to store and control access to the available effects and those selected for rendering.
     """
 
     @staticmethod
@@ -110,7 +110,7 @@ class EffectFactory:
 
     def set_effects_selected(self, effects_selected: List[str]) -> None:
         if not effects_selected:
-            self.effects_selected = list(self.effects_available.keys())
+            self.effects_selected = list(sorted(self.effects_available.keys()))
         else:
             self.effects_selected = effects_selected
 
