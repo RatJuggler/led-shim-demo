@@ -1,4 +1,5 @@
 from importlib import import_module
+import logging
 import pkgutil
 from random import randint
 from typing import Dict, List
@@ -128,4 +129,6 @@ class EffectFactory:
             self.next_effect = (self.next_effect + 1) % len(self.effects_selected)
         if effect_display == "RANDOM":
             self.next_effect = randint(0, len(self.effects_selected) - 1)
-        return self.get_effect(self.effects_selected[self.next_effect])
+        effect = self.get_effect(self.effects_selected[self.next_effect])
+        logging.info(str(effect))
+        return effect
