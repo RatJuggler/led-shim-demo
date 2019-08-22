@@ -1,5 +1,6 @@
 from importlib import import_module
 import pkgutil
+from random import randint
 from typing import Dict, List
 
 from .abstract_effect import AbstractEffect
@@ -62,14 +63,15 @@ class EffectFactory:
         :param canvas: to be used by all effects
         """
         self.effects_available = self.load_effects(effects_path, effects_package, canvas)
-        self.effects_selected = ()
+        self.effects_selected = []
+        self.next_effect = -1
 
-    def get_all_effects(self) -> List[AbstractEffect]:
+    def get_all_effects(self) -> List[str]:
         """
-        Get instances of all the effects.
-        :return: A list of all the available instances.
+        Get a list of all the effects names.
+        :return: A list of all the available effect names.
         """
-        return list(self.effects_available.values())
+        return list(self.effects_available.keys())
 
     def get_effect(self, effect_name) -> AbstractEffect:
         """
@@ -105,12 +107,22 @@ class EffectFactory:
                 names_in_error.append(name)
         return names_in_error
 
-    def get_effects_to_render(self, effects_selected: List[str]) -> List[AbstractEffect]:
-        self.effects_selected = effects_selected
+    def set_effects_to_render(self, effects_selected: List[str]) -> None:
         if not effects_selected:
-            effects_to_render = self.get_all_effects()
+            self.effects_selected = self.get_all_effects()
         else:
-            effects_to_render = []
-            for name in effects_selected:
-                effects_to_render.append(self.get_effect(name.upper()))
-        return effects_to_render
+            self.effects_selected = effects_selected
+
+    def get_next_effect(self, effect_display: str) -> AbstractEffect:
+        """
+        Pick the next effect to display.
+        :param effect_display: In a CYCLE or at RANDOM
+        :return: The next effect to show
+        """
+        if not self.effects_selected:
+            raise ValueError("No effects selected!")
+        if effect_display == "CYCLE":
+            self.next_effect = (self.next_effect + 1) % len(self.effects_selected)
+        if effect_display == "RANDOM":
+            self.next_effect = randint(0, len(self.effects_selected) - 1)
+        return self.get_effect(self.effects_selected[self.next_effect])

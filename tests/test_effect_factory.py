@@ -93,3 +93,36 @@ class TestEffectFactoryLoad(unittest.TestCase):
     def test_get_effect_invalid(self):
         with self.assertRaises(KeyError):
             self.effect_factory.get_effect("apple")
+
+
+class EffectFactoryGetNextEffect(unittest.TestCase):
+
+    TEST_CANVAS_SIZE = 3  # type: int
+    EFFECT_DISPLAY = 'CYCLE'
+
+    def setUp(self):
+        self.canvas = Canvas(self.TEST_CANVAS_SIZE)
+        self.effect_factory = \
+            EffectFactory(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", self.canvas)
+
+    def test_get_next_effect_none_selected(self):
+        with self.assertRaises(ValueError):
+            self.effect_factory.get_next_effect(self.EFFECT_DISPLAY)
+
+    def test_get_next_effect_cycle(self):
+        self.effect_factory.set_effects_to_render([])
+        effect = self.effect_factory.get_next_effect(self.EFFECT_DISPLAY)
+        self.assertIsInstance(effect, type(self.effect_factory.get_effect("Dummy1Effect")))
+        effect = self.effect_factory.get_next_effect(self.EFFECT_DISPLAY)
+        self.assertIsInstance(effect, type(self.effect_factory.get_effect("Dummy2Effect")))
+        effect = self.effect_factory.get_next_effect(self.EFFECT_DISPLAY)
+        self.assertIsInstance(effect, type(self.effect_factory.get_effect("Dummy3Effect")))
+        effect = self.effect_factory.get_next_effect(self.EFFECT_DISPLAY)
+        self.assertIsInstance(effect, type(self.effect_factory.get_effect("Dummy1Effect")))
+
+    def test_get_next_effect_random(self):
+        self.effect_factory.set_effects_to_render([])
+        effect = self.effect_factory.get_next_effect('RANDOM')
+        self.assertTrue(isinstance(effect, (type(self.effect_factory.get_effect("Dummy1Effect")),
+                                            type(self.effect_factory.get_effect("Dummy2Effect")),
+                                            type(self.effect_factory.get_effect("Dummy3Effect")))))

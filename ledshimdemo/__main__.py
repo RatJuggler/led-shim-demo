@@ -105,8 +105,8 @@ def display_effects(display: str, duration: int, run: int, brightness: int,
     configure_logging(level)
     logging.info(show_options(display, duration, run, brightness, invert, level, effects_selected))
     Pixel.set_default_brightness(brightness / 10.0)
-    effects_to_render = EFFECT_FACTORY.get_effects_to_render(effects_selected)
-    render(display, duration, run * len(effects_to_render), invert, effects_to_render)
+    EFFECT_FACTORY.set_effects_to_render(effects_selected)
+    render(display, duration, run * len(effects_selected), invert, EFFECT_FACTORY)
 
 
 if __name__ == '__main__':
