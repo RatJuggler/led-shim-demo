@@ -9,7 +9,7 @@ from tests.test_effects.dummy2_effect import Dummy2Effect
 from tests.test_effects.dummy3_effect import Dummy3Effect
 
 
-class TestLoadEffect(unittest.TestCase):
+class TestEffectFactoryListAndValidate(unittest.TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int
 
@@ -50,6 +50,16 @@ class TestLoadEffect(unittest.TestCase):
         effects_selected = ["Apple", "Banana"]
         names_in_error = self.effect_factory.validate_effect_names(effects_selected)
         self.assertEqual(names_in_error, effects_selected)
+
+
+class TestEffectFactoryLoad(unittest.TestCase):
+
+    TEST_CANVAS_SIZE = 3  # type: int
+
+    def setUp(self):
+        self.canvas = Canvas(self.TEST_CANVAS_SIZE)
+        self.effect_factory = \
+            EffectFactory(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", self.canvas)
 
     def test_load_dummy_effects(self):
         effects = self.effect_factory.get_all_effects()
