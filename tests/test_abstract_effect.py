@@ -16,4 +16,4 @@ class TestAbstractEffect(unittest.TestCase):
         self.assertEqual(effect.get_name(), "Test")
         self.assertEqual(effect.get_description(), "Test description.")
         self.assertEqual(effect.get_speed(), 7)
-        self.assertEqual(str(effect), "Effect: Test, Speed: 7")
+        self.assertEqual(str(effect), "Effect: Test - Test description. Speed: 7")
