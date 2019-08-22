@@ -67,12 +67,12 @@ class EffectFactory:
         self.effects_selected = []
         self.next_effect = -1
 
-    def get_all_effects(self) -> List[str]:
+    def get_all_effects(self) -> List[AbstractEffect]:
         """
-        Get a list of all the effects names.
-        :return: A list of all the available effect names.
+        Get instances of all the effects.
+        :return: A list of all the available instances.
         """
-        return list(self.effects_available.keys())
+        return list(self.effects_available.values())
 
     def get_effect(self, effect_name) -> AbstractEffect:
         """

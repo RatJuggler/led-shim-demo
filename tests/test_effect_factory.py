@@ -61,13 +61,13 @@ class TestEffectFactoryLoad(unittest.TestCase):
         self.effect_factory = \
             EffectFactory(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", self.canvas)
 
-    def test_load_dummy_effects(self):
+    def test_get_all_effects(self):
         effects = self.effect_factory.get_all_effects()
         self.assertIsInstance(effects, list)
         self.assertEqual(len(effects), 3)
-        self.assertIsInstance(self.effect_factory.get_effect("DUMMY1EFFECT"), Dummy1Effect)
-        self.assertIsInstance(self.effect_factory.get_effect("DUMMY2EFFECT"), Dummy2Effect)
-        self.assertIsInstance(self.effect_factory.get_effect("DUMMY3EFFECT"), Dummy3Effect)
+        self.assertIsInstance(effects[0], Dummy1Effect)
+        self.assertIsInstance(effects[1], Dummy2Effect)
+        self.assertIsInstance(effects[2], Dummy3Effect)
 
     def test_load_non_existent_effect(self):
         with self.assertRaises(ImportError):
@@ -80,11 +80,6 @@ class TestEffectFactoryLoad(unittest.TestCase):
     def test_load_misnamed_effect(self):
         with self.assertRaises(TypeError):
             EffectFactory.load_effect("tests.effects.not_an_effect", "NotAnEffect")
-
-    def test_get_all_effects(self):
-        effects = self.effect_factory.get_all_effects()
-        self.assertIsInstance(effects, list)
-        self.assertEqual(len(effects), 3)
 
     def test_get_effect_valid(self):
         effect = self.effect_factory.get_effect("dummy1effect")

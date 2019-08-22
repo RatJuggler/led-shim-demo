@@ -43,6 +43,13 @@ class AbstractEffect(ABC):
         """
         return self.__name.ljust(pad_size, ' ') + " - " + self.__description
 
+    def get_update_frequency(self) -> float:
+        """
+        The time between updates to the effect.
+        :return: The effect update frequency
+        """
+        return self.__update_frequency
+
     def __str__(self) -> str:
         """
         Builds a simple string representation of the effect instance.
