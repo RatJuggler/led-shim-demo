@@ -35,19 +35,13 @@ class AbstractEffect(ABC):
         """
         return self.__name
 
-    def get_description(self) -> str:
+    def get_display_list_entry(self, pad_size: int) -> str:
         """
-        A description of the effect.
-        :return: The effect description
+        Format a line for the display list.
+        :param pad_size: to adjust name-description indent
+        :return: Formatted display list line.
         """
-        return self.__description
-
-    def get_update_frequency(self) -> float:
-        """
-        The time between updates to the effect.
-        :return: The effect update frequency
-        """
-        return self.__update_frequency
+        return self.__name.ljust(pad_size, ' ') + " - " + self.__description
 
     def __str__(self) -> str:
         """
@@ -55,7 +49,7 @@ class AbstractEffect(ABC):
         :return: Human readable string representation of the object instance
         """
         return "Effect: {0} - {1} Update Frequency: {2} secs"\
-            .format(self.get_name(), self.get_description(), self.get_update_frequency())
+            .format(self.__name, self.__description, self.__update_frequency)
 
     def render(self, invert: bool) -> None:
         """
@@ -67,7 +61,7 @@ class AbstractEffect(ABC):
         self.compose()
         logging.verbose(repr(self))
         self.canvas.render_to_shim(invert)
-        sleep(self.get_update_frequency())
+        sleep(self.__update_frequency)
 
     @abstractmethod
     def __repr__(self) -> str:

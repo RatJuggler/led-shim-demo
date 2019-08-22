@@ -91,7 +91,7 @@ class EffectFactory:
         pad_size = len(max(self.effects_available.keys(), key=len))
         for key in sorted(self.effects_available):
             effect = self.effects_available[key]
-            effects.append(effect.get_name().ljust(pad_size, ' ') + " - " + effect.get_description())
+            effects.append(effect.get_display_list_entry(pad_size))
         return "\n".join(effects)
 
     def validate_effect_names(self, effects_selected: List[str]) -> List[str]:
