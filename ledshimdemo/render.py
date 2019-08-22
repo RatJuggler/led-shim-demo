@@ -24,20 +24,6 @@ def get_next_effect(effect_display: str, effects: List[AbstractEffect]) -> Abstr
     return effects[get_next_effect.effect_no]
 
 
-def copy_to_shim(effect: AbstractEffect, invert: bool) -> None:
-    """
-    Display the effect canvas on the shim.
-    :param effect: being shown
-    :param invert: Orientation of the display
-    :return: No meaningful return
-    """
-    for i in range(effect.canvas.get_size()):
-        pixel = effect.canvas.get_pixel(i)
-        position = (effect.canvas.get_size() - 1 - i) if invert else i
-        ledshim.set_pixel(position, pixel.get_r(), pixel.get_g(), pixel.get_b(), pixel.get_brightness())
-    ledshim.show()
-
-
 def render(effect_display: str, effect_duration: int, effect_run: int,
            invert: bool, effects: List[AbstractEffect]) -> None:
     """
@@ -65,7 +51,7 @@ def render(effect_display: str, effect_duration: int, effect_run: int,
             effect.compose()
             logging.verbose(repr(effect))
             logging.debug(repr(effect.canvas))
-            copy_to_shim(effect, invert)
+            effect.render(invert)
             sleep(effect.get_update_frequency())
     except KeyboardInterrupt:
         logging.info("Execution interrupted!")

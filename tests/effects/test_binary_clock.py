@@ -1,5 +1,10 @@
-from time import localtime, strftime
 import unittest
+import mock
+import sys
+
+from time import localtime, strftime
+
+sys.modules['smbus'] = mock.Mock()  # Mock the hardware layer to avoid errors.
 
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.effects.binary_clock import BinaryClockEffect

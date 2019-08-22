@@ -1,3 +1,5 @@
+import ledshim
+
 from .pixel import Pixel
 
 
@@ -93,3 +95,15 @@ class Canvas:
             canvas.append("[{0:2d}, {1}]".format(i, repr(self.get_pixel(i))))
         canvas.append(")")
         return "\n".join(canvas)
+
+    def render_to_shim(self, invert: bool) -> None:
+        """
+        Display the effect canvas on the shim.
+        :param invert: Orientation of the display
+        :return: No meaningful return
+        """
+        for i in range(self.get_size()):
+            pixel = self.get_pixel(i)
+            position = (self.get_size() - 1 - i) if invert else i
+            ledshim.set_pixel(position, pixel.get_r(), pixel.get_g(), pixel.get_b(), pixel.get_brightness())
+        ledshim.show()

@@ -7,7 +7,7 @@ sys.modules['smbus'] = mock.Mock()  # Mock the hardware layer to avoid errors.
 
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.effect_factory import EffectFactory
-from ledshimdemo.render import get_next_effect, copy_to_shim, render
+from ledshimdemo.render import get_next_effect, render
 
 
 class TestRender(unittest.TestCase):
@@ -34,15 +34,6 @@ class TestRender(unittest.TestCase):
     def test_get_next_effect_random(self):
         effect = get_next_effect('RANDOM', self.effects)
         self.assertTrue(isinstance(effect, (type(self.effects[0]), type(self.effects[1]), type(self.effects[2]))))
-
-    @mock.patch('ledshim.set_pixel')
-    @mock.patch('ledshim.show')
-    def test_copy_to_shim(self, show_mock, set_pixel_mock):
-        set_pixel_mock.reset_mock()
-        show_mock.reset_mock()
-        copy_to_shim(self.effects[0], False)
-        self.assertEqual(set_pixel_mock.call_count, self.CANVAS_SIZE)
-        show_mock.assert_called_once()
 
     @mock.patch('ledshim.set_clear_on_exit')
     @mock.patch('ledshim.set_pixel')

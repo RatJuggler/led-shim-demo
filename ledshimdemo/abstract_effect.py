@@ -55,6 +55,14 @@ class AbstractEffect(ABC):
         return "Effect: {0} - {1} Update Frequency: {2} secs"\
             .format(self.get_name(), self.get_description(), self.get_update_frequency())
 
+    def render(self, invert: bool) -> None:
+        """
+        Tells the canvas to render itself onto the actual shim.
+        :param invert: Orientation of the display
+        :return: No meaningful return
+        """
+        self.canvas.render_to_shim(invert)
+
     @abstractmethod
     def __repr__(self) -> str:
         pass   # pragma: no cover
