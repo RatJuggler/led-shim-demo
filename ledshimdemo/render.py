@@ -1,6 +1,6 @@
 import logging
 from random import randint
-from time import sleep
+from time import sleep, time
 from typing import List
 
 import ledshim
@@ -50,22 +50,22 @@ def render(effect_display: str, effect_duration: int, effect_run: int,
     :return: No meaningful return
     """
     ledshim.set_clear_on_exit()
-    show_time = 0
-    effect = effects[0]
+    start_effect = time() - effect_duration
+    effect = None
     try:
         while True:
-            if show_time <= 0:
+            elapsed_time = time() - start_effect
+            if elapsed_time > effect_duration:
                 effect_run -= 1
                 if effect_run < 0:
                     break
                 effect = get_next_effect(effect_display, effects)
-                show_time = effect_duration / effect.get_speed()
                 logging.info(str(effect))
+                start_effect = time()
             effect.compose()
             logging.verbose(repr(effect))
             logging.debug(repr(effect.canvas))
             copy_to_shim(effect, invert)
-            show_time -= 1
             sleep(effect.get_speed())
     except KeyboardInterrupt:
         logging.info("Execution interrupted!")
