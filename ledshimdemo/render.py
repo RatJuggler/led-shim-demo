@@ -3,7 +3,6 @@ from time import time
 
 import ledshim
 
-from .abstract_effect import AbstractEffect
 from .effect_factory import EffectFactory
 
 

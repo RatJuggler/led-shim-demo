@@ -102,16 +102,19 @@ class EffectFactory:
         names_in_error = []
         for name in effects_selected:
             try:
-                self.effects_available[name.upper()]
+                self.get_effect(name)
             except KeyError:
                 names_in_error.append(name)
         return names_in_error
 
-    def set_effects_to_render(self, effects_selected: List[str]) -> None:
+    def set_effects_selected(self, effects_selected: List[str]) -> None:
         if not effects_selected:
-            self.effects_selected = self.get_all_effects()
+            self.effects_selected = list(self.effects_available.keys())
         else:
             self.effects_selected = effects_selected
+
+    def get_count_effects_selected(self) -> int:
+        return len(self.effects_selected)
 
     def get_next_effect(self, effect_display: str) -> AbstractEffect:
         """

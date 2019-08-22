@@ -110,7 +110,7 @@ class EffectFactoryGetNextEffect(unittest.TestCase):
             self.effect_factory.get_next_effect(self.EFFECT_DISPLAY)
 
     def test_get_next_effect_cycle(self):
-        self.effect_factory.set_effects_to_render([])
+        self.effect_factory.set_effects_selected([])
         effect = self.effect_factory.get_next_effect(self.EFFECT_DISPLAY)
         self.assertIsInstance(effect, type(self.effect_factory.get_effect("Dummy1Effect")))
         effect = self.effect_factory.get_next_effect(self.EFFECT_DISPLAY)
@@ -121,7 +121,7 @@ class EffectFactoryGetNextEffect(unittest.TestCase):
         self.assertIsInstance(effect, type(self.effect_factory.get_effect("Dummy1Effect")))
 
     def test_get_next_effect_random(self):
-        self.effect_factory.set_effects_to_render([])
+        self.effect_factory.set_effects_selected([])
         effect = self.effect_factory.get_next_effect('RANDOM')
         self.assertTrue(isinstance(effect, (type(self.effect_factory.get_effect("Dummy1Effect")),
                                             type(self.effect_factory.get_effect("Dummy2Effect")),

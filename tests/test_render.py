@@ -19,7 +19,7 @@ class TestRender(unittest.TestCase):
     def setUp(self):
         canvas = Canvas(self.CANVAS_SIZE)
         self.effect_factory = EffectFactory(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", canvas)
-        self.effect_factory.set_effects_to_render([])
+        self.effect_factory.set_effects_selected([])
 
     @mock.patch('ledshim.set_clear_on_exit')
     @mock.patch('ledshim.set_pixel')
@@ -28,7 +28,7 @@ class TestRender(unittest.TestCase):
     def test_render(self, clear_mock, show_mock, set_pixel_mock, clear_on_exit_mock):
         set_pixel_mock.reset_mock()
         show_mock.reset_mock()
-        render(self.EFFECT_DISPLAY, self.EFFECT_DURATION, len(self.effect_factory.get_all_effects()), False, self.effect_factory)
+        render(self.EFFECT_DISPLAY, self.EFFECT_DURATION, self.effect_factory.get_count_effects_selected(), False, self.effect_factory)
         clear_on_exit_mock.assert_called_once()
         set_pixel_call_count = 0
         show_call_count = 0
