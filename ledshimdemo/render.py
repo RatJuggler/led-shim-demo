@@ -1,6 +1,6 @@
 import logging
 from random import randint
-from time import sleep, time
+from time import time
 from typing import List
 
 import ledshim
@@ -52,7 +52,7 @@ def render(effect_display: str, effect_duration: int, effect_run: int,
             logging.verbose(repr(effect))
             logging.debug(repr(effect.canvas))
             effect.render(invert)
-            sleep(effect.get_update_frequency())
+            effect.sleep()
     except KeyboardInterrupt:
         logging.info("Execution interrupted!")
     except:

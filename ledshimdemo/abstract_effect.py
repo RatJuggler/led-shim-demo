@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from time import sleep
 
 from ledshimdemo.canvas import Canvas
 
@@ -62,6 +63,13 @@ class AbstractEffect(ABC):
         :return: No meaningful return
         """
         self.canvas.render_to_shim(invert)
+
+    def sleep(self) -> None:
+        """
+        Sleep between effect updates.
+        :return: No meaningful return
+        """
+        sleep(self.get_update_frequency())
 
     @abstractmethod
     def __repr__(self) -> str:
