@@ -12,17 +12,17 @@ class AbstractEffect(ABC):
     internal state at that time.
     """
 
-    def __init__(self, name: str, description: str, speed: float, canvas: Canvas) -> None:
+    def __init__(self, name: str, description: str, update_frequency: float, canvas: Canvas) -> None:
         """
         Initialise the effect properties.
         :param name: of the effect
         :param description: of the effect
-        :param speed: of the effect, in seconds or fractions thereof
+        :param update_frequency: of the effect, in seconds or fractions thereof
         :param canvas: on which the effect should compose
         """
         self.__name = name
         self.__description = description
-        self.__speed = speed
+        self.__update_frequency = update_frequency
         self.canvas = canvas
         super().__init__()
 
@@ -40,19 +40,20 @@ class AbstractEffect(ABC):
         """
         return self.__description
 
-    def get_speed(self) -> float:
+    def get_update_frequency(self) -> float:
         """
-        The speed of the effect, that is the time between updates to the effect.
-        :return: The effect speed
+        The time between updates to the effect.
+        :return: The effect update frequency
         """
-        return self.__speed
+        return self.__update_frequency
 
     def __str__(self) -> str:
         """
         Builds a simple string representation of the effect instance.
         :return: Human readable string representation of the object instance
         """
-        return "Effect: {0} - {1} Speed: {2}".format(self.get_name(), self.get_description(), self.get_speed())
+        return "Effect: {0} - {1} Update Frequency: {2} secs"\
+            .format(self.get_name(), self.get_description(), self.get_update_frequency())
 
     @abstractmethod
     def __repr__(self) -> str:

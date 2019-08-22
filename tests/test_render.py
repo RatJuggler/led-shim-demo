@@ -56,8 +56,8 @@ class TestRender(unittest.TestCase):
         set_pixel_call_count = 0
         show_call_count = 0
         for effect in self.effects:
-            set_pixel_call_count += self.CANVAS_SIZE * (self.EFFECT_DURATION / effect.get_speed())
-            show_call_count += self.EFFECT_DURATION / effect.get_speed()
+            set_pixel_call_count += self.CANVAS_SIZE * (self.EFFECT_DURATION / effect.get_update_frequency())
+            show_call_count += self.EFFECT_DURATION / effect.get_update_frequency()
         show_call_count += 1  # Final call to show cleared shim.
         self.assertEqual(set_pixel_call_count, set_pixel_mock.call_count)
         self.assertEqual(show_call_count, show_mock.call_count)

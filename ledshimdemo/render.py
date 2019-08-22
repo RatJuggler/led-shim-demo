@@ -66,7 +66,7 @@ def render(effect_display: str, effect_duration: int, effect_run: int,
             logging.verbose(repr(effect))
             logging.debug(repr(effect.canvas))
             copy_to_shim(effect, invert)
-            sleep(effect.get_speed())
+            sleep(effect.get_update_frequency())
     except KeyboardInterrupt:
         logging.info("Execution interrupted!")
     except:
