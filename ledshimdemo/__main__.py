@@ -29,7 +29,7 @@ def show_options(display: str, duration: int, run: int, brightness: int,
     """
     options = ["Active Options(",
                "effect-display={0}, ".format(display),
-               "effect-duration={0}, ".format(duration),
+               "effect-duration={0} secs, ".format(duration),
                "repeat-run={0}, ".format(run),
                "brightness={0}, ".format(brightness),
                "invert={0}, ".format(invert),
@@ -76,8 +76,9 @@ def validate_effects_selected(ctx, param, value) -> None:
 @click.version_option()
 @click.option('-l', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
               help='List the effects available and exit.')
-@click.option('-d', '--effect-display', 'display', type=click.Choice(["CYCLE", "RANDOM"]),
-              help="How the effects are displayed.", default="CYCLE", show_default=True)
+@click.option('-d', '--effect-display', 'display',
+              type=click.Choice([EFFECT_FACTORY.CYCLE_DISPLAY, EFFECT_FACTORY.RANDOM_DISPLAY]),
+              help="How the effects are displayed.", default=EFFECT_FACTORY.CYCLE_DISPLAY, show_default=True)
 @click.option('-u', '--effect-duration', 'duration', type=click.IntRange(1, 180),
               help="How long to display each effect for, in seconds (1-180).", default=10, show_default=True)
 @click.option('-r', '--repeat-run', 'run', type=click.IntRange(1, 240),
@@ -87,7 +88,7 @@ def validate_effects_selected(ctx, param, value) -> None:
 @click.option('-i', '--invert', is_flag=True,
               help="Change the display orientation.")
 @click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
-              help="Show additional logging information.", default="WARNING", show_default=True)
+              help="Show additional logging information.", default="INFO", show_default=True)
 @click.argument('effects_selected', nargs=-1, callback=validate_effects_selected, required=False)
 def display_effects(display: str, duration: int, run: int, brightness: int,
                     invert: bool, level: str, effects_selected: List[str]) -> None:
@@ -105,13 +106,10 @@ def display_effects(display: str, duration: int, run: int, brightness: int,
     configure_logging(level)
     logging.info(show_options(display, duration, run, brightness, invert, level, effects_selected))
     Pixel.set_default_brightness(brightness / 10.0)
-    if not effects_selected:
-        effects_to_render = EFFECT_FACTORY.get_all_effects()
-    else:
-        effects_to_render = []
-        for name in effects_selected:
-            effects_to_render.append(EFFECT_FACTORY.get_effect(name.upper()))
-    render(display, duration, run * len(effects_to_render), invert, effects_to_render)
+    if invert:
+        Canvas.invert_display()
+    EFFECT_FACTORY.set_effects_to_display(display, effects_selected)
+    render(duration, run, EFFECT_FACTORY)
 
 
 if __name__ == '__main__':

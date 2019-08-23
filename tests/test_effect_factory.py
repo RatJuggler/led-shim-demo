@@ -1,6 +1,9 @@
 import unittest
 import os
 
+from typing import List, Type, TypeVar
+
+from ledshimdemo.abstract_effect import AbstractEffect
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.effect_factory import EffectFactory
 
@@ -9,7 +12,7 @@ from tests.test_effects.dummy2_effect import Dummy2Effect
 from tests.test_effects.dummy3_effect import Dummy3Effect
 
 
-class TestLoadEffect(unittest.TestCase):
+class TestEffectFactoryListAndValidate(unittest.TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int
 
@@ -51,13 +54,23 @@ class TestLoadEffect(unittest.TestCase):
         names_in_error = self.effect_factory.validate_effect_names(effects_selected)
         self.assertEqual(names_in_error, effects_selected)
 
-    def test_load_dummy_effects(self):
+
+class TestEffectFactoryLoadAndGet(unittest.TestCase):
+
+    TEST_CANVAS_SIZE = 3  # type: int
+
+    def setUp(self):
+        self.canvas = Canvas(self.TEST_CANVAS_SIZE)
+        self.effect_factory = \
+            EffectFactory(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", self.canvas)
+
+    def test_get_all_effects(self):
         effects = self.effect_factory.get_all_effects()
         self.assertIsInstance(effects, list)
         self.assertEqual(len(effects), 3)
-        self.assertIsInstance(self.effect_factory.get_effect("DUMMY1EFFECT"), Dummy1Effect)
-        self.assertIsInstance(self.effect_factory.get_effect("DUMMY2EFFECT"), Dummy2Effect)
-        self.assertIsInstance(self.effect_factory.get_effect("DUMMY3EFFECT"), Dummy3Effect)
+        self.assertIsInstance(effects[0], Dummy1Effect)
+        self.assertIsInstance(effects[1], Dummy2Effect)
+        self.assertIsInstance(effects[2], Dummy3Effect)
 
     def test_load_non_existent_effect(self):
         with self.assertRaises(ImportError):
@@ -71,11 +84,6 @@ class TestLoadEffect(unittest.TestCase):
         with self.assertRaises(TypeError):
             EffectFactory.load_effect("tests.effects.not_an_effect", "NotAnEffect")
 
-    def test_get_all_effects(self):
-        effects = self.effect_factory.get_all_effects()
-        self.assertIsInstance(effects, list)
-        self.assertEqual(len(effects), 3)
-
     def test_get_effect_valid(self):
         effect = self.effect_factory.get_effect("dummy1effect")
         self.assertIsInstance(effect, Dummy1Effect)
@@ -83,3 +91,55 @@ class TestLoadEffect(unittest.TestCase):
     def test_get_effect_invalid(self):
         with self.assertRaises(KeyError):
             self.effect_factory.get_effect("apple")
+
+
+class TestEffectFactorySetEffectsAndGetNextEffect(unittest.TestCase):
+
+    TEST_CANVAS_SIZE = 3  # type: int
+
+    AE = TypeVar('AE', bound=AbstractEffect)
+
+    def setUp(self):
+        self.canvas = Canvas(self.TEST_CANVAS_SIZE)
+        self.effect_factory = \
+            EffectFactory(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", self.canvas)
+
+    def test_set_effects_to_display_invalid(self):
+        with self.assertRaises(AssertionError):
+            self.effect_factory.set_effects_to_display("Banana", [])
+
+    def test_get_next_effect_none_selected(self):
+        with self.assertRaises(ValueError):
+            self.effect_factory.get_next_effect()
+
+    def call_next_and_test(self, effect_type: List[Type[AE]]):
+        effect = self.effect_factory.get_next_effect()
+        is_instance = False
+        for cls_type in effect_type:
+            if isinstance(effect, cls_type):
+                is_instance = True
+        self.assertTrue(is_instance)
+
+    def test_get_next_effect_cycle_all_selected(self):
+        self.effect_factory.set_effects_to_display(self.effect_factory.CYCLE_DISPLAY, [])
+        self.call_next_and_test([Dummy1Effect])
+        self.call_next_and_test([Dummy2Effect])
+        self.call_next_and_test([Dummy3Effect])
+        self.call_next_and_test([Dummy1Effect])
+
+    def test_get_next_effect_random_all_selected(self):
+        self.effect_factory.set_effects_to_display(self.effect_factory.RANDOM_DISPLAY, [])
+        self.call_next_and_test([Dummy1Effect, Dummy2Effect, Dummy3Effect])
+        self.call_next_and_test([Dummy1Effect, Dummy2Effect, Dummy3Effect])
+        self.call_next_and_test([Dummy1Effect, Dummy2Effect, Dummy3Effect])
+
+    def test_get_next_effect_cycle_selected(self):
+        self.effect_factory.set_effects_to_display(self.effect_factory.CYCLE_DISPLAY, ["Dummy3Effect", "Dummy1Effect"])
+        self.call_next_and_test([Dummy3Effect])
+        self.call_next_and_test([Dummy1Effect])
+        self.call_next_and_test([Dummy3Effect])
+
+    def test_get_next_effect_random_selected(self):
+        self.effect_factory.set_effects_to_display(self.effect_factory.RANDOM_DISPLAY, ["Dummy3Effect", "Dummy1Effect"])
+        self.call_next_and_test([Dummy3Effect, Dummy1Effect])
+        self.call_next_and_test([Dummy3Effect, Dummy1Effect])

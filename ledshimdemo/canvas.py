@@ -1,3 +1,6 @@
+import ledshim
+import logging
+
 from .pixel import Pixel
 
 
@@ -10,14 +13,32 @@ class Canvas:
 
     BLANK_PIXEL = Pixel(0, 0, 0, 0)  # An unlit pixel.
 
+    __invert_display = False
+
     def __init__(self, size: int) -> None:
         """
-        Initialise the line of pixels.
-        :param size: the number of pixels in the line
+        Initialise the virtual canvas.
+        :param size: the number of pixels on the shim
         """
         if size < 1 or size > 100:
             raise ValueError("Canvas size outside reasonable range of 1 to 100!")
         self.__canvas = [self.BLANK_PIXEL] * size
+
+    @classmethod
+    def is_display_inverted(cls) -> float:
+        """
+        Return the display orientation toggle.
+        :return: True if the display should be inverted, otherwise False.
+        """
+        return cls.__invert_display
+
+    @classmethod
+    def invert_display(cls) -> None:
+        """
+        Reverse the display shown on the shim. This can be toggled to allow for the orientation of the Pi.
+        :return: No meaningful return.
+        """
+        cls.__invert_display = not cls.__invert_display
 
     def __validate_index(self, p: int) -> None:
         """
@@ -93,3 +114,15 @@ class Canvas:
             canvas.append("[{0:2d}, {1}]".format(i, repr(self.get_pixel(i))))
         canvas.append(")")
         return "\n".join(canvas)
+
+    def render_to_shim(self) -> None:
+        """
+        Display the effect canvas on the shim.
+        :return: No meaningful return
+        """
+        logging.debug(repr(self.__canvas))
+        for i in range(self.get_size()):
+            pixel = self.get_pixel(i)
+            position = (self.get_size() - 1 - i) if Canvas.is_display_inverted() else i
+            ledshim.set_pixel(position, pixel.get_r(), pixel.get_g(), pixel.get_b(), pixel.get_brightness())
+        ledshim.show()

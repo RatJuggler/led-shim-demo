@@ -1,4 +1,5 @@
 import unittest
+import mock
 
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.colours import Colours
@@ -146,3 +147,21 @@ class TestCanvasRepr(unittest.TestCase):
         expected_repr = "\n".join(canvas)
         actual_repr = repr(self.canvas)
         self.assertEqual(expected_repr, actual_repr)
+
+
+class TestCanvasRenderToShim(unittest.TestCase):
+
+    TEST_CANVAS_SIZE = 3  # type: int
+
+    def setUp(self):
+        self.canvas = Canvas(self.TEST_CANVAS_SIZE)
+        self.canvas.set_all(Colours.PURPLE)
+
+    @mock.patch('ledshim.set_pixel')
+    @mock.patch('ledshim.show')
+    def test_render(self, show_mock, set_pixel_mock):
+        set_pixel_mock.reset_mock()
+        show_mock.reset_mock()
+        self.canvas.render_to_shim()
+        self.assertEqual(set_pixel_mock.call_count, self.TEST_CANVAS_SIZE)
+        show_mock.assert_called_once()

@@ -1,5 +1,8 @@
 import unittest
 import mock
+import sys
+
+sys.modules['smbus'] = mock.Mock()  # Mock the hardware layer to avoid errors.
 
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.effects.cheerlights import CheerLightsEffect
