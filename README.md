@@ -68,8 +68,25 @@ Options:
   -i, --invert                    Change the display orientation.
   -o, --log-level [DEBUG|VERBOSE|INFO|WARNING]
                                   Show additional logging information.
-                                  [default: WARNING]
+                                  [default: INFO]
   --help                          Show this message and exit.
+```
+
+Sample output with the default options:
+
+```
+$ ledshimdemo
+2019-08-23 17:15:37,130 - INFO - Logging level enabled!
+2019-08-23 17:15:37,131 - INFO - Active Options(effect-display=CYCLE, effect-duration=10 secs, repeat-run=1, brightness=8, invert=False, log-level=INFO, effects_selected=ALL)
+2019-08-23 17:15:37,132 - INFO - Effect: BinaryClock - Shows hours, minutes and seconds. Update Frequency: 1 secs
+2019-08-23 17:15:47,454 - INFO - Effect: Candle - A flickering candle. Update Frequency: 0.01 secs
+2019-08-23 17:15:57,474 - INFO - Effect: CheerLights - Synchronize with the CheerLights "Internet of Things" project. Update Frequency: 5 secs
+2019-08-23 17:16:08,044 - INFO - Effect: ColouredLights - Simple coloured lights like Xmas lights. Update Frequency: 0.5 secs
+2019-08-23 17:16:18,104 - INFO - Effect: DigitalRain - Cut price Matrix effect. Update Frequency: 0.02 secs
+2019-08-23 17:16:28,111 - INFO - Effect: GradientGraph - Sine wave colour gradient effect. Update Frequency: 0.01 secs
+2019-08-23 17:16:38,141 - INFO - Effect: Rainbow - A slowly moving rainbow. Update Frequency: 0.01 secs
+2019-08-23 17:16:48,158 - INFO - Effect: RandomBlink - Some random blinking. Update Frequency: 0.05 secs
+2019-08-23 17:16:58,213 - INFO - Effect: SolidColours - A sequence of solid colours. Update Frequency: 0.5 secs
 ```
 
 # Troubleshooting

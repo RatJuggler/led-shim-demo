@@ -29,7 +29,7 @@ def show_options(display: str, duration: int, run: int, brightness: int,
     """
     options = ["Active Options(",
                "effect-display={0}, ".format(display),
-               "effect-duration={0}, ".format(duration),
+               "effect-duration={0} secs, ".format(duration),
                "repeat-run={0}, ".format(run),
                "brightness={0}, ".format(brightness),
                "invert={0}, ".format(invert),
@@ -88,7 +88,7 @@ def validate_effects_selected(ctx, param, value) -> None:
 @click.option('-i', '--invert', is_flag=True,
               help="Change the display orientation.")
 @click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
-              help="Show additional logging information.", default="WARNING", show_default=True)
+              help="Show additional logging information.", default="INFO", show_default=True)
 @click.argument('effects_selected', nargs=-1, callback=validate_effects_selected, required=False)
 def display_effects(display: str, duration: int, run: int, brightness: int,
                     invert: bool, level: str, effects_selected: List[str]) -> None:
