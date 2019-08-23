@@ -68,7 +68,7 @@ Options:
   -i, --invert                    Change the display orientation.
   -o, --log-level [DEBUG|VERBOSE|INFO|WARNING]
                                   Show additional logging information.
-                                  [default: WARNING]
+                                  [default: INFO]
   --help                          Show this message and exit.
 ```
 
