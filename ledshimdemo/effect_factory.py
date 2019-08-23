@@ -114,13 +114,15 @@ class EffectFactory:
                 names_in_error.append(name)
         return names_in_error
 
-    def set_effects_selected(self, effect_display: str, effects_selected: List[str]) -> None:
+    def set_effects_to_display(self, effect_display: str, effects_selected: List[str]) -> None:
         """
-        Set the list of effects to be used for display.
+        Set the effect display and the list of effects to be used.
         :param effect_display: In a CYCLE or at RANDOM
-        :param effects_selected: List of effect names
+        :param effects_selected: List of the effect names to use
         :return: No meaningful return
         """
+        assert effect_display in (self.CYCLE_DISPLAY, self.RANDOM_DISPLAY),\
+            "Effect display must be {0} or {1}!".format(self.CYCLE_DISPLAY, self.RANDOM_DISPLAY)
         self.effect_display = effect_display
         if effects_selected:
             self.effects_selected = effects_selected
