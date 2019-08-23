@@ -14,6 +14,11 @@ class TestBinaryClock(unittest.TestCase):
 
     TEST_CANVAS_SIZE = 28  # type: int
 
+    def test_canvas_size(self):
+        canvas = Canvas(3)
+        with self.assertRaises(AssertionError):
+            BinaryClockEffect(canvas)
+
     def test_effect(self):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
         effect = BinaryClockEffect(canvas)
