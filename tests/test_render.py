@@ -15,6 +15,7 @@ class TestRender(unittest.TestCase):
     CANVAS_SIZE = 3
     EFFECT_DISPLAY = 'CYCLE'
     EFFECT_DURATION = 2
+    EFFECT_RUN = 1
 
     def setUp(self):
         canvas = Canvas(self.CANVAS_SIZE)
@@ -28,8 +29,7 @@ class TestRender(unittest.TestCase):
     def test_render(self, clear_mock, show_mock, set_pixel_mock, clear_on_exit_mock):
         set_pixel_mock.reset_mock()
         show_mock.reset_mock()
-        render(self.EFFECT_DISPLAY, self.EFFECT_DURATION, self.effect_factory.get_count_effects_selected(),
-               False, self.effect_factory)
+        render(self.EFFECT_DISPLAY, self.EFFECT_DURATION, self.EFFECT_RUN, False, self.effect_factory)
         clear_on_exit_mock.assert_called_once()
         set_pixel_call_count = 0
         show_call_count = 0
