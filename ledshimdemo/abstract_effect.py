@@ -58,16 +58,15 @@ class AbstractEffect(ABC):
         return "Effect: {0} - {1} Update Frequency: {2} secs"\
             .format(self.__name, self.__description, self.__update_frequency)
 
-    def render(self, invert: bool) -> None:
+    def render(self) -> None:
         """
         Uses the effects "compose()" function to build the display on the Canvas. When complete the Canvas is instructed
         to render the display on the shim. The update frequency then determines the delay before the next rendering.
-        :param invert: Orientation of the display
         :return: No meaningful return
         """
         self.compose()
         logging.verbose(repr(self))
-        self.canvas.render_to_shim(invert)
+        self.canvas.render_to_shim()
         sleep(self.__update_frequency)
 
     @abstractmethod

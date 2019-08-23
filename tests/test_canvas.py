@@ -162,6 +162,6 @@ class TestCanvasRenderToShim(unittest.TestCase):
     def test_render(self, show_mock, set_pixel_mock):
         set_pixel_mock.reset_mock()
         show_mock.reset_mock()
-        self.canvas.render_to_shim(False)
+        self.canvas.render_to_shim()
         self.assertEqual(set_pixel_mock.call_count, self.TEST_CANVAS_SIZE)
         show_mock.assert_called_once()

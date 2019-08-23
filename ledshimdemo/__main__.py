@@ -106,8 +106,10 @@ def display_effects(display: str, duration: int, run: int, brightness: int,
     configure_logging(level)
     logging.info(show_options(display, duration, run, brightness, invert, level, effects_selected))
     Pixel.set_default_brightness(brightness / 10.0)
+    if invert:
+        Canvas.invert_display()
     EFFECT_FACTORY.set_effects_to_display(display, effects_selected)
-    render(duration, run, invert, EFFECT_FACTORY)
+    render(duration, run, EFFECT_FACTORY)
 
 
 if __name__ == '__main__':
