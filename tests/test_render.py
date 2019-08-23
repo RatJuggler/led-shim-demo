@@ -13,14 +13,13 @@ from ledshimdemo.render import render
 class TestRender(unittest.TestCase):
 
     CANVAS_SIZE = 3
-    EFFECT_DISPLAY = 'CYCLE'
     EFFECT_DURATION = 2
     EFFECT_RUN = 1
 
     def setUp(self):
         canvas = Canvas(self.CANVAS_SIZE)
         self.effect_factory = EffectFactory(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", canvas)
-        self.effect_factory.set_effects_selected([])
+        self.effect_factory.set_effects_selected(self.effect_factory.CYCLE_DISPLAY, [])
 
     @mock.patch('ledshim.set_clear_on_exit')
     @mock.patch('ledshim.set_pixel')
@@ -29,7 +28,7 @@ class TestRender(unittest.TestCase):
     def test_render(self, clear_mock, show_mock, set_pixel_mock, clear_on_exit_mock):
         set_pixel_mock.reset_mock()
         show_mock.reset_mock()
-        render(self.EFFECT_DISPLAY, self.EFFECT_DURATION, self.EFFECT_RUN, False, self.effect_factory)
+        render(self.EFFECT_DURATION, self.EFFECT_RUN, False, self.effect_factory)
         clear_on_exit_mock.assert_called_once()
         set_pixel_call_count = 0
         show_call_count = 0

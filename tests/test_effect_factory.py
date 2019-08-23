@@ -96,8 +96,6 @@ class TestEffectFactoryLoadAndGet(unittest.TestCase):
 class TestEffectFactoryGetNextEffect(unittest.TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int
-    CYCLE_DISPLAY = 'CYCLE'
-    RANDOM_DISPLAY = 'RANDOM'
 
     AE = TypeVar('AE', bound=AbstractEffect)
 
@@ -108,10 +106,10 @@ class TestEffectFactoryGetNextEffect(unittest.TestCase):
 
     def test_get_next_effect_none_selected(self):
         with self.assertRaises(ValueError):
-            self.effect_factory.get_next_effect(self.CYCLE_DISPLAY)
+            self.effect_factory.get_next_effect()
 
-    def call_next_and_test(self, effect_display: str, effect_type: List[Type[AE]]):
-        effect = self.effect_factory.get_next_effect(effect_display)
+    def call_next_and_test(self, effect_type: List[Type[AE]]):
+        effect = self.effect_factory.get_next_effect()
         is_instance = False
         for cls_type in effect_type:
             if isinstance(effect, cls_type):
@@ -119,25 +117,25 @@ class TestEffectFactoryGetNextEffect(unittest.TestCase):
         self.assertTrue(is_instance)
 
     def test_get_next_effect_cycle_all_selected(self):
-        self.effect_factory.set_effects_selected([])
-        self.call_next_and_test(self.CYCLE_DISPLAY, [Dummy1Effect])
-        self.call_next_and_test(self.CYCLE_DISPLAY, [Dummy2Effect])
-        self.call_next_and_test(self.CYCLE_DISPLAY, [Dummy3Effect])
-        self.call_next_and_test(self.CYCLE_DISPLAY, [Dummy1Effect])
+        self.effect_factory.set_effects_selected(self.effect_factory.CYCLE_DISPLAY, [])
+        self.call_next_and_test([Dummy1Effect])
+        self.call_next_and_test([Dummy2Effect])
+        self.call_next_and_test([Dummy3Effect])
+        self.call_next_and_test([Dummy1Effect])
 
     def test_get_next_effect_random_all_selected(self):
-        self.effect_factory.set_effects_selected([])
-        self.call_next_and_test(self.RANDOM_DISPLAY, [Dummy1Effect, Dummy2Effect, Dummy3Effect])
-        self.call_next_and_test(self.RANDOM_DISPLAY, [Dummy1Effect, Dummy2Effect, Dummy3Effect])
-        self.call_next_and_test(self.RANDOM_DISPLAY, [Dummy1Effect, Dummy2Effect, Dummy3Effect])
+        self.effect_factory.set_effects_selected(self.effect_factory.RANDOM_DISPLAY, [])
+        self.call_next_and_test([Dummy1Effect, Dummy2Effect, Dummy3Effect])
+        self.call_next_and_test([Dummy1Effect, Dummy2Effect, Dummy3Effect])
+        self.call_next_and_test([Dummy1Effect, Dummy2Effect, Dummy3Effect])
 
     def test_get_next_effect_cycle_selected(self):
-        self.effect_factory.set_effects_selected(["Dummy3Effect", "Dummy1Effect"])
-        self.call_next_and_test(self.CYCLE_DISPLAY, [Dummy3Effect])
-        self.call_next_and_test(self.CYCLE_DISPLAY, [Dummy1Effect])
-        self.call_next_and_test(self.CYCLE_DISPLAY, [Dummy3Effect])
+        self.effect_factory.set_effects_selected(self.effect_factory.CYCLE_DISPLAY, ["Dummy3Effect", "Dummy1Effect"])
+        self.call_next_and_test([Dummy3Effect])
+        self.call_next_and_test([Dummy1Effect])
+        self.call_next_and_test([Dummy3Effect])
 
     def test_get_next_effect_random_selected(self):
-        self.effect_factory.set_effects_selected(["Dummy3Effect", "Dummy1Effect"])
-        self.call_next_and_test(self.RANDOM_DISPLAY, [Dummy3Effect, Dummy1Effect])
-        self.call_next_and_test(self.RANDOM_DISPLAY, [Dummy3Effect, Dummy1Effect])
+        self.effect_factory.set_effects_selected(self.effect_factory.RANDOM_DISPLAY, ["Dummy3Effect", "Dummy1Effect"])
+        self.call_next_and_test([Dummy3Effect, Dummy1Effect])
+        self.call_next_and_test([Dummy3Effect, Dummy1Effect])

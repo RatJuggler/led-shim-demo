@@ -76,8 +76,9 @@ def validate_effects_selected(ctx, param, value) -> None:
 @click.version_option()
 @click.option('-l', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
               help='List the effects available and exit.')
-@click.option('-d', '--effect-display', 'display', type=click.Choice(["CYCLE", "RANDOM"]),
-              help="How the effects are displayed.", default="CYCLE", show_default=True)
+@click.option('-d', '--effect-display', 'display',
+              type=click.Choice([EFFECT_FACTORY.CYCLE_DISPLAY, EFFECT_FACTORY.RANDOM_DISPLAY]),
+              help="How the effects are displayed.", default=EFFECT_FACTORY.CYCLE_DISPLAY, show_default=True)
 @click.option('-u', '--effect-duration', 'duration', type=click.IntRange(1, 180),
               help="How long to display each effect for, in seconds (1-180).", default=10, show_default=True)
 @click.option('-r', '--repeat-run', 'run', type=click.IntRange(1, 240),
@@ -105,8 +106,8 @@ def display_effects(display: str, duration: int, run: int, brightness: int,
     configure_logging(level)
     logging.info(show_options(display, duration, run, brightness, invert, level, effects_selected))
     Pixel.set_default_brightness(brightness / 10.0)
-    EFFECT_FACTORY.set_effects_selected(effects_selected)
-    render(display, duration, run, invert, EFFECT_FACTORY)
+    EFFECT_FACTORY.set_effects_selected(display, effects_selected)
+    render(duration, run, invert, EFFECT_FACTORY)
 
 
 if __name__ == '__main__':

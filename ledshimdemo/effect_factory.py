@@ -13,6 +13,12 @@ class EffectFactory:
     Class to store and control access to the available effects and those selected for rendering.
     """
 
+    # Supported display options:
+    # Cycle - go through the selected effects in order.
+    # Random - out of the selected effects pick one at random each time.
+    CYCLE_DISPLAY = "CYCLE"
+    RANDOM_DISPLAY = "RANDOM"
+
     @staticmethod
     def load_effect(effect_module: str, effect_class: str, *args, **kwargs) -> AbstractEffect:
         """
@@ -65,6 +71,7 @@ class EffectFactory:
         """
         self.effects_available = self.load_effects(effects_path, effects_package, canvas)
         self.effects_selected = []
+        self.effect_display = None
         self.next_effect = -1
 
     def get_all_effects(self) -> List[AbstractEffect]:
@@ -107,12 +114,14 @@ class EffectFactory:
                 names_in_error.append(name)
         return names_in_error
 
-    def set_effects_selected(self, effects_selected: List[str]) -> None:
+    def set_effects_selected(self, effect_display: str, effects_selected: List[str]) -> None:
         """
         Set the list of effects to be used for display.
-        :param effects_selected: List of effect names.
+        :param effect_display: In a CYCLE or at RANDOM
+        :param effects_selected: List of effect names
         :return: No meaningful return
         """
+        self.effect_display = effect_display
         if effects_selected:
             self.effects_selected = effects_selected
         else:
@@ -127,17 +136,16 @@ class EffectFactory:
         """
         return len(self.effects_selected)
 
-    def get_next_effect(self, effect_display: str) -> AbstractEffect:
+    def get_next_effect(self) -> AbstractEffect:
         """
         Pick the next effect to display.
-        :param effect_display: In a CYCLE or at RANDOM
         :return: The next effect to show
         """
-        if not self.effects_selected:
+        if self.effect_display is None or not self.effects_selected:
             raise ValueError("No effects selected!")
-        if effect_display == "CYCLE":
+        if self.effect_display == self.CYCLE_DISPLAY:
             self.next_effect = (self.next_effect + 1) % len(self.effects_selected)
-        if effect_display == "RANDOM":
+        if self.effect_display == self.RANDOM_DISPLAY:
             self.next_effect = randint(0, len(self.effects_selected) - 1)
         effect = self.get_effect(self.effects_selected[self.next_effect])
         logging.info(str(effect))
