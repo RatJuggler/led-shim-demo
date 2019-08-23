@@ -69,10 +69,10 @@ class EffectFactory:
 
     def get_all_effects(self) -> List[AbstractEffect]:
         """
-        Get instances of all the effects.
-        :return: A list of all the available instances.
+        Get a list of instances of all the effects.
+        :return: A list of all the available instances sorted by name
         """
-        return list(self.effects_available.values())
+        return list(sorted(self.effects_available.values(), key=lambda e: e.get_name()))
 
     def get_effect(self, effect_name) -> AbstractEffect:
         """
@@ -89,8 +89,7 @@ class EffectFactory:
         """
         effects = ["Available Effects:"]
         pad_size = len(max(self.effects_available.keys(), key=len))
-        for key in sorted(self.effects_available):
-            effect = self.effects_available[key]
+        for effect in self.get_all_effects():
             effects.append(effect.get_display_list_entry(pad_size))
         return "\n".join(effects)
 
@@ -109,12 +108,23 @@ class EffectFactory:
         return names_in_error
 
     def set_effects_selected(self, effects_selected: List[str]) -> None:
-        if not effects_selected:
-            self.effects_selected = list(sorted(self.effects_available.keys()))
-        else:
+        """
+        Set the list of effects to be used for display.
+        :param effects_selected: List of effect names.
+        :return: No meaningful return
+        """
+        if effects_selected:
             self.effects_selected = effects_selected
+        else:
+            self.effects_selected = []
+            for effect in self.get_all_effects():
+                self.effects_selected.append(effect.get_name())
 
     def get_count_effects_selected(self) -> int:
+        """
+        The number of effects to display.
+        :return: The number of effects selected.
+        """
         return len(self.effects_selected)
 
     def get_next_effect(self, effect_display: str) -> AbstractEffect:
