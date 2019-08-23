@@ -76,11 +76,11 @@ class Pixel:
         self.__brightness = brightness
 
     @classmethod
-    def from_tuple(cls, pixel: list):
+    def from_tuple(cls, pixel: list) -> 'Pixel':
         """
         Alternative constructor using a list.
         :param pixel: list of three (r,g,b) or four (r,g,b,brightness) elements
-        :return: a pixel instance
+        :return: a Pixel instance
         """
         if len(pixel) == 3:
             return Pixel(pixel[0], pixel[1], pixel[2])
@@ -89,11 +89,11 @@ class Pixel:
         raise Exception("Pixel constructor requirements not met, found: {0}".format(pixel))
 
     @classmethod
-    def hex_to_pixel(cls, col_hex: str):
+    def hex_to_pixel(cls, col_hex: str) -> 'Pixel':
         """
         Convert a hex colour to an RGB tuple.
         :param col_hex: the hex colour to convert e.g. #FF3C1A
-        :return: a pixel instance representing the hex colour
+        :return: a Pixel instance representing the hex colour
         """
         pixel = list(bytearray.fromhex(col_hex.lstrip('#')))
         return cls.from_tuple(pixel)
