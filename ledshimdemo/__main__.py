@@ -74,7 +74,7 @@ def validate_effects_selected(ctx, param, value) -> None:
     line as required. Otherwise all effects will be shown.
                     """)
 @click.version_option()
-@click.option('-l', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
+@click.option('-e', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
               help='List the effects available and exit.')
 @click.option('-d', '--effect-display', 'display',
               type=click.Choice([EFFECT_FACTORY.CYCLE_DISPLAY, EFFECT_FACTORY.RANDOM_DISPLAY]),
@@ -89,9 +89,11 @@ def validate_effects_selected(ctx, param, value) -> None:
               help="Change the display orientation.")
 @click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
               help="Show additional logging information.", default="INFO", show_default=True)
+@click.option('-l', '--lead', is_flag=True, help='This is the lead to sync other instances with.')
+@click.option('-f', '--follow', is_flag=True, help='Follow the lead instance supplied.')
 @click.argument('effects_selected', nargs=-1, callback=validate_effects_selected, required=False)
-def display_effects(display: str, duration: int, run: int, brightness: int,
-                    invert: bool, level: str, effects_selected: List[str]) -> None:
+def display_effects(display: str, duration: int, run: int, brightness: int, invert: bool,
+                    level: str, lead: bool, follow: bool, effects_selected: List[str]) -> None:
     """
     Show various effects on a Pimoroni LED shim.
     :param display: In a CYCLE or at RANDOM
@@ -100,6 +102,8 @@ def display_effects(display: str, duration: int, run: int, brightness: int,
     :param brightness: How bright the effects will be
     :param invert: Depending on which way round the Pi is
     :param level: Set a logging level; DEBUG, VERBOSE, INFO or WARNING
+    :param lead: Act as a lead for other instances to follow
+    :param follow: Follow a lead instance
     :param effects_selected: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
