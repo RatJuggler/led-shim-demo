@@ -58,7 +58,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - INFO - Logging level enabled!", result.output)
         self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10 secs, repeat-run=1, "
-                      "brightness=8, invert=False, log-level=INFO, effects_selected=ALL)", result.output)
+                      "brightness=8, invert=False, log-level=INFO, lead=False, effects_selected=ALL)", result.output)
         render_mock.assert_called_once()
 
     def test_default_options_warning_log(self, render_mock):
@@ -72,7 +72,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - DEBUG - Logging level enabled!", result.output)
         self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10 secs, repeat-run=1, "
-                      "brightness=8, invert=False, log-level=DEBUG, effects_selected=ALL)", result.output)
+                      "brightness=8, invert=False, log-level=DEBUG, lead=False, effects_selected=ALL)", result.output)
         render_mock.assert_called_once()
 
     def test_all_options_verbose_log(self, render_mock):
@@ -82,11 +82,12 @@ class TestMain(unittest.TestCase):
                                                            '--brightness', '3',
                                                            '--invert',
                                                            '--log-level', 'VERBOSE',
+                                                           '--lead',
                                                            'Candle', 'Rainbow'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - VERBOSE - Logging level enabled!", result.output)
         self.assertIn(" - INFO - Active Options(effect-display=RANDOM, effect-duration=180 secs, repeat-run=240, "
-                      "brightness=3, invert=True, log-level=VERBOSE, effects_selected=('Candle', 'Rainbow'))",
+                      "brightness=3, invert=True, log-level=VERBOSE, lead=True, effects_selected=('Candle', 'Rainbow'))",
                       result.output)
         render_mock.assert_called_once()
 
