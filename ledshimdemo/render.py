@@ -6,11 +6,12 @@ import ledshim
 from .effect_factory import EffectFactory
 
 
-def render(effect_duration: int, effect_run: int, effect_factory: EffectFactory) -> None:
+def render(effect_duration: int, effect_run: int, lead: bool, effect_factory: EffectFactory) -> None:
     """
     Render the effects selected,
     :param effect_duration: How long to display each effect for
     :param effect_run: How many times to run effects
+    :param lead: Act as a lead for other instances to follow
     :param effect_factory: Determines the effects to show
     :return: No meaningful return
     """

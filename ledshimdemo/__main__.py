@@ -14,8 +14,8 @@ NUM_PIXELS = 28  # The number of LEDs on the shim.
 EFFECT_FACTORY = EffectFactory(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", Canvas(NUM_PIXELS))
 
 
-def show_options(display: str, duration: int, run: int, brightness: int,
-                 invert: bool, level: str, effects_selected: List[str]) -> str:
+def show_options(display: str, duration: int, run: int, brightness: int, invert: bool,
+                 level: str, lead: bool, effects_selected: List[str]) -> str:
     """
     Human readable string showing the command line options to be used.
     :param display: from command line option or default
@@ -24,6 +24,7 @@ def show_options(display: str, duration: int, run: int, brightness: int,
     :param brightness: from command line option or default
     :param invert: from command line option or default
     :param level: from command line option or default
+    :param lead: from command line option or default
     :param effects_selected: from command line arguments or default
     :return: One line string of the command line options to be used
     """
@@ -34,6 +35,7 @@ def show_options(display: str, duration: int, run: int, brightness: int,
                "brightness={0}, ".format(brightness),
                "invert={0}, ".format(invert),
                "log-level={0}, ".format(level),
+               "lead={0}, ".format(lead),
                "effects_selected={0}".format(effects_selected if effects_selected else "ALL"),
                ")"]
     return "".join(options)
@@ -89,8 +91,10 @@ def validate_effects_selected(ctx, param, value) -> None:
               help="Change the display orientation.")
 @click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
               help="Show additional logging information.", default="INFO", show_default=True)
-@click.option('-l', '--lead', is_flag=True, help='This is the lead to sync other instances with.')
-@click.option('-f', '--follow', is_flag=True, help='Follow the lead instance supplied.')
+@click.option('-l', '--lead', is_flag=True,
+              help='This is the lead to sync other instances with.')
+@click.option('-f', '--follow', is_flag=True,
+              help='Follow the lead instance supplied disregarding other local options.')
 @click.argument('effects_selected', nargs=-1, callback=validate_effects_selected, required=False)
 def display_effects(display: str, duration: int, run: int, brightness: int, invert: bool,
                     level: str, lead: bool, follow: bool, effects_selected: List[str]) -> None:
@@ -103,17 +107,17 @@ def display_effects(display: str, duration: int, run: int, brightness: int, inve
     :param invert: Depending on which way round the Pi is
     :param level: Set a logging level; DEBUG, VERBOSE, INFO or WARNING
     :param lead: Act as a lead for other instances to follow
-    :param follow: Follow a lead instance
+    :param follow: Follow a lead instance disregarding other local options
     :param effects_selected: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
     configure_logging(level)
-    logging.info(show_options(display, duration, run, brightness, invert, level, effects_selected))
+    logging.info(show_options(display, duration, run, brightness, invert, level, lead, effects_selected))
     Pixel.set_default_brightness(brightness / 10.0)
     if invert:
         Canvas.invert_display()
     EFFECT_FACTORY.set_effects_to_display(display, effects_selected)
-    render(duration, run, EFFECT_FACTORY)
+    render(duration, run, lead, EFFECT_FACTORY)
 
 
 if __name__ == '__main__':
