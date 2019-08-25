@@ -11,7 +11,7 @@ from .pixel import Pixel
 
 NUM_PIXELS = 28  # The number of LEDs on the shim.
 
-EFFECT_FACTORY = EffectCache(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", Canvas(NUM_PIXELS))
+EFFECT_CACHE = EffectCache(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", Canvas(NUM_PIXELS))
 
 
 def show_options(display: str, duration: int, run: int, brightness: int, invert: bool,
@@ -51,7 +51,7 @@ def list_effects(ctx, param, value) -> None:
     """
     if not value or ctx.resilient_parsing:
         return
-    click.echo(EFFECT_FACTORY.create_list_effects_display())
+    click.echo(EFFECT_CACHE.create_list_effects_display())
     ctx.exit()
 
 
@@ -63,7 +63,7 @@ def validate_effects_selected(ctx, param, value) -> None:
     :param value: see callbacks for click options
     :return: Validated names otherwise a click.BadParameter exception is raised
     """
-    names_in_error = EFFECT_FACTORY.validate_effect_names(value)
+    names_in_error = EFFECT_CACHE.validate_effect_names(value)
     if names_in_error:
         raise click.BadParameter("Unknown effect{0}: {1}"
                                  .format('s' if len(names_in_error) > 1 else "", ", ".join(names_in_error)))
@@ -116,7 +116,7 @@ def display_effects(display: str, duration: int, run: int, brightness: int, inve
     Pixel.set_default_brightness(brightness / 10.0)
     if invert:
         Canvas.invert_display()
-    effect_instances = EFFECT_FACTORY.get_effect_instances(effects_selected)
+    effect_instances = EFFECT_CACHE.get_effect_instances(effects_selected)
     effects_display = AbstractEffectDisplay.select_effect_display(display, effect_instances)
     effects_display.render(duration, run, lead)
 

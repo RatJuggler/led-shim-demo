@@ -82,8 +82,8 @@ class TestEffectDisplayRender(TestCase):
 
     def setUp(self):
         canvas = Canvas(self.CANVAS_SIZE)
-        self.effect_factory = EffectCache(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", canvas)
-        effect_instances = self.effect_factory.get_effect_instances([])
+        self.effect_cache = EffectCache(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", canvas)
+        effect_instances = self.effect_cache.get_effect_instances([])
         self.effects_display = CycleEffects(effect_instances)
 
     @mock.patch('ledshim.set_clear_on_exit')
@@ -97,7 +97,7 @@ class TestEffectDisplayRender(TestCase):
         clear_on_exit_mock.assert_called_once()
         set_pixel_call_count = 0
         show_call_count = 0
-        for effect in self.effect_factory.get_all_effects():
+        for effect in self.effect_cache.get_all_effects():
             set_pixel_call_count += self.CANVAS_SIZE * (self.EFFECT_DURATION / effect.get_update_frequency())
             show_call_count += self.EFFECT_DURATION / effect.get_update_frequency()
         show_call_count += 1  # Final call to show cleared shim.

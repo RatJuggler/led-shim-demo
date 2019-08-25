@@ -56,7 +56,7 @@ class EffectCache:
 
     def __init__(self, effects_path: str, effects_package: str, canvas: Canvas) -> None:
         """
-        Initialise the effect factory.
+        Initialise the effect cache.
         :param effects_path: path on the file system to the effects to load
         :param effects_package: the name of the associated package
         :param canvas: to be used by all effects
