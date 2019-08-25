@@ -98,7 +98,7 @@ class AbstractEffectDisplay(ABC):
         Determine the next index to use.
         :return: The next index value to use
         """
-        pass
+        pass   # pragma: no cover
 
 
 class CycleEffects(AbstractEffectDisplay):
