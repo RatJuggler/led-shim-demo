@@ -1,9 +1,9 @@
-import unittest
+from unittest import TestCase
 
 from ledshimdemo.pixel import Pixel
 
 
-class TestPixelConstructor(unittest.TestCase):
+class TestPixelConstructor(TestCase):
 
     DEFAULT_BRIGHTNESS = 0.8
 
@@ -101,7 +101,7 @@ class TestPixelConstructor(unittest.TestCase):
         self.assertEqual(pixel.get_brightness(), self.DEFAULT_BRIGHTNESS)
 
 
-class TestPixelRepr(unittest.TestCase):
+class TestPixelRepr(TestCase):
 
     def setUp(self):
         self.pixel = Pixel(123, 221, 56, 0.42)

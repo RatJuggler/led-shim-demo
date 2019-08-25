@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 from testfixtures import LogCapture
 
 import ledshimdemo.configure_logging as my_logging
 
 
-class TestMain(unittest.TestCase):
+class TestMain(TestCase):
 
     def test_invalid_log_level(self):
         with self.assertRaises(ValueError):

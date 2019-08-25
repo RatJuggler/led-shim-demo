@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from ledshimdemo.colours import Colours
 from ledshimdemo.pixel import Pixel
 
 
-class TestColours(unittest.TestCase):
+class TestColours(TestCase):
 
     DEFAULT_BRIGHTNESS = 0.8
 

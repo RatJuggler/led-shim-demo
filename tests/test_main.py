@@ -1,5 +1,4 @@
-import unittest
-import mock
+from unittest import mock, TestCase
 import logging
 from click.testing import CliRunner
 
@@ -7,7 +6,7 @@ import ledshimdemo.__main__ as main
 
 
 @mock.patch('ledshimdemo.__main__.AbstractEffectDisplay.select_effect_display')
-class TestMain(unittest.TestCase):
+class TestMain(TestCase):
 
     def setUp(self):
         for handler in logging.root.handlers[:]:

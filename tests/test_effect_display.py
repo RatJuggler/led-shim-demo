@@ -1,5 +1,4 @@
-import unittest
-import mock
+from unittest import mock, TestCase
 import os
 from typing import List, Type, TypeVar
 
@@ -13,7 +12,7 @@ from tests.test_effects.dummy2_effect import Dummy2Effect
 from tests.test_effects.dummy3_effect import Dummy3Effect
 
 
-class TestEffectDisplayConstructor(unittest.TestCase):
+class TestEffectDisplayConstructor(TestCase):
 
     def setUp(self):
         pass
@@ -31,7 +30,7 @@ class TestEffectDisplayConstructor(unittest.TestCase):
                               RandomEffects)
 
 
-class TestEffectDisplayGetNextEffect(unittest.TestCase):
+class TestEffectDisplayGetNextEffect(TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int
 
@@ -74,7 +73,7 @@ class TestEffectDisplayGetNextEffect(unittest.TestCase):
         self.call_next_and_test(effect_display, [Dummy3Effect, Dummy1Effect])
 
 
-class TestEffectDisplayRender(unittest.TestCase):
+class TestEffectDisplayRender(TestCase):
 
     CANVAS_SIZE = 3
     EFFECT_DURATION = 2

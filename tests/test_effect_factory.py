@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestCase
 import os
 
 from ledshimdemo.canvas import Canvas
@@ -9,7 +9,7 @@ from tests.test_effects.dummy2_effect import Dummy2Effect
 from tests.test_effects.dummy3_effect import Dummy3Effect
 
 
-class TestEffectFactoryListAndValidate(unittest.TestCase):
+class TestEffectFactoryListAndValidate(TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int
 
@@ -52,7 +52,7 @@ class TestEffectFactoryListAndValidate(unittest.TestCase):
         self.assertEqual(names_in_error, effects_selected)
 
 
-class TestEffectFactoryLoadAndGet(unittest.TestCase):
+class TestEffectFactoryLoadAndGet(TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int
 

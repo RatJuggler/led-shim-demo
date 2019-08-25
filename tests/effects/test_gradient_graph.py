@@ -1,5 +1,4 @@
-import unittest
-import mock
+from unittest import mock, TestCase
 import sys
 
 sys.modules['smbus'] = mock.Mock()  # Mock the hardware layer to avoid errors.
@@ -8,7 +7,7 @@ from ledshimdemo.canvas import Canvas
 from ledshimdemo.effects.gradient_graph import GradientGraphEffect
 
 
-class TestGradientGraph(unittest.TestCase):
+class TestGradientGraph(TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int
 

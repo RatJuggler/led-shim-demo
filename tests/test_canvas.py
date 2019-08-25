@@ -1,11 +1,10 @@
-import unittest
-import mock
+from unittest import mock, TestCase
 
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.colours import Colours
 
 
-class TestCanvasConstructor(unittest.TestCase):
+class TestCanvasConstructor(TestCase):
 
     def test_constructor_valid_size(self):
         size = 3
@@ -23,7 +22,7 @@ class TestCanvasConstructor(unittest.TestCase):
         self.assertRaises(ValueError, Canvas, size)
 
 
-class TestCanvasGetPixel(unittest.TestCase):
+class TestCanvasGetPixel(TestCase):
 
     def setUp(self):
         self.canvas = Canvas(3)
@@ -55,7 +54,7 @@ class TestCanvasGetPixel(unittest.TestCase):
             self.canvas.get_pixel(1000)
 
 
-class TestCanvasSetPixel(unittest.TestCase):
+class TestCanvasSetPixel(TestCase):
 
     def setUp(self):
         self.canvas = Canvas(3)
@@ -81,7 +80,7 @@ class TestCanvasSetPixel(unittest.TestCase):
             self.canvas.set_pixel(1000, Colours.BLUE)
 
 
-class TestCanvasBlankPixel(unittest.TestCase):
+class TestCanvasBlankPixel(TestCase):
 
     def setUp(self):
         self.canvas = Canvas(3)
@@ -104,7 +103,7 @@ class TestCanvasBlankPixel(unittest.TestCase):
             self.canvas.blank_pixel(1000)
 
 
-class TestCanvasClearAll(unittest.TestCase):
+class TestCanvasClearAll(TestCase):
 
     def setUp(self):
         self.canvas = Canvas(3)
@@ -118,7 +117,7 @@ class TestCanvasClearAll(unittest.TestCase):
             self.assertTrue(self.canvas.is_blank_pixel(i))
 
 
-class TestCanvasSetAll(unittest.TestCase):
+class TestCanvasSetAll(TestCase):
 
     def setUp(self):
         self.canvas = Canvas(3)
@@ -131,7 +130,7 @@ class TestCanvasSetAll(unittest.TestCase):
             self.assertEqual(self.canvas.get_pixel(i), Colours.ORANGE)
 
 
-class TestCanvasRepr(unittest.TestCase):
+class TestCanvasRepr(TestCase):
 
     def setUp(self):
         self.canvas = Canvas(3)
@@ -149,7 +148,7 @@ class TestCanvasRepr(unittest.TestCase):
         self.assertEqual(expected_repr, actual_repr)
 
 
-class TestCanvasRenderToShim(unittest.TestCase):
+class TestCanvasRenderToShim(TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int
 
