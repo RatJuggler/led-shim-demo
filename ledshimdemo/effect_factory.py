@@ -1,16 +1,14 @@
 from importlib import import_module
-import logging
 import pkgutil
 from typing import Dict, List
 
 from .abstract_effect import AbstractEffect
 from .canvas import Canvas
-from .effect_display import AbstractEffectDisplay
 
 
 class EffectFactory:
     """
-    Class to store and control access to the available effects and those selected for rendering.
+    Class to store and control access to the available effects.
     """
 
     @staticmethod
@@ -64,8 +62,6 @@ class EffectFactory:
         :param canvas: to be used by all effects
         """
         self.effects_available = self.load_effects(effects_path, effects_package, canvas)
-        self.effects_selected = []
-        self.effect_display = None
 
     def get_all_effects(self) -> List[AbstractEffect]:
         """
@@ -107,36 +103,16 @@ class EffectFactory:
                 names_in_error.append(name)
         return names_in_error
 
-    def set_effects_to_display(self, effect_display: str, effects_selected: List[str]) -> None:
+    def get_effect_instances(self, effects_selected: List[str]) -> List[AbstractEffect]:
         """
-        Set the effect display and the list of effects to be used.
-        :param effect_display: In a CYCLE or at RANDOM
+        Get instances of the effects selected.
         :param effects_selected: List of the effect names to use
-        :return: No meaningful return
+        :return: List of effect display instances
         """
-        if effects_selected:
-            self.effects_selected = effects_selected
+        effect_instances = []
+        if not effects_selected:
+            effect_instances = self.get_all_effects()
         else:
-            self.effects_selected = []
-            for effect in self.get_all_effects():
-                self.effects_selected.append(effect.get_name())
-        self.effect_display = AbstractEffectDisplay.select_effect_display(effect_display, len(self.effects_selected))
-
-    def get_count_effects_selected(self) -> int:
-        """
-        The number of effects to display.
-        :return: The number of effects selected.
-        """
-        return len(self.effects_selected)
-
-    def get_next_effect(self) -> AbstractEffect:
-        """
-        Pick the next effect to display.
-        :return: The next effect to show
-        """
-        if self.effect_display is None or not self.effects_selected:
-            raise ValueError("No effects selected!")
-        next_effect = self.effect_display.get_next_effect()
-        effect = self.get_effect(self.effects_selected[next_effect])
-        logging.info(str(effect))
-        return effect
+            for effect in effects_selected:
+                effect_instances.append(self.get_effect(effect))
+        return effect_instances

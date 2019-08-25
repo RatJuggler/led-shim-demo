@@ -8,7 +8,6 @@ from .configure_logging import configure_logging
 from .effect_display import AbstractEffectDisplay
 from .effect_factory import EffectFactory
 from .pixel import Pixel
-from .render import render
 
 NUM_PIXELS = 28  # The number of LEDs on the shim.
 
@@ -80,7 +79,8 @@ def validate_effects_selected(ctx, param, value) -> None:
 @click.option('-e', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
               help='List the effects available and exit.')
 @click.option('-d', '--effect-display', 'display', type=click.Choice(AbstractEffectDisplay.get_display_options()),
-              help="How the effects are displayed.", default=AbstractEffectDisplay.get_default_option(), show_default=True)
+              help="How the effects are displayed.", default=AbstractEffectDisplay.get_default_option(),
+              show_default=True)
 @click.option('-u', '--effect-duration', 'duration', type=click.IntRange(1, 180),
               help="How long to display each effect for, in seconds (1-180).", default=10, show_default=True)
 @click.option('-r', '--repeat-run', 'run', type=click.IntRange(1, 240),
@@ -116,8 +116,9 @@ def display_effects(display: str, duration: int, run: int, brightness: int, inve
     Pixel.set_default_brightness(brightness / 10.0)
     if invert:
         Canvas.invert_display()
-    EFFECT_FACTORY.set_effects_to_display(display, effects_selected)
-    render(duration, run, lead, EFFECT_FACTORY)
+    effect_instances = EFFECT_FACTORY.get_effect_instances(effects_selected)
+    effects_display = AbstractEffectDisplay.select_effect_display(display, effect_instances)
+    effects_display.render(duration, run, lead)
 
 
 if __name__ == '__main__':
