@@ -2,7 +2,7 @@ from unittest import TestCase
 import os
 
 from ledshimdemo.canvas import Canvas
-from ledshimdemo.effect_factory import EffectFactory
+from ledshimdemo.effect_cache import EffectCache
 
 from tests.test_effects.dummy1_effect import Dummy1Effect
 from tests.test_effects.dummy2_effect import Dummy2Effect
@@ -16,7 +16,7 @@ class TestEffectFactoryListAndValidate(TestCase):
     def setUp(self):
         self.canvas = Canvas(self.TEST_CANVAS_SIZE)
         self.effect_factory = \
-            EffectFactory(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", self.canvas)
+            EffectCache(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", self.canvas)
 
     def test_create_list_effects_display(self):
         effects = ["Available Effects:",
@@ -59,7 +59,7 @@ class TestEffectFactoryLoadAndGet(TestCase):
     def setUp(self):
         self.canvas = Canvas(self.TEST_CANVAS_SIZE)
         self.effect_factory = \
-            EffectFactory(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", self.canvas)
+            EffectCache(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", self.canvas)
 
     def test_get_all_effects(self):
         effects = self.effect_factory.get_all_effects()
@@ -71,15 +71,15 @@ class TestEffectFactoryLoadAndGet(TestCase):
 
     def test_load_non_existent_effect(self):
         with self.assertRaises(ImportError):
-            EffectFactory.load_effect("tests.test_effects.dummy_effect", "DummyEffect", self.canvas)
+            EffectCache.load_effect("tests.test_effects.dummy_effect", "DummyEffect", self.canvas)
 
     def test_load_existent_effect(self):
-        dummy_effect = EffectFactory.load_effect("tests.test_effects.dummy1_effect", "Dummy1Effect", self.canvas)
+        dummy_effect = EffectCache.load_effect("tests.test_effects.dummy1_effect", "Dummy1Effect", self.canvas)
         self.assertIsInstance(dummy_effect, Dummy1Effect)
 
     def test_load_misnamed_effect(self):
         with self.assertRaises(TypeError):
-            EffectFactory.load_effect("tests.effects.not_an_effect", "NotAnEffect")
+            EffectCache.load_effect("tests.effects.not_an_effect", "NotAnEffect")
 
     def test_get_effect_valid(self):
         effect = self.effect_factory.get_effect("dummy1effect")

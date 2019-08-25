@@ -6,7 +6,7 @@ from typing import List, Type, TypeVar
 from ledshimdemo.abstract_effect import AbstractEffect
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.effect_display import AbstractEffectDisplay, CycleEffects, RandomEffects
-from ledshimdemo.effect_factory import EffectFactory
+from ledshimdemo.effect_cache import EffectCache
 
 from tests.test_effects.dummy1_effect import Dummy1Effect
 from tests.test_effects.dummy2_effect import Dummy2Effect
@@ -82,7 +82,7 @@ class TestEffectDisplayRender(TestCase):
 
     def setUp(self):
         canvas = Canvas(self.CANVAS_SIZE)
-        self.effect_factory = EffectFactory(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", canvas)
+        self.effect_factory = EffectCache(os.path.dirname(__file__) + "/test_effects", "tests.test_effects.", canvas)
         effect_instances = self.effect_factory.get_effect_instances([])
         self.effects_display = CycleEffects(effect_instances)
 

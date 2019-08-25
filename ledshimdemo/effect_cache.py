@@ -6,7 +6,7 @@ from .abstract_effect import AbstractEffect
 from .canvas import Canvas
 
 
-class EffectFactory:
+class EffectCache:
     """
     Class to store and control access to the available effects.
     """
@@ -50,7 +50,7 @@ class EffectFactory:
         """
         effects = {}
         for (_, effect_module, _) in pkgutil.iter_modules([effects_path]):
-            effect = EffectFactory.load_effect(effects_package + effect_module, None, *args, **kwargs)
+            effect = EffectCache.load_effect(effects_package + effect_module, None, *args, **kwargs)
             effects[effect.get_name().upper()] = effect
         return effects
 

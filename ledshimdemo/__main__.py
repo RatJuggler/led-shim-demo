@@ -6,12 +6,12 @@ from typing import List
 from .canvas import Canvas
 from .configure_logging import configure_logging
 from .effect_display import AbstractEffectDisplay
-from .effect_factory import EffectFactory
+from .effect_cache import EffectCache
 from .pixel import Pixel
 
 NUM_PIXELS = 28  # The number of LEDs on the shim.
 
-EFFECT_FACTORY = EffectFactory(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", Canvas(NUM_PIXELS))
+EFFECT_FACTORY = EffectCache(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", Canvas(NUM_PIXELS))
 
 
 def show_options(display: str, duration: int, run: int, brightness: int, invert: bool,
