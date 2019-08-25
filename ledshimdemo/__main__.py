@@ -5,7 +5,7 @@ from typing import List
 
 from .canvas import Canvas
 from .configure_logging import configure_logging
-from .effect_display import get_default_option, get_display_options
+from .effect_display import AbstractEffectDisplay
 from .effect_factory import EffectFactory
 from .pixel import Pixel
 from .render import render
@@ -79,8 +79,8 @@ def validate_effects_selected(ctx, param, value) -> None:
 @click.version_option()
 @click.option('-e', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
               help='List the effects available and exit.')
-@click.option('-d', '--effect-display', 'display', type=click.Choice(get_display_options()),
-              help="How the effects are displayed.", default=get_default_option(), show_default=True)
+@click.option('-d', '--effect-display', 'display', type=click.Choice(AbstractEffectDisplay.get_display_options()),
+              help="How the effects are displayed.", default=AbstractEffectDisplay.get_default_option(), show_default=True)
 @click.option('-u', '--effect-duration', 'duration', type=click.IntRange(1, 180),
               help="How long to display each effect for, in seconds (1-180).", default=10, show_default=True)
 @click.option('-r', '--repeat-run', 'run', type=click.IntRange(1, 240),

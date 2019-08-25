@@ -5,7 +5,7 @@ from typing import Dict, List
 
 from .abstract_effect import AbstractEffect
 from .canvas import Canvas
-from .effect_display import select_effect_display
+from .effect_display import AbstractEffectDisplay
 
 
 class EffectFactory:
@@ -66,7 +66,6 @@ class EffectFactory:
         self.effects_available = self.load_effects(effects_path, effects_package, canvas)
         self.effects_selected = []
         self.effect_display = None
-        self.next_effect = -1
 
     def get_all_effects(self) -> List[AbstractEffect]:
         """
@@ -115,13 +114,13 @@ class EffectFactory:
         :param effects_selected: List of the effect names to use
         :return: No meaningful return
         """
-        self.effect_display = select_effect_display(effect_display)
         if effects_selected:
             self.effects_selected = effects_selected
         else:
             self.effects_selected = []
             for effect in self.get_all_effects():
                 self.effects_selected.append(effect.get_name())
+        self.effect_display = AbstractEffectDisplay.select_effect_display(effect_display, len(self.effects_selected))
 
     def get_count_effects_selected(self) -> int:
         """
@@ -137,7 +136,7 @@ class EffectFactory:
         """
         if self.effect_display is None or not self.effects_selected:
             raise ValueError("No effects selected!")
-        self.next_effect = self.effect_display(self.next_effect, len(self.effects_selected))
-        effect = self.get_effect(self.effects_selected[self.next_effect])
+        next_effect = self.effect_display.get_next_effect()
+        effect = self.get_effect(self.effects_selected[next_effect])
         logging.info(str(effect))
         return effect
