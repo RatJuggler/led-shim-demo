@@ -1,4 +1,5 @@
-from unittest import mock, TestCase
+from unittest import TestCase
+import mock
 import logging
 from click.testing import CliRunner
 
@@ -89,8 +90,9 @@ class TestMain(TestCase):
                                                            'Candle', 'Rainbow'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - VERBOSE - Logging level enabled!", result.output)
-        self.assertIn(" - INFO - Active Options(effect-display=RANDOM, effect-duration=180 secs, repeat-run=240, "
-                      "brightness=3, invert=True, log-level=VERBOSE, lead=True, effects_selected=('Candle', 'Rainbow'))",
+        self.assertIn(" - INFO - Active Options(effect-display=RANDOM, effect-duration=180 secs, "
+                      "repeat-run=240, brightness=3, invert=True, log-level=VERBOSE, lead=True, "
+                      "effects_selected=('Candle', 'Rainbow'))",
                       result.output)
         effect_display_mock.select_effect_display.assert_called_once()
         effect_display_mock.select_effect_display.return_value.render.assert_called_once()

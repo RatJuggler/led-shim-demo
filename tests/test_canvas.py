@@ -1,4 +1,5 @@
-from unittest import mock, TestCase
+from unittest import TestCase
+import mock
 
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.colours import Colours

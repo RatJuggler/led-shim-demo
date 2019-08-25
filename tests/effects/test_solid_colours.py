@@ -1,4 +1,5 @@
-from unittest import mock, TestCase
+from unittest import TestCase
+import mock
 import sys
 
 sys.modules['smbus'] = mock.Mock()  # Mock the hardware layer to avoid errors.

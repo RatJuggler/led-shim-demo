@@ -1,4 +1,5 @@
-from unittest import mock, TestCase
+from unittest import TestCase
+import mock
 import sys
 
 from time import localtime, strftime
