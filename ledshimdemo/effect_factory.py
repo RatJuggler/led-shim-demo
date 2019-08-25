@@ -1,23 +1,17 @@
 from importlib import import_module
 import logging
 import pkgutil
-from random import randint
 from typing import Dict, List
 
 from .abstract_effect import AbstractEffect
 from .canvas import Canvas
+from .effect_display import select_effect_display
 
 
 class EffectFactory:
     """
     Class to store and control access to the available effects and those selected for rendering.
     """
-
-    # Supported display options:
-    # Cycle - go through the selected effects in order.
-    # Random - out of the selected effects pick one at random each time.
-    CYCLE_DISPLAY = "CYCLE"
-    RANDOM_DISPLAY = "RANDOM"
 
     @staticmethod
     def load_effect(effect_module: str, effect_class: str, *args, **kwargs) -> AbstractEffect:
@@ -121,9 +115,7 @@ class EffectFactory:
         :param effects_selected: List of the effect names to use
         :return: No meaningful return
         """
-        assert effect_display in (self.CYCLE_DISPLAY, self.RANDOM_DISPLAY),\
-            "Effect display must be {0} or {1}!".format(self.CYCLE_DISPLAY, self.RANDOM_DISPLAY)
-        self.effect_display = effect_display
+        self.effect_display = select_effect_display(effect_display)
         if effects_selected:
             self.effects_selected = effects_selected
         else:
@@ -145,10 +137,7 @@ class EffectFactory:
         """
         if self.effect_display is None or not self.effects_selected:
             raise ValueError("No effects selected!")
-        if self.effect_display == self.CYCLE_DISPLAY:
-            self.next_effect = (self.next_effect + 1) % len(self.effects_selected)
-        if self.effect_display == self.RANDOM_DISPLAY:
-            self.next_effect = randint(0, len(self.effects_selected) - 1)
+        self.next_effect = self.effect_display(self.next_effect, len(self.effects_selected))
         effect = self.get_effect(self.effects_selected[self.next_effect])
         logging.info(str(effect))
         return effect
