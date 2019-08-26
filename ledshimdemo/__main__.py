@@ -98,7 +98,7 @@ def validate_effects_selected(ctx, param, value) -> None:
               help='This is the lead to sync other instances with.')
 @click.option('-f', '--follow', is_flag=True,
               help='Follow the lead instance supplied disregarding other local options.')
-@click.option('-p', '--port', type=click.IntRange(1024-65535),
+@click.option('-p', '--port', type=click.IntRange(1024, 65535),
               help="Set the port number used for syncing.", default=5556, show_default=True)
 @click.argument('effects_selected', nargs=-1, callback=validate_effects_selected, required=False)
 def display_effects(display: str, duration: int, run: int, brightness: int, invert: bool,
