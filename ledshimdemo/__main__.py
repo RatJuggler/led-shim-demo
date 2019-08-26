@@ -1,36 +1,18 @@
 import click
 import logging
 import os
-from ipaddress import ip_address
 from typing import List
 
 from .canvas import Canvas
 from .configure_logging import configure_logging
 from .effect_display import AbstractEffectDisplay
 from .effect_cache import EffectCache
+from .ipaddress_param import IPAddressParamType
 from .pixel import Pixel
 
 NUM_PIXELS = 28  # The number of LEDs on the shim.
 
 EFFECT_CACHE = EffectCache(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", Canvas(NUM_PIXELS))
-
-
-class IPAddressParamType(click.ParamType):
-    name = "ipaddress"
-
-    def convert(self, value, param, ctx):
-        try:
-            return ip_address(value)
-        except TypeError:
-            self.fail(
-                "expected string for int() conversion, got "
-                f"{value!r} of type {type(value).__name__}",
-                param,
-                ctx,
-            )
-        except ValueError:
-            self.fail(f"{value!r} is not a valid IP address", param, ctx)
-
 
 IP_ADDRESS = IPAddressParamType()
 
