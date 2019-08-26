@@ -123,6 +123,6 @@ class TestMain(TestCase):
     def test_invalid_lead_option(self, effect_display_mock):
         result = self.runner.invoke(main.display_effects, ['--lead', 'localhost'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn('Error: Invalid value for "-l" / "--lead": \'localhost\' is not a valid IP address', result.output)
+        self.assertIn('Error: Invalid value for "-l" / "--lead": localhost is not a valid IP address', result.output)
         effect_display_mock.select_effect_display.assert_not_called()
         effect_display_mock.select_effect_display.return_value.render.assert_not_called()
