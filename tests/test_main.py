@@ -25,6 +25,7 @@ class TestMain(TestCase):
         self.assertIn(" --brightness ", result.output)
         self.assertIn(" --invert ", result.output)
         self.assertIn(" --log-level ", result.output)
+        self.assertIn(" --lead ", result.output)
         self.assertIn(" --help ", result.output)
         effect_display_mock.select_effect_display.assert_not_called()
         effect_display_mock.select_effect_display.return_value.render.assert_not_called()
@@ -59,7 +60,7 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - INFO - Logging level enabled!", result.output)
         self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10 secs, repeat-run=1, "
-                      "brightness=8, invert=False, log-level=INFO, lead=False, effects_selected=ALL)", result.output)
+                      "brightness=8, invert=False, log-level=INFO, lead=None, effects_selected=ALL)", result.output)
         effect_display_mock.select_effect_display.assert_called_once()
         effect_display_mock.select_effect_display.return_value.render.assert_called_once()
 
@@ -75,7 +76,7 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - DEBUG - Logging level enabled!", result.output)
         self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10 secs, repeat-run=1, "
-                      "brightness=8, invert=False, log-level=DEBUG, lead=False, effects_selected=ALL)", result.output)
+                      "brightness=8, invert=False, log-level=DEBUG, lead=None, effects_selected=ALL)", result.output)
         effect_display_mock.select_effect_display.assert_called_once()
         effect_display_mock.select_effect_display.return_value.render.assert_called_once()
 
@@ -86,12 +87,11 @@ class TestMain(TestCase):
                                                            '--brightness', '3',
                                                            '--invert',
                                                            '--log-level', 'VERBOSE',
-                                                           '--lead',
                                                            'Candle', 'Rainbow'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - VERBOSE - Logging level enabled!", result.output)
         self.assertIn(" - INFO - Active Options(effect-display=RANDOM, effect-duration=180 secs, "
-                      "repeat-run=240, brightness=3, invert=True, log-level=VERBOSE, lead=True, "
+                      "repeat-run=240, brightness=3, invert=True, log-level=VERBOSE, lead=None, "
                       "effects_selected=('Candle', 'Rainbow'))",
                       result.output)
         effect_display_mock.select_effect_display.assert_called_once()
@@ -108,5 +108,21 @@ class TestMain(TestCase):
         result = self.runner.invoke(main.display_effects, ['Candle', 'Apple', 'Banana'])
         self.assertEqual(result.exit_code, 2)
         self.assertIn('Error: Invalid value for "[EFFECTS_SELECTED]...": Unknown effects: Apple, Banana', result.output)
+        effect_display_mock.select_effect_display.assert_not_called()
+        effect_display_mock.select_effect_display.return_value.render.assert_not_called()
+
+    def test_valid_lead_option(self, effect_display_mock):
+        result = self.runner.invoke(main.display_effects, ['--lead', '127.0.0.1'])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn(" - INFO - Logging level enabled!", result.output)
+        self.assertIn(" - INFO - Active Options(effect-display=CYCLE, effect-duration=10 secs, repeat-run=1, "
+                      "brightness=8, invert=False, log-level=INFO, lead=127.0.0.1, effects_selected=ALL)", result.output)
+        effect_display_mock.select_effect_display.assert_called_once()
+        effect_display_mock.select_effect_display.return_value.render.assert_called_once()
+
+    def test_invalid_lead_option(self, effect_display_mock):
+        result = self.runner.invoke(main.display_effects, ['--lead', 'localhost'])
+        self.assertEqual(result.exit_code, 2)
+        self.assertIn('Error: Invalid value for "-l" / "--lead": \'localhost\' is not a valid IP address', result.output)
         effect_display_mock.select_effect_display.assert_not_called()
         effect_display_mock.select_effect_display.return_value.render.assert_not_called()

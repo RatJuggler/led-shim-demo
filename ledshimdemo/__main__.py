@@ -1,6 +1,7 @@
 import click
 import logging
 import os
+from ipaddress import ip_address
 from typing import List
 
 from .canvas import Canvas
@@ -12,6 +13,26 @@ from .pixel import Pixel
 NUM_PIXELS = 28  # The number of LEDs on the shim.
 
 EFFECT_CACHE = EffectCache(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", Canvas(NUM_PIXELS))
+
+
+class IPAddressParamType(click.ParamType):
+    name = "ipaddress"
+
+    def convert(self, value, param, ctx):
+        try:
+            return ip_address(value)
+        except TypeError:
+            self.fail(
+                "expected string for int() conversion, got "
+                f"{value!r} of type {type(value).__name__}",
+                param,
+                ctx,
+            )
+        except ValueError:
+            self.fail(f"{value!r} is not a valid IP address", param, ctx)
+
+
+IP_ADDRESS = IPAddressParamType()
 
 
 def show_options(display: str, duration: int, run: int, brightness: int, invert: bool,
@@ -91,7 +112,7 @@ def validate_effects_selected(ctx, param, value) -> None:
               help="Change the display orientation.")
 @click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
               help="Show additional logging information.", default="INFO", show_default=True)
-@click.option('-l', '--lead', is_flag=True,
+@click.option('-l', '--lead', type=IP_ADDRESS, default=None,
               help='This is the lead to sync other instances with.')
 @click.option('-f', '--follow', is_flag=True,
               help='Follow the lead instance supplied disregarding other local options.')
