@@ -95,9 +95,11 @@ def validate_effects_selected(ctx, param, value) -> None:
               help='This is the lead to sync other instances with.')
 @click.option('-f', '--follow', is_flag=True,
               help='Follow the lead instance supplied disregarding other local options.')
+@click.option('-p', '--port', type=click.IntRange(1024-65535),
+              help="Set the port number used for syncing.", default=5556, show_default=True)
 @click.argument('effects_selected', nargs=-1, callback=validate_effects_selected, required=False)
 def display_effects(display: str, duration: int, run: int, brightness: int, invert: bool,
-                    level: str, lead: bool, follow: bool, effects_selected: List[str]) -> None:
+                    level: str, lead: bool, follow: bool, port: int, effects_selected: List[str]) -> None:
     """
     Show various effects on a Pimoroni LED shim.
     :param display: In a CYCLE or at RANDOM
@@ -108,6 +110,7 @@ def display_effects(display: str, duration: int, run: int, brightness: int, inve
     :param level: Set a logging level; DEBUG, VERBOSE, INFO or WARNING
     :param lead: Act as a lead for other instances to follow
     :param follow: Follow a lead instance disregarding other local options
+    :param port: Configure the port number to be used when syncing
     :param effects_selected: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
