@@ -1,6 +1,6 @@
 from unittest import TestCase
 from click import BadParameter
-from ipaddress import ip_address, IPv4Address
+from ipaddress import IPv4Address
 
 from ledshimdemo.ipaddress_param import IPAddressParamType
 
@@ -24,4 +24,3 @@ class TestIPAddressParam(TestCase):
     def test_convert_valid(self):
         convert = self.param_type.convert("8.8.8.8", "dummy", None)
         self.assertIsInstance(convert, IPv4Address)
-
