@@ -81,7 +81,7 @@ def validate_effects_selected(ctx, param, value) -> None:
               help="Show additional logging information.", default="INFO", show_default=True)
 def ledshimdemo(level: str):
     """
-
+    Show various effects on one or more Raspberry Pi's with Pimoroni LED shim's.
     :param level: Set a logging level; DEBUG, VERBOSE, INFO or WARNING
     :return: No meaningful return
     """
@@ -100,11 +100,11 @@ def ledshimdemo(level: str):
               help="How bright the effects will be (1-10).", default=8, show_default=True)
 @click.option('-i', '--invert', is_flag=True,
               help="Change the display orientation.")
-@click.argument('effects_selected', nargs=-1, callback=validate_effects_selected, required=False)
+@click.argument('effects_selected', nargs=-1, type=click.STRING, callback=validate_effects_selected, required=False)
 def display(display: str, duration: int, run: int, brightness: int,
             invert: bool, effects_selected: List[str]) -> None:
     """
-    Show various effects on a Pimoroni LED shim.
+    Display various effects on a Pimoroni LED shim.
     :param display: In a CYCLE or at RANDOM
     :param duration: How long to display each effect for
     :param run: How many times to run the effects
@@ -123,30 +123,47 @@ def display(display: str, duration: int, run: int, brightness: int,
 
 
 @ledshimdemo.command(help="Act as a lead for other instances to follow.")
-@click.option('-l', '--lead', type=IP_ADDRESS, default=None,
-              help='This is the lead to sync other instances with.')
+@click.option('-d', '--effect-display', 'display', type=click.Choice(AbstractEffectDisplay.get_display_options()),
+              help="How the effects are displayed.", default=AbstractEffectDisplay.get_default_option(),
+              show_default=True)
+@click.option('-u', '--effect-duration', 'duration', type=click.IntRange(1, 180),
+              help="How long to display each effect for, in seconds (1-180).", default=10, show_default=True)
+@click.option('-r', '--repeat-run', 'run', type=click.IntRange(1, 240),
+              help="How many times to run the effects before stopping (1-240).", default=1, show_default=True)
+@click.option('-b', '--brightness', type=click.IntRange(1, 10),
+              help="How bright the effects will be (1-10).", default=8, show_default=True)
+@click.option('-i', '--invert', is_flag=True,
+              help="Change the display orientation.")
 @click.option('-p', '--port', type=click.IntRange(1024, 65535),
               help="Set the port number used for syncing.", default=5556, show_default=True)
-def lead(lead: str, port: int) -> None:
+@click.argument('ip_address', nargs=1, type=IP_ADDRESS, required=True)
+@click.argument('effects_selected', nargs=-1, type=click.STRING, callback=validate_effects_selected, required=False)
+def lead(display: str, duration: int, run: int, brightness: int,
+         invert: bool, port: int, ip_address: str, effects_selected: List[str]) -> None:
     """
     Display effects as normal but also publish the settings for follow subscribers.
-    :param lead: the lead instance's ip address
+    :param display: In a CYCLE or at RANDOM
+    :param duration: How long to display each effect for
+    :param run: How many times to run the effects
+    :param brightness: How bright the effects will be
+    :param invert: Depending on which way round the Pi is
     :param port: Configure the port number to be used when syncing
+    :param ip_address: the lead instance's ip address
+    :param effects_selected: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
     click.echo("Start displaying effects and publish the settings for follow subscribers.")
 
 
 @ledshimdemo.command(help="Follow a lead instance.")
-@click.option('-f', '--follow', type=IP_ADDRESS, default=None,
-              help='Follow the lead instance supplied disregarding other local options.')
 @click.option('-p', '--port', type=click.IntRange(1024, 65535),
               help="Set the port number used for syncing.", default=5556, show_default=True)
-def follow(follow: str, port: int) -> None:
+@click.argument('ip_address', nargs=1, type=IP_ADDRESS, required=True)
+def follow(port: int, ip_address: str) -> None:
     """
     Subscribe to lead instance for display setting then start displaying effects.
-    :param follow: the lead instance's ip address
     :param port: Configure the port number to be used when syncing
+    :param ip_address: the lead instance's ip address
     :return: No meaningful return
     """
     click.echo("Subscribe to lead for display setting then start displaying effects.")

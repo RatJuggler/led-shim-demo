@@ -126,15 +126,39 @@ class TestLeadCommand(TestCase):
         self.runner = CliRunner()
 
     def test_lead_valid_ip_address(self, effect_display_mock):
-        result = self.runner.invoke(main.ledshimdemo, ['lead', '--lead', '127.0.0.1'])
+        result = self.runner.invoke(main.ledshimdemo, ['lead', '127.0.0.1'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - INFO - Logging level enabled!", result.output)
         effect_display_mock.select_effect_display.assert_not_called()
         effect_display_mock.select_effect_display.return_value.render.assert_not_called()
 
     def test_lead_invalid_ip_address(self, effect_display_mock):
-        result = self.runner.invoke(main.ledshimdemo, ['lead', '--lead', 'localhost'])
+        result = self.runner.invoke(main.ledshimdemo, ['lead', 'localhost'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn('Error: Invalid value for "-l" / "--lead": localhost is not a valid IP address', result.output)
+        self.assertIn('Error: Invalid value for "IP_ADDRESS": localhost is not a valid IP address', result.output)
+        effect_display_mock.select_effect_display.assert_not_called()
+        effect_display_mock.select_effect_display.return_value.render.assert_not_called()
+
+
+
+@mock.patch('ledshimdemo.__main__.AbstractEffectDisplay')
+class TestFollowCommand(TestCase):
+
+    def setUp(self):
+        for handler in logging.root.handlers[:]:
+            logging.root.removeHandler(handler)
+        self.runner = CliRunner()
+
+    def test_follow_valid_ip_address(self, effect_display_mock):
+        result = self.runner.invoke(main.ledshimdemo, ['follow', '127.0.0.1'])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn(" - INFO - Logging level enabled!", result.output)
+        effect_display_mock.select_effect_display.assert_not_called()
+        effect_display_mock.select_effect_display.return_value.render.assert_not_called()
+
+    def test_follow_invalid_ip_address(self, effect_display_mock):
+        result = self.runner.invoke(main.ledshimdemo, ['follow', 'localhost'])
+        self.assertEqual(result.exit_code, 2)
+        self.assertIn('Error: Invalid value for "IP_ADDRESS": localhost is not a valid IP address', result.output)
         effect_display_mock.select_effect_display.assert_not_called()
         effect_display_mock.select_effect_display.return_value.render.assert_not_called()
