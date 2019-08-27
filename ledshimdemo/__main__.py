@@ -79,7 +79,7 @@ def validate_effects_selected(ctx, param, value) -> None:
 @click.version_option()
 @click.option('-e', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
               help='List the effects available and exit.')
-@click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
+@click.option('-l', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
               help="Show additional logging information.", default="INFO", show_default=True)
 def ledshimdemo(level: str):
     """
@@ -116,7 +116,7 @@ def display(parade: str, duration: int, run: int, brightness: int,
 
 @ledshimdemo.command(help="Act as a lead for other instances to follow.")
 @add_options(DISPLAY_OPTIONS)
-@click.option('-p', '--port', type=click.IntRange(1024, 65535),
+@click.option('-o', '--port', type=click.IntRange(1024, 65535),
               help="Set the port number used for syncing.", default=5556, show_default=True)
 @click.argument('ip_address', nargs=1, type=IP_ADDRESS, required=True)
 @click.argument('effects_selected', nargs=-1, type=click.STRING, callback=validate_effects_selected, required=False)
@@ -144,7 +144,7 @@ def lead(parade: str, duration: int, run: int, brightness: int,
 
 
 @ledshimdemo.command(help="Follow a lead instance.")
-@click.option('-p', '--port', type=click.IntRange(1024, 65535),
+@click.option('-o', '--port', type=click.IntRange(1024, 65535),
               help="Set the port number used for syncing.", default=5556, show_default=True)
 @click.argument('ip_address', nargs=1, type=IP_ADDRESS, required=True)
 def follow(port: int, ip_address: str) -> None:
