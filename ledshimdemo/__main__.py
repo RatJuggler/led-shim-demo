@@ -110,8 +110,8 @@ def display(parade: str, duration: int, repeat: int, brightness: int,
     if invert:
         Canvas.invert_display()
     effect_instances = EFFECT_CACHE.get_effect_instances(effects_selected)
-    effects_display = AbstractEffectParade.select_effect_parade(parade, effect_instances)
-    effects_display.render(duration, repeat, lead)
+    effects_parade = AbstractEffectParade.select_effect_parade(parade, effect_instances)
+    effects_parade.render(duration, repeat, lead)
 
 
 @ledshimdemo.command(help="Act as a lead for other instances to follow.")
@@ -139,8 +139,8 @@ def lead(parade: str, duration: int, repeat: int, brightness: int,
     if invert:
         Canvas.invert_display()
     effect_instances = EFFECT_CACHE.get_effect_instances(effects_selected)
-    effects_display = AbstractEffectParade.select_effect_parade(parade, effect_instances)
-    effects_display.render(duration, repeat, lead)
+    effects_parade = AbstractEffectParade.select_effect_parade(parade, effect_instances)
+    effects_parade.render(duration, repeat, lead)
 
 
 @ledshimdemo.command(help="Follow a lead instance.")

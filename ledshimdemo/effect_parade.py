@@ -14,8 +14,8 @@ class AbstractEffectParade(ABC):
     # Supported parade options:
     # Cycle - go through the selected effects in order.
     # Random - out of the selected effects pick one at random each time.
-    CYCLE_DISPLAY = "CYCLE"
-    RANDOM_DISPLAY = "RANDOM"
+    CYCLE_PARADE = "CYCLE"
+    RANDOM_PARADE = "RANDOM"
 
     def __init__(self, effects_selected: List[AbstractEffect]):
         self.effects_selected = effects_selected
@@ -27,7 +27,7 @@ class AbstractEffectParade(ABC):
         Create a list of all the display options.
         :return: A list of all the display option.
         """
-        return [cls.CYCLE_DISPLAY, cls.RANDOM_DISPLAY]
+        return [cls.CYCLE_PARADE, cls.RANDOM_PARADE]
 
     @classmethod
     def get_default_option(cls) -> str:
@@ -35,7 +35,7 @@ class AbstractEffectParade(ABC):
         The default display option.
         :return: The display option to use as a default.
         """
-        return cls.CYCLE_DISPLAY
+        return cls.CYCLE_PARADE
 
     @classmethod
     def select_effect_parade(cls, parade_option: str, effects_selected: List[AbstractEffect]) -> \
@@ -48,9 +48,9 @@ class AbstractEffectParade(ABC):
         """
         assert parade_option in (cls.get_parade_options()), \
             "Effect parade option must be one of {0}!".format(cls.get_parade_options())
-        if parade_option == cls.CYCLE_DISPLAY:
+        if parade_option == cls.CYCLE_PARADE:
             return CycleEffects(effects_selected)
-        if parade_option == cls.RANDOM_DISPLAY:
+        if parade_option == cls.RANDOM_PARADE:
             return RandomEffects(effects_selected)
 
     def get_count_effects_selected(self) -> int:
