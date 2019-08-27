@@ -88,18 +88,30 @@ def ledshimdemo(level: str):
     configure_logging(level)
 
 
+common_options = [
+     click.option('-d', '--effect-display', 'display', type=click.Choice(AbstractEffectDisplay.get_display_options()),
+                  help="How the effects are displayed.", default=AbstractEffectDisplay.get_default_option(),
+                  show_default=True),
+     click.option('-u', '--effect-duration', 'duration', type=click.IntRange(1, 180),
+                  help="How long to display each effect for, in seconds (1-180).", default=10, show_default=True),
+     click.option('-r', '--repeat-run', 'run', type=click.IntRange(1, 240),
+                  help="How many times to run the effects before stopping (1-240).", default=1, show_default=True),
+     click.option('-b', '--brightness', type=click.IntRange(1, 10),
+                  help="How bright the effects will be (1-10).", default=8, show_default=True),
+     click.option('-i', '--invert', is_flag=True, help="Change the display orientation.")
+]
+
+
+def add_options(options):
+    def _add_options(func):
+        for option in reversed(options):
+            func = option(func)
+        return func
+    return _add_options
+
+
 @ledshimdemo.command(help="Display the effects on a single Pi")
-@click.option('-d', '--effect-display', 'display', type=click.Choice(AbstractEffectDisplay.get_display_options()),
-              help="How the effects are displayed.", default=AbstractEffectDisplay.get_default_option(),
-              show_default=True)
-@click.option('-u', '--effect-duration', 'duration', type=click.IntRange(1, 180),
-              help="How long to display each effect for, in seconds (1-180).", default=10, show_default=True)
-@click.option('-r', '--repeat-run', 'run', type=click.IntRange(1, 240),
-              help="How many times to run the effects before stopping (1-240).", default=1, show_default=True)
-@click.option('-b', '--brightness', type=click.IntRange(1, 10),
-              help="How bright the effects will be (1-10).", default=8, show_default=True)
-@click.option('-i', '--invert', is_flag=True,
-              help="Change the display orientation.")
+@add_options(common_options)
 @click.argument('effects_selected', nargs=-1, type=click.STRING, callback=validate_effects_selected, required=False)
 def display(display: str, duration: int, run: int, brightness: int,
             invert: bool, effects_selected: List[str]) -> None:
@@ -123,17 +135,7 @@ def display(display: str, duration: int, run: int, brightness: int,
 
 
 @ledshimdemo.command(help="Act as a lead for other instances to follow.")
-@click.option('-d', '--effect-display', 'display', type=click.Choice(AbstractEffectDisplay.get_display_options()),
-              help="How the effects are displayed.", default=AbstractEffectDisplay.get_default_option(),
-              show_default=True)
-@click.option('-u', '--effect-duration', 'duration', type=click.IntRange(1, 180),
-              help="How long to display each effect for, in seconds (1-180).", default=10, show_default=True)
-@click.option('-r', '--repeat-run', 'run', type=click.IntRange(1, 240),
-              help="How many times to run the effects before stopping (1-240).", default=1, show_default=True)
-@click.option('-b', '--brightness', type=click.IntRange(1, 10),
-              help="How bright the effects will be (1-10).", default=8, show_default=True)
-@click.option('-i', '--invert', is_flag=True,
-              help="Change the display orientation.")
+@add_options(common_options)
 @click.option('-p', '--port', type=click.IntRange(1024, 65535),
               help="Set the port number used for syncing.", default=5556, show_default=True)
 @click.argument('ip_address', nargs=1, type=IP_ADDRESS, required=True)
