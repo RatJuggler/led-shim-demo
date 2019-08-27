@@ -69,8 +69,14 @@ def validate_effects_selected(ctx, param, value) -> None:
     return value
 
 
-@click.group(help="""Show various effects on one or more Raspberry Pi's with Pimoroni LED shim's.""")
+@click.group(help="""
+    Show various effects on one or more Raspberry Pi's with Pimoroni LED shim's.\n
+    To limit the effects shown use the effect-list option to list the effects available then add them to the command
+    line as required. Otherwise all effects will be shown.
+    """)
 @click.version_option()
+@click.option('-e', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
+              help='List the effects available and exit.')
 @click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
               help="Show additional logging information.", default="INFO", show_default=True)
 def ledshimdemo(level: str):
@@ -82,9 +88,7 @@ def ledshimdemo(level: str):
     configure_logging(level)
 
 
-@ledshimdemo.command(help="Display the effects on a sinlge Pi")
-@click.option('-e', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
-              help='List the effects available and exit.')
+@ledshimdemo.command(help="Display the effects on a single Pi")
 @click.option('-d', '--effect-display', 'display', type=click.Choice(AbstractEffectDisplay.get_display_options()),
               help="How the effects are displayed.", default=AbstractEffectDisplay.get_default_option(),
               show_default=True)
@@ -125,7 +129,7 @@ def display(display: str, duration: int, run: int, brightness: int,
               help="Set the port number used for syncing.", default=5556, show_default=True)
 def lead(lead: str, port: int) -> None:
     """
-
+    Display effects as normal but also publish the settings for follow subscribers.
     :param lead: the lead instance's ip address
     :param port: Configure the port number to be used when syncing
     :return: No meaningful return
@@ -140,7 +144,7 @@ def lead(lead: str, port: int) -> None:
               help="Set the port number used for syncing.", default=5556, show_default=True)
 def follow(follow: str, port: int) -> None:
     """
-
+    Subscribe to lead instance for display setting then start displaying effects.
     :param follow: the lead instance's ip address
     :param port: Configure the port number to be used when syncing
     :return: No meaningful return

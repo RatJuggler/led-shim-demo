@@ -6,44 +6,26 @@ from click.testing import CliRunner
 import ledshimdemo.__main__ as main
 
 
-@mock.patch('ledshimdemo.__main__.AbstractEffectDisplay')
-class TestMain(TestCase):
+class TestBaseCommand(TestCase):
 
     def setUp(self):
-        for handler in logging.root.handlers[:]:
-            logging.root.removeHandler(handler)
         self.runner = CliRunner()
 
-    def test_ledshimdemo_help(self, effect_display_mock):
+    def test_help(self):
         result = self.runner.invoke(main.ledshimdemo, ['--help'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" --version ", result.output)
+        self.assertIn(" --effect-list ", result.output)
         self.assertIn(" --log-level ", result.output)
         self.assertIn(" --help ", result.output)
-        effect_display_mock.select_effect_display.assert_not_called()
-        effect_display_mock.select_effect_display.return_value.render.assert_not_called()
 
-    def test_ledshimdemo_version(self, effect_display_mock):
+    def test_version(self):
         result = self.runner.invoke(main.ledshimdemo, ['--version'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn("ledshimdemo, version ", result.output)
-        effect_display_mock.select_effect_display.assert_not_called()
-        effect_display_mock.select_effect_display.return_value.render.assert_not_called()
 
-    def test_display_help(self, effect_display_mock):
-        result = self.runner.invoke(main.ledshimdemo, ['display', '--help'])
-        self.assertEqual(result.exit_code, 0)
-        self.assertIn(" --effect-list ", result.output)
-        self.assertIn(" --effect-display ", result.output)
-        self.assertIn(" --effect-duration ", result.output)
-        self.assertIn(" --repeat-run ", result.output)
-        self.assertIn(" --brightness ", result.output)
-        self.assertIn(" --invert ", result.output)
-        effect_display_mock.select_effect_display.assert_not_called()
-        effect_display_mock.select_effect_display.return_value.render.assert_not_called()
-
-    def test_display_effect_list(self, effect_display_mock):
-        result = self.runner.invoke(main.ledshimdemo, ['display', '--effect-list'])
+    def test_effect_list(self):
+        result = self.runner.invoke(main.ledshimdemo, ['--effect-list'])
         self.assertEqual(result.exit_code, 0)
         effects = ["Available Effects:",
                    "BinaryClock    - Shows hours, minutes and seconds.",
@@ -57,6 +39,24 @@ class TestMain(TestCase):
                    "SolidColours   - A sequence of solid colours."]
         effects_list = "\n".join(effects)
         self.assertIn(effects_list, result.output)
+
+
+@mock.patch('ledshimdemo.__main__.AbstractEffectDisplay')
+class TestDisplayCommand(TestCase):
+
+    def setUp(self):
+        for handler in logging.root.handlers[:]:
+            logging.root.removeHandler(handler)
+        self.runner = CliRunner()
+
+    def test_display_help(self, effect_display_mock):
+        result = self.runner.invoke(main.ledshimdemo, ['display', '--help'])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn(" --effect-display ", result.output)
+        self.assertIn(" --effect-duration ", result.output)
+        self.assertIn(" --repeat-run ", result.output)
+        self.assertIn(" --brightness ", result.output)
+        self.assertIn(" --invert ", result.output)
         effect_display_mock.select_effect_display.assert_not_called()
         effect_display_mock.select_effect_display.return_value.render.assert_not_called()
 
@@ -115,6 +115,15 @@ class TestMain(TestCase):
         self.assertIn('Error: Invalid value for "[EFFECTS_SELECTED]...": Unknown effects: Apple, Banana', result.output)
         effect_display_mock.select_effect_display.assert_not_called()
         effect_display_mock.select_effect_display.return_value.render.assert_not_called()
+
+
+@mock.patch('ledshimdemo.__main__.AbstractEffectDisplay')
+class TestLeadCommand(TestCase):
+
+    def setUp(self):
+        for handler in logging.root.handlers[:]:
+            logging.root.removeHandler(handler)
+        self.runner = CliRunner()
 
     def test_lead_valid_ip_address(self, effect_display_mock):
         result = self.runner.invoke(main.ledshimdemo, ['lead', '--lead', '127.0.0.1'])
