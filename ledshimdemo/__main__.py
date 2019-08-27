@@ -32,9 +32,9 @@ def display_options_used(command: str, parade: str, duration: int, run: int, bri
     :return: One line string of the display options to be used
     """
     options = ["{0}(".format(command),
-               "effect-parade={0}, ".format(parade),
-               "effect-duration={0} secs, ".format(duration),
-               "repeat-run={0}, ".format(run),
+               "parade={0}, ".format(parade),
+               "duration={0} secs, ".format(duration),
+               "repeat={0}, ".format(run),
                "brightness={0}, ".format(brightness),
                "invert={0}, ".format(invert),
                "effects_selected={0}".format(effects_selected if effects_selected else "ALL"),
