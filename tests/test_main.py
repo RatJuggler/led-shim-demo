@@ -57,6 +57,7 @@ class TestDisplayCommand(TestCase):
         self.assertIn(" --repeat-run ", result.output)
         self.assertIn(" --brightness ", result.output)
         self.assertIn(" --invert ", result.output)
+        self.assertIn(" --help ", result.output)
         effect_display_mock.select_effect_display.assert_not_called()
         effect_display_mock.select_effect_display.return_value.render.assert_not_called()
 
@@ -125,12 +126,25 @@ class TestLeadCommand(TestCase):
             logging.root.removeHandler(handler)
         self.runner = CliRunner()
 
+    def test_lead_help(self, effect_display_mock):
+        result = self.runner.invoke(main.ledshimdemo, ['lead', '--help'])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn(" --effect-display ", result.output)
+        self.assertIn(" --effect-duration ", result.output)
+        self.assertIn(" --repeat-run ", result.output)
+        self.assertIn(" --brightness ", result.output)
+        self.assertIn(" --invert ", result.output)
+        self.assertIn(" --port ", result.output)
+        self.assertIn(" --help ", result.output)
+        effect_display_mock.select_effect_display.assert_not_called()
+        effect_display_mock.select_effect_display.return_value.render.assert_not_called()
+
     def test_lead_valid_ip_address(self, effect_display_mock):
         result = self.runner.invoke(main.ledshimdemo, ['lead', '127.0.0.1'])
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - INFO - Logging level enabled!", result.output)
-        effect_display_mock.select_effect_display.assert_not_called()
-        effect_display_mock.select_effect_display.return_value.render.assert_not_called()
+        effect_display_mock.select_effect_display.assert_called_once()
+        effect_display_mock.select_effect_display.return_value.render.assert_called_once()
 
     def test_lead_invalid_ip_address(self, effect_display_mock):
         result = self.runner.invoke(main.ledshimdemo, ['lead', 'localhost'])
@@ -148,6 +162,14 @@ class TestFollowCommand(TestCase):
         for handler in logging.root.handlers[:]:
             logging.root.removeHandler(handler)
         self.runner = CliRunner()
+
+    def test_follow_help(self, effect_display_mock):
+        result = self.runner.invoke(main.ledshimdemo, ['follow', '--help'])
+        self.assertEqual(result.exit_code, 0)
+        self.assertIn(" --port ", result.output)
+        self.assertIn(" --help ", result.output)
+        effect_display_mock.select_effect_display.assert_not_called()
+        effect_display_mock.select_effect_display.return_value.render.assert_not_called()
 
     def test_follow_valid_ip_address(self, effect_display_mock):
         result = self.runner.invoke(main.ledshimdemo, ['follow', '127.0.0.1'])
