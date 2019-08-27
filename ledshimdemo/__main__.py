@@ -17,8 +17,8 @@ EFFECT_CACHE = EffectCache(os.path.dirname(__file__) + "/effects", "ledshimdemo.
 IP_ADDRESS = IPAddressParamType()
 
 
-def show_options(display: str, duration: int, run: int, brightness: int, invert: bool,
-                 level: str, lead: bool, effects_selected: List[str]) -> str:
+def show_options(display: str, duration: int, run: int, brightness: int,
+                 invert: bool, effects_selected: List[str]) -> str:
     """
     Human readable string showing the command line options to be used.
     :param display: from command line option or default
@@ -26,8 +26,6 @@ def show_options(display: str, duration: int, run: int, brightness: int, invert:
     :param run: from command line option or default
     :param brightness: from command line option or default
     :param invert: from command line option or default
-    :param level: from command line option or default
-    :param lead: from command line option or default
     :param effects_selected: from command line arguments or default
     :return: One line string of the command line options to be used
     """
@@ -37,8 +35,6 @@ def show_options(display: str, duration: int, run: int, brightness: int, invert:
                "repeat-run={0}, ".format(run),
                "brightness={0}, ".format(brightness),
                "invert={0}, ".format(invert),
-               "log-level={0}, ".format(level),
-               "lead={0}, ".format(lead),
                "effects_selected={0}".format(effects_selected if effects_selected else "ALL"),
                ")"]
     return "".join(options)
@@ -73,17 +69,20 @@ def validate_effects_selected(ctx, param, value) -> None:
     return value
 
 
-@click.group()
-def ledshimdemo():
-    pass
-
-
-@ledshimdemo.command(help="""
-    Show various effects on a Pimoroni LED shim.\n
-    To limit the effects shown use the effect-list option to list the effects available then add them to the command
-    line as required. Otherwise all effects will be shown.
-                     """)
+@click.group(help="""Show various effects on one or more Raspberry Pi's with Pimoroni LED shim's.""")
 @click.version_option()
+@click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
+              help="Show additional logging information.", default="INFO", show_default=True)
+def ledshimdemo(level: str):
+    """
+
+    :param level: Set a logging level; DEBUG, VERBOSE, INFO or WARNING
+    :return: No meaningful return
+    """
+    configure_logging(level)
+
+
+@ledshimdemo.command(help="Display the effects on a sinlge Pi")
 @click.option('-e', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
               help='List the effects available and exit.')
 @click.option('-d', '--effect-display', 'display', type=click.Choice(AbstractEffectDisplay.get_display_options()),
@@ -97,17 +96,9 @@ def ledshimdemo():
               help="How bright the effects will be (1-10).", default=8, show_default=True)
 @click.option('-i', '--invert', is_flag=True,
               help="Change the display orientation.")
-@click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
-              help="Show additional logging information.", default="INFO", show_default=True)
-@click.option('-l', '--lead', type=IP_ADDRESS, default=None,
-              help='This is the lead to sync other instances with.')
-@click.option('-f', '--follow', is_flag=True,
-              help='Follow the lead instance supplied disregarding other local options.')
-@click.option('-p', '--port', type=click.IntRange(1024, 65535),
-              help="Set the port number used for syncing.", default=5556, show_default=True)
 @click.argument('effects_selected', nargs=-1, callback=validate_effects_selected, required=False)
-def display(display: str, duration: int, run: int, brightness: int, invert: bool,
-            level: str, lead: bool, follow: bool, port: int, effects_selected: List[str]) -> None:
+def display(display: str, duration: int, run: int, brightness: int,
+            invert: bool, effects_selected: List[str]) -> None:
     """
     Show various effects on a Pimoroni LED shim.
     :param display: In a CYCLE or at RANDOM
@@ -115,15 +106,10 @@ def display(display: str, duration: int, run: int, brightness: int, invert: bool
     :param run: How many times to run the effects
     :param brightness: How bright the effects will be
     :param invert: Depending on which way round the Pi is
-    :param level: Set a logging level; DEBUG, VERBOSE, INFO or WARNING
-    :param lead: Act as a lead for other instances to follow
-    :param follow: Follow a lead instance disregarding other local options
-    :param port: Configure the port number to be used when syncing
     :param effects_selected: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
-    configure_logging(level)
-    logging.info(show_options(display, duration, run, brightness, invert, level, lead, effects_selected))
+    logging.info(show_options(display, duration, run, brightness, invert, effects_selected))
     Pixel.set_default_brightness(brightness / 10.0)
     if invert:
         Canvas.invert_display()
@@ -132,13 +118,33 @@ def display(display: str, duration: int, run: int, brightness: int, invert: bool
     effects_display.render(duration, run, lead)
 
 
-@ledshimdemo.command()
-def lead():
+@ledshimdemo.command(help="Act as a lead for other instances to follow.")
+@click.option('-l', '--lead', type=IP_ADDRESS, default=None,
+              help='This is the lead to sync other instances with.')
+@click.option('-p', '--port', type=click.IntRange(1024, 65535),
+              help="Set the port number used for syncing.", default=5556, show_default=True)
+def lead(lead: str, port: int) -> None:
+    """
+
+    :param lead: the lead instance's ip address
+    :param port: Configure the port number to be used when syncing
+    :return: No meaningful return
+    """
     click.echo("Start displaying effects and publish the settings for follow subscribers.")
 
 
-@ledshimdemo.command()
-def follow():
+@ledshimdemo.command(help="Follow a lead instance.")
+@click.option('-f', '--follow', type=IP_ADDRESS, default=None,
+              help='Follow the lead instance supplied disregarding other local options.')
+@click.option('-p', '--port', type=click.IntRange(1024, 65535),
+              help="Set the port number used for syncing.", default=5556, show_default=True)
+def follow(follow: str, port: int) -> None:
+    """
+
+    :param follow: the lead instance's ip address
+    :param port: Configure the port number to be used when syncing
+    :return: No meaningful return
+    """
     click.echo("Subscribe to lead for display setting then start displaying effects.")
 
 
