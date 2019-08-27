@@ -73,11 +73,16 @@ def validate_effects_selected(ctx, param, value) -> None:
     return value
 
 
-@click.command(help="""
+@click.group()
+def ledshimdemo():
+    pass
+
+
+@ledshimdemo.command(help="""
     Show various effects on a Pimoroni LED shim.\n
     To limit the effects shown use the effect-list option to list the effects available then add them to the command
     line as required. Otherwise all effects will be shown.
-                    """)
+                     """)
 @click.version_option()
 @click.option('-e', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
               help='List the effects available and exit.')
@@ -101,8 +106,8 @@ def validate_effects_selected(ctx, param, value) -> None:
 @click.option('-p', '--port', type=click.IntRange(1024, 65535),
               help="Set the port number used for syncing.", default=5556, show_default=True)
 @click.argument('effects_selected', nargs=-1, callback=validate_effects_selected, required=False)
-def display_effects(display: str, duration: int, run: int, brightness: int, invert: bool,
-                    level: str, lead: bool, follow: bool, port: int, effects_selected: List[str]) -> None:
+def display(display: str, duration: int, run: int, brightness: int, invert: bool,
+            level: str, lead: bool, follow: bool, port: int, effects_selected: List[str]) -> None:
     """
     Show various effects on a Pimoroni LED shim.
     :param display: In a CYCLE or at RANDOM
@@ -127,5 +132,15 @@ def display_effects(display: str, duration: int, run: int, brightness: int, inve
     effects_display.render(duration, run, lead)
 
 
+@ledshimdemo.command()
+def lead():
+    click.echo("Start displaying effects and publish the settings for follow subscribers.")
+
+
+@ledshimdemo.command()
+def follow():
+    click.echo("Subscribe to lead for display setting then start displaying effects.")
+
+
 if __name__ == '__main__':
-    display_effects()   # pragma: no cover
+    ledshimdemo()   # pragma: no cover
