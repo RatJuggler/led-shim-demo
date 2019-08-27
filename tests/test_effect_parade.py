@@ -5,7 +5,7 @@ from typing import List, Type, TypeVar
 
 from ledshimdemo.abstract_effect import AbstractEffect
 from ledshimdemo.canvas import Canvas
-from ledshimdemo.effect_display import AbstractEffectDisplay, CycleEffects, RandomEffects
+from ledshimdemo.effect_parade import AbstractEffectParade, CycleEffects, RandomEffects
 from ledshimdemo.effect_cache import EffectCache
 
 from tests.test_effects.dummy1_effect import Dummy1Effect
@@ -20,14 +20,14 @@ class TestEffectDisplayConstructor(TestCase):
 
     def test_select_effect_display_invalid(self):
         with self.assertRaises(AssertionError):
-            AbstractEffectDisplay.select_effect_display("Banana", [])
+            AbstractEffectParade.select_effect_parade("Banana", [])
 
     def test_select_effect_display_cycle(self):
-        self.assertIsInstance(AbstractEffectDisplay.select_effect_display(AbstractEffectDisplay.CYCLE_DISPLAY, []),
+        self.assertIsInstance(AbstractEffectParade.select_effect_parade(AbstractEffectParade.CYCLE_DISPLAY, []),
                               CycleEffects)
 
     def test_select_effect_display_random(self):
-        self.assertIsInstance(AbstractEffectDisplay.select_effect_display(AbstractEffectDisplay.RANDOM_DISPLAY, []),
+        self.assertIsInstance(AbstractEffectParade.select_effect_parade(AbstractEffectParade.RANDOM_DISPLAY, []),
                               RandomEffects)
 
 
@@ -41,7 +41,7 @@ class TestEffectDisplayGetNextEffect(TestCase):
         self.canvas = Canvas(self.TEST_CANVAS_SIZE)
         self.effects = [Dummy1Effect(self.canvas), Dummy2Effect(self.canvas), Dummy3Effect(self.canvas)]
 
-    def call_next_and_test(self, effect_display: AbstractEffectDisplay, effect_type: List[Type[AE]]):
+    def call_next_and_test(self, effect_display: AbstractEffectParade, effect_type: List[Type[AE]]):
         effect = effect_display.get_next_effect()
         is_instance = False
         for cls_type in effect_type:

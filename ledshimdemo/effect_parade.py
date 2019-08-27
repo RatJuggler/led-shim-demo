@@ -9,9 +9,9 @@ import ledshim
 from .abstract_effect import AbstractEffect
 
 
-class AbstractEffectDisplay(ABC):
+class AbstractEffectParade(ABC):
 
-    # Supported display options:
+    # Supported parade options:
     # Cycle - go through the selected effects in order.
     # Random - out of the selected effects pick one at random each time.
     CYCLE_DISPLAY = "CYCLE"
@@ -22,7 +22,7 @@ class AbstractEffectDisplay(ABC):
         self.next_effect = -1
 
     @classmethod
-    def get_display_options(cls) -> List[str]:
+    def get_parade_options(cls) -> List[str]:
         """
         Create a list of all the display options.
         :return: A list of all the display option.
@@ -38,19 +38,19 @@ class AbstractEffectDisplay(ABC):
         return cls.CYCLE_DISPLAY
 
     @classmethod
-    def select_effect_display(cls, display_option: str, effects_selected: List[AbstractEffect]) -> \
-            'AbstractEffectDisplay':
+    def select_effect_parade(cls, parade_option: str, effects_selected: List[AbstractEffect]) -> \
+            'AbstractEffectParade':
         """
-        Determine the function to use for the selected display option.
-        :param display_option: In a CYCLE or at RANDOM
+        Determine the function to use for the selected parade option.
+        :param parade_option: In a CYCLE or at RANDOM
         :param effects_selected: List of the effect names to use
         :return: A function defining how the selected display option should work.
         """
-        assert display_option in (cls.CYCLE_DISPLAY, cls.RANDOM_DISPLAY), \
-            "Effect display must be {0} or {1}!".format(cls.CYCLE_DISPLAY, cls.RANDOM_DISPLAY)
-        if display_option == cls.CYCLE_DISPLAY:
+        assert parade_option in (cls.get_parade_options()), \
+            "Effect parade option must be one of {0}!".format(cls.get_parade_options())
+        if parade_option == cls.CYCLE_DISPLAY:
             return CycleEffects(effects_selected)
-        if display_option == cls.RANDOM_DISPLAY:
+        if parade_option == cls.RANDOM_DISPLAY:
             return RandomEffects(effects_selected)
 
     def get_count_effects_selected(self) -> int:
@@ -101,7 +101,7 @@ class AbstractEffectDisplay(ABC):
         pass   # pragma: no cover
 
 
-class CycleEffects(AbstractEffectDisplay):
+class CycleEffects(AbstractEffectParade):
 
     def __init__(self, effects_selected: List[AbstractEffect]) -> None:
         super(CycleEffects, self).__init__(effects_selected)
@@ -115,7 +115,7 @@ class CycleEffects(AbstractEffectDisplay):
         return self.next_effect
 
 
-class RandomEffects(AbstractEffectDisplay):
+class RandomEffects(AbstractEffectParade):
 
     def __init__(self, effects_selected: List[AbstractEffect]) -> None:
         super(RandomEffects, self).__init__(effects_selected)
