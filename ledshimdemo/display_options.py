@@ -9,7 +9,7 @@ DISPLAY_OPTIONS = [
                  show_default=True),
     click.option('-d', '--duration', type=click.IntRange(1, 180),
                  help="How long to display each effect for, in seconds (1-180).", default=10, show_default=True),
-    click.option('-r', '--repeat', 'run', type=click.IntRange(1, 240),
+    click.option('-r', '--repeat', type=click.IntRange(1, 240),
                  help="How many times to run the effects before stopping (1-240).", default=1, show_default=True),
     click.option('-b', '--brightness', type=click.IntRange(1, 10),
                  help="How bright the effects will be (1-10).", default=8, show_default=True),

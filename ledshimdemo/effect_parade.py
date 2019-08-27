@@ -70,21 +70,21 @@ class AbstractEffectParade(ABC):
         logging.info(str(effect))
         return effect
 
-    def render(self, effect_duration: int, effect_run: int, lead: bool) -> None:
+    def render(self, duration: int, repeat: int, lead: bool) -> None:
         """
         Render the effects selected,
-        :param effect_duration: How long to display each effect for
-        :param effect_run: How many times to run effects
+        :param duration: How long to display each effect for
+        :param repeat: How many times to run effects
         :param lead: Act as a lead for other instances to follow
         :return: No meaningful return
         """
         ledshim.set_clear_on_exit()
         try:
-            for i in range(effect_run):
+            for i in range(repeat):
                 for j in range(self.get_count_effects_selected()):
                     effect = self.get_next_effect()
                     start_effect = time()
-                    while (time() - start_effect) < effect_duration:
+                    while (time() - start_effect) < duration:
                         effect.render()
         except KeyboardInterrupt:
             logging.info("Execution interrupted!")
