@@ -66,7 +66,7 @@ class TestDisplayCommand(TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - INFO - Logging level enabled!", result.output)
         self.assertIn(" - INFO - display(parade=CYCLE, duration=10 secs, repeat=1, "
-                      "brightness=8, invert=False, effects_selected=ALL)", result.output)
+                      "brightness=8, invert=False, effects=ALL)", result.output)
         effect_parade_mock.select_effect_parade.assert_called_once()
         effect_parade_mock.select_effect_parade.return_value.render.assert_called_once()
 
@@ -82,7 +82,7 @@ class TestDisplayCommand(TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - DEBUG - Logging level enabled!", result.output)
         self.assertIn(" - INFO - display(parade=CYCLE, duration=10 secs, repeat=1, "
-                      "brightness=8, invert=False, effects_selected=ALL)", result.output)
+                      "brightness=8, invert=False, effects=ALL)", result.output)
         effect_parade_mock.select_effect_parade.assert_called_once()
         effect_parade_mock.select_effect_parade.return_value.render.assert_called_once()
 
@@ -99,21 +99,21 @@ class TestDisplayCommand(TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - VERBOSE - Logging level enabled!", result.output)
         self.assertIn(" - INFO - display(parade=RANDOM, duration=180 secs, repeat=240, "
-                      "brightness=3, invert=True, effects_selected=('Candle', 'Rainbow'))", result.output)
+                      "brightness=3, invert=True, effects=('Candle', 'Rainbow'))", result.output)
         effect_parade_mock.select_effect_parade.assert_called_once()
         effect_parade_mock.select_effect_parade.return_value.render.assert_called_once()
 
     def test_display_invalid_effect_name(self, effect_parade_mock):
         result = self.runner.invoke(main.ledshimdemo, ['display', 'Rainbow', 'Unicorn'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn('Error: Invalid value for "[EFFECTS_SELECTED]...": Unknown effect: Unicorn', result.output)
+        self.assertIn('Error: Invalid value for "[EFFECTS]...": Unknown effect: Unicorn', result.output)
         effect_parade_mock.select_effect_parade.assert_not_called()
         effect_parade_mock.select_effect_parade.return_value.render.assert_not_called()
 
     def test_display_invalid_effect_names(self, effect_parade_mock):
         result = self.runner.invoke(main.ledshimdemo, ['display', 'Candle', 'Apple', 'Banana'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn('Error: Invalid value for "[EFFECTS_SELECTED]...": Unknown effects: Apple, Banana', result.output)
+        self.assertIn('Error: Invalid value for "[EFFECTS]...": Unknown effects: Apple, Banana', result.output)
         effect_parade_mock.select_effect_parade.assert_not_called()
         effect_parade_mock.select_effect_parade.return_value.render.assert_not_called()
 
@@ -144,7 +144,7 @@ class TestLeadCommand(TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - INFO - Logging level enabled!", result.output)
         self.assertIn(" - INFO - lead(parade=CYCLE, duration=10 secs, repeat=1, "
-                      "brightness=8, invert=False, effects_selected=ALL)", result.output)
+                      "brightness=8, invert=False, effects=ALL)", result.output)
         effect_parade_mock.select_effect_parade.assert_called_once()
         effect_parade_mock.select_effect_parade.return_value.render.assert_called_once()
 
@@ -162,7 +162,7 @@ class TestLeadCommand(TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - DEBUG - Logging level enabled!", result.output)
         self.assertIn(" - INFO - lead(parade=CYCLE, duration=10 secs, repeat=1, "
-                      "brightness=8, invert=False, effects_selected=ALL)", result.output)
+                      "brightness=8, invert=False, effects=ALL)", result.output)
         effect_parade_mock.select_effect_parade.assert_called_once()
         effect_parade_mock.select_effect_parade.return_value.render.assert_called_once()
 
@@ -180,7 +180,7 @@ class TestLeadCommand(TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn(" - VERBOSE - Logging level enabled!", result.output)
         self.assertIn(" - INFO - lead(parade=RANDOM, duration=180 secs, repeat=240, "
-                      "brightness=3, invert=True, effects_selected=('Candle', 'Rainbow'))", result.output)
+                      "brightness=3, invert=True, effects=('Candle', 'Rainbow'))", result.output)
         effect_parade_mock.select_effect_parade.assert_called_once()
         effect_parade_mock.select_effect_parade.return_value.render.assert_called_once()
 
@@ -188,7 +188,7 @@ class TestLeadCommand(TestCase):
         result = self.runner.invoke(main.ledshimdemo, ['lead', '127.0.0.1',
                                                        'Rainbow', 'Unicorn'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn('Error: Invalid value for "[EFFECTS_SELECTED]...": Unknown effect: Unicorn', result.output)
+        self.assertIn('Error: Invalid value for "[EFFECTS]...": Unknown effect: Unicorn', result.output)
         effect_parade_mock.select_effect_parade.assert_not_called()
         effect_parade_mock.select_effect_parade.return_value.render.assert_not_called()
 
@@ -196,14 +196,13 @@ class TestLeadCommand(TestCase):
         result = self.runner.invoke(main.ledshimdemo, ['lead', '127.0.0.1',
                                                        'Candle', 'Apple', 'Banana'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn('Error: Invalid value for "[EFFECTS_SELECTED]...": Unknown effects: Apple, Banana', result.output)
+        self.assertIn('Error: Invalid value for "[EFFECTS]...": Unknown effects: Apple, Banana', result.output)
         effect_parade_mock.select_effect_parade.assert_not_called()
         effect_parade_mock.select_effect_parade.return_value.render.assert_not_called()
 
     def test_lead_missing_ip_address(self, effect_parade_mock):
         result = self.runner.invoke(main.ledshimdemo, ['lead'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn(" - INFO - Logging level enabled!", result.output)
         self.assertIn('Error: Missing argument "IP_ADDRESS".', result.output)
         effect_parade_mock.select_effect_parade.assert_not_called()
         effect_parade_mock.select_effect_parade.return_value.render.assert_not_called()
@@ -235,7 +234,13 @@ class TestFollowCommand(TestCase):
     def test_follow_valid_ip_address(self, effect_parade_mock):
         result = self.runner.invoke(main.ledshimdemo, ['follow', '127.0.0.1'])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn(" - INFO - Logging level enabled!", result.output)
+        effect_parade_mock.select_effect_parade.assert_called_once()
+        effect_parade_mock.select_effect_parade.return_value.render.assert_called_once()
+
+    def test_lead_missing_ip_address(self, effect_parade_mock):
+        result = self.runner.invoke(main.ledshimdemo, ['follow'])
+        self.assertEqual(result.exit_code, 2)
+        self.assertIn('Error: Missing argument "IP_ADDRESS".', result.output)
         effect_parade_mock.select_effect_parade.assert_not_called()
         effect_parade_mock.select_effect_parade.return_value.render.assert_not_called()
 

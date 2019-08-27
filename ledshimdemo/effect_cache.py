@@ -24,7 +24,7 @@ class EffectCache:
         """
         try:
             effect_module = import_module(effect_module)
-            if effect_class is None:
+            if not effect_class:
                 module_classes = \
                     list(filter(lambda x: x != 'AbstractEffect' and x.endswith('Effect'), dir(effect_module)))
                 if module_classes:
@@ -50,7 +50,7 @@ class EffectCache:
         """
         effects = {}
         for (_, effect_module, _) in pkgutil.iter_modules([effects_path]):
-            effect = EffectCache.load_effect(effects_package + effect_module, None, *args, **kwargs)
+            effect = EffectCache.load_effect(effects_package + effect_module, "", *args, **kwargs)
             effects[effect.get_name().upper()] = effect
         return effects
 
@@ -89,30 +89,30 @@ class EffectCache:
             effects.append(effect.get_display_list_entry(pad_size))
         return "\n".join(effects)
 
-    def validate_effect_names(self, effects_selected: List[str]) -> List[str]:
+    def validate_effect_names(self, effects: List[str]) -> List[str]:
         """
         Check that the effect names supplied are in the list of effects available.
-        :param effects_selected: names from command line
+        :param effects: names from command line
         :return: List of names which don't match with anything in the available list
         """
         names_in_error = []
-        for name in effects_selected:
+        for name in effects:
             try:
                 self.get_effect(name)
             except KeyError:
                 names_in_error.append(name)
         return names_in_error
 
-    def get_effect_instances(self, effects_selected: List[str]) -> List[AbstractEffect]:
+    def get_effect_instances(self, effects: List[str]) -> List[AbstractEffect]:
         """
         Get instances of the effects selected.
-        :param effects_selected: List of the effect names to use
+        :param effects: List of the effect names to use
         :return: List of effect display instances
         """
-        effect_instances = []
-        if not effects_selected:
-            effect_instances = self.get_all_effects()
+        instances = []
+        if not effects:
+            instances = self.get_all_effects()
         else:
-            for effect in effects_selected:
-                effect_instances.append(self.get_effect(effect))
-        return effect_instances
+            for effect in effects:
+                instances.append(self.get_effect(effect))
+        return instances

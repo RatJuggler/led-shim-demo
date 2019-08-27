@@ -27,29 +27,29 @@ class TestEffectCacheListAndValidate(TestCase):
         self.assertEqual(display, "\n".join(effects))
 
     def test_validate_effect_names_valid(self):
-        effects_selected = ["Dummy1Effect"]
-        names_in_error = self.effect_cache.validate_effect_names(effects_selected)
+        effects = ["Dummy1Effect"]
+        names_in_error = self.effect_cache.validate_effect_names(effects)
         self.assertFalse(names_in_error)
 
     def test_validate_effect_names_valid_case_insensitive(self):
-        effects_selected = ["duMmy1eFFect"]
-        names_in_error = self.effect_cache.validate_effect_names(effects_selected)
+        effects = ["duMmy1eFFect"]
+        names_in_error = self.effect_cache.validate_effect_names(effects)
         self.assertFalse(names_in_error)
 
     def test_validate_effect_names_valid_multiple_effects(self):
-        effects_selected = ["Dummy3Effect", "duMmy1eFFect"]
-        names_in_error = self.effect_cache.validate_effect_names(effects_selected)
+        effects = ["Dummy3Effect", "duMmy1eFFect"]
+        names_in_error = self.effect_cache.validate_effect_names(effects)
         self.assertFalse(names_in_error)
 
     def test_validate_effect_names_valid_multiple_with_duplicates(self):
-        effects_selected = ["Dummy3Effect", "Dummy1Effect", "Dummy2Effect", "Dummy1Effect"]
-        names_in_error = self.effect_cache.validate_effect_names(effects_selected)
+        effects = ["Dummy3Effect", "Dummy1Effect", "Dummy2Effect", "Dummy1Effect"]
+        names_in_error = self.effect_cache.validate_effect_names(effects)
         self.assertFalse(names_in_error)
 
     def test_validate_effect_names_invalid(self):
-        effects_selected = ["Apple", "Banana"]
-        names_in_error = self.effect_cache.validate_effect_names(effects_selected)
-        self.assertEqual(names_in_error, effects_selected)
+        effects = ["Apple", "Banana"]
+        names_in_error = self.effect_cache.validate_effect_names(effects)
+        self.assertEqual(names_in_error, effects)
 
 
 class TestEffectCacheLoadAndGet(TestCase):

@@ -19,7 +19,7 @@ IP_ADDRESS = IPAddressParamType()
 
 
 def display_options_used(command: str, parade: str, duration: int, repeat: int, brightness: int,
-                         invert: bool, effects_selected: List[str]) -> str:
+                         invert: bool, effects: List[str]) -> str:
     """
     Human readable string showing the display options to be used.
     :param command: the command using these options
@@ -28,7 +28,7 @@ def display_options_used(command: str, parade: str, duration: int, repeat: int, 
     :param repeat: from command line option or default
     :param brightness: from command line option or default
     :param invert: from command line option or default
-    :param effects_selected: from command line arguments or default
+    :param effects: from command line arguments or default
     :return: One line string of the display options to be used
     """
     options = ["{0}(".format(command),
@@ -37,7 +37,7 @@ def display_options_used(command: str, parade: str, duration: int, repeat: int, 
                "repeat={0}, ".format(repeat),
                "brightness={0}, ".format(brightness),
                "invert={0}, ".format(invert),
-               "effects_selected={0}".format(effects_selected if effects_selected else "ALL"),
+               "effects={0}".format(effects if effects else "ALL"),
                ")"]
     return "".join(options)
 
@@ -56,7 +56,7 @@ def list_effects(ctx, param, value) -> None:
     ctx.exit()
 
 
-def validate_effects_selected(ctx, param, value) -> None:
+def validate_effects(ctx, param, value) -> None:
     """
     Validate entered effect names.
     :param ctx: see callbacks for click options
@@ -92,9 +92,8 @@ def ledshimdemo(level: str):
 
 @ledshimdemo.command(help="Display the effects on a single Pi")
 @add_options(DISPLAY_OPTIONS)
-@click.argument('effects_selected', nargs=-1, type=click.STRING, callback=validate_effects_selected, required=False)
-def display(parade: str, duration: int, repeat: int, brightness: int,
-            invert: bool, effects_selected: List[str]) -> None:
+@click.argument('effects', nargs=-1, type=click.STRING, callback=validate_effects, required=False)
+def display(parade: str, duration: int, repeat: int, brightness: int, invert: bool, effects: List[str]) -> None:
     """
     Display various effects on a Pimoroni LED shim.
     :param parade: In a CYCLE or at RANDOM
@@ -102,16 +101,16 @@ def display(parade: str, duration: int, repeat: int, brightness: int,
     :param repeat: How many times to run the effects
     :param brightness: How bright the effects will be
     :param invert: Depending on which way round the Pi is
-    :param effects_selected: User entered list of effects to use, defaults to all effects
+    :param effects: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
-    logging.info(display_options_used("display", parade, duration, repeat, brightness, invert, effects_selected))
+    logging.info(display_options_used("display", parade, duration, repeat, brightness, invert, effects))
     Pixel.set_default_brightness(brightness / 10.0)
     if invert:
         Canvas.invert_display()
-    effect_instances = EFFECT_CACHE.get_effect_instances(effects_selected)
-    effects_parade = AbstractEffectParade.select_effect_parade(parade, effect_instances)
-    effects_parade.render(duration, repeat, lead)
+    instances = EFFECT_CACHE.get_effect_instances(effects)
+    effects_parade = AbstractEffectParade.select_effect_parade(parade, instances)
+    effects_parade.render(duration, repeat)
 
 
 @ledshimdemo.command(help="Act as a lead for other instances to follow.")
@@ -119,9 +118,9 @@ def display(parade: str, duration: int, repeat: int, brightness: int,
 @click.option('-o', '--port', type=click.IntRange(1024, 65535),
               help="Set the port number used for syncing.", default=5556, show_default=True)
 @click.argument('ip_address', nargs=1, type=IP_ADDRESS, required=True)
-@click.argument('effects_selected', nargs=-1, type=click.STRING, callback=validate_effects_selected, required=False)
+@click.argument('effects', nargs=-1, type=click.STRING, callback=validate_effects, required=False)
 def lead(parade: str, duration: int, repeat: int, brightness: int,
-         invert: bool, port: int, ip_address: str, effects_selected: List[str]) -> None:
+         invert: bool, port: int, ip_address: str, effects: List[str]) -> None:
     """
     Display effects as normal but also publish the settings for follow subscribers.
     :param parade: In a CYCLE or at RANDOM
@@ -131,16 +130,16 @@ def lead(parade: str, duration: int, repeat: int, brightness: int,
     :param invert: Depending on which way round the Pi is
     :param port: Configure the port number to be used when syncing
     :param ip_address: the lead instance's ip address
-    :param effects_selected: User entered list of effects to use, defaults to all effects
+    :param effects: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
-    logging.info(display_options_used("lead", parade, duration, repeat, brightness, invert, effects_selected))
+    logging.info(display_options_used("lead", parade, duration, repeat, brightness, invert, effects))
     Pixel.set_default_brightness(brightness / 10.0)
     if invert:
         Canvas.invert_display()
-    effect_instances = EFFECT_CACHE.get_effect_instances(effects_selected)
-    effects_parade = AbstractEffectParade.select_effect_parade(parade, effect_instances)
-    effects_parade.render(duration, repeat, lead)
+    instances = EFFECT_CACHE.get_effect_instances(effects)
+    effects_parade = AbstractEffectParade.select_effect_parade(parade, instances)
+    effects_parade.render(duration, repeat)
 
 
 @ledshimdemo.command(help="Follow a lead instance.")
@@ -154,8 +153,20 @@ def follow(port: int, ip_address: str) -> None:
     :param ip_address: the lead instance's ip address
     :return: No meaningful return
     """
-    logging.info(display_options_used("follow", None, None, None, None, None, None))
-    click.echo("Subscribe to lead for display setting then start displaying effects.")
+    # Obtain settings from lead instance...
+    parade = AbstractEffectParade.CYCLE_PARADE
+    duration = 10
+    repeat = 1
+    brightness = 8
+    invert = False
+    effects = []
+    logging.info(display_options_used("follow", parade, duration, repeat, brightness, invert, effects))
+    Pixel.set_default_brightness(brightness / 10.0)
+    if invert:
+        Canvas.invert_display()
+    instances = EFFECT_CACHE.get_effect_instances(effects)
+    effects_parade = AbstractEffectParade.select_effect_parade(parade, instances)
+    effects_parade.render(duration, repeat)
 
 
 if __name__ == '__main__':
