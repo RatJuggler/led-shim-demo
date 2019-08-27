@@ -3,7 +3,7 @@ import click
 from .effect_display import AbstractEffectDisplay
 
 
-display_options = [
+DISPLAY_OPTIONS = [
      click.option('-d', '--effect-display', 'display', type=click.Choice(AbstractEffectDisplay.get_display_options()),
                   help="How the effects are displayed.", default=AbstractEffectDisplay.get_default_option(),
                   show_default=True),

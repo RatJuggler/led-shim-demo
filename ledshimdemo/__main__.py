@@ -5,7 +5,7 @@ from typing import List
 
 from .canvas import Canvas
 from .configure_logging import configure_logging
-from .display_options import display_options, add_options
+from .display_options import DISPLAY_OPTIONS, add_options
 from .effect_display import AbstractEffectDisplay
 from .effect_cache import EffectCache
 from .ipaddress_param import IPAddressParamType
@@ -18,19 +18,20 @@ EFFECT_CACHE = EffectCache(os.path.dirname(__file__) + "/effects", "ledshimdemo.
 IP_ADDRESS = IPAddressParamType()
 
 
-def show_options(display: str, duration: int, run: int, brightness: int,
-                 invert: bool, effects_selected: List[str]) -> str:
+def display_options_used(command: str, display: str, duration: int, run: int, brightness: int,
+                         invert: bool, effects_selected: List[str]) -> str:
     """
-    Human readable string showing the command line options to be used.
+    Human readable string showing the display options to be used.
+    :param command: the command using these options
     :param display: from command line option or default
     :param duration: from command line option or default
     :param run: from command line option or default
     :param brightness: from command line option or default
     :param invert: from command line option or default
     :param effects_selected: from command line arguments or default
-    :return: One line string of the command line options to be used
+    :return: One line string of the display options to be used
     """
-    options = ["Active Options(",
+    options = ["{0}(".format(command),
                "effect-display={0}, ".format(display),
                "effect-duration={0} secs, ".format(duration),
                "repeat-run={0}, ".format(run),
@@ -90,7 +91,7 @@ def ledshimdemo(level: str):
 
 
 @ledshimdemo.command(help="Display the effects on a single Pi")
-@add_options(display_options)
+@add_options(DISPLAY_OPTIONS)
 @click.argument('effects_selected', nargs=-1, type=click.STRING, callback=validate_effects_selected, required=False)
 def display(display: str, duration: int, run: int, brightness: int,
             invert: bool, effects_selected: List[str]) -> None:
@@ -104,7 +105,7 @@ def display(display: str, duration: int, run: int, brightness: int,
     :param effects_selected: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
-    logging.info(show_options(display, duration, run, brightness, invert, effects_selected))
+    logging.info(display_options_used("display", display, duration, run, brightness, invert, effects_selected))
     Pixel.set_default_brightness(brightness / 10.0)
     if invert:
         Canvas.invert_display()
@@ -114,7 +115,7 @@ def display(display: str, duration: int, run: int, brightness: int,
 
 
 @ledshimdemo.command(help="Act as a lead for other instances to follow.")
-@add_options(display_options)
+@add_options(DISPLAY_OPTIONS)
 @click.option('-p', '--port', type=click.IntRange(1024, 65535),
               help="Set the port number used for syncing.", default=5556, show_default=True)
 @click.argument('ip_address', nargs=1, type=IP_ADDRESS, required=True)
@@ -133,7 +134,7 @@ def lead(display: str, duration: int, run: int, brightness: int,
     :param effects_selected: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
-    logging.info(show_options(display, duration, run, brightness, invert, effects_selected))
+    logging.info(display_options_used("lead", display, duration, run, brightness, invert, effects_selected))
     Pixel.set_default_brightness(brightness / 10.0)
     if invert:
         Canvas.invert_display()
@@ -153,6 +154,7 @@ def follow(port: int, ip_address: str) -> None:
     :param ip_address: the lead instance's ip address
     :return: No meaningful return
     """
+    logging.info(display_options_used("lead", None, None, None, None, None, None))
     click.echo("Subscribe to lead for display setting then start displaying effects.")
 
 
