@@ -1,4 +1,5 @@
 import click
+from typing import Callable, List
 
 from .effect_parade import AbstractEffectParade
 
@@ -17,8 +18,18 @@ DISPLAY_OPTIONS = [
 ]
 
 
-def add_options(options):
-    def _add_options(func):
+def add_options(options: List[click.option]) -> Callable:
+    """
+    Create a decorator to apply Click options to a function.
+    :param options: Click options to be applied
+    :return: Decorator function
+    """
+    def _add_options(func: Callable):
+        """
+        Apply click options to the supplied function.
+        :param func: To add click options to.
+        :return: The function with the click options added.
+        """
         for option in reversed(options):
             func = option(func)
         return func
