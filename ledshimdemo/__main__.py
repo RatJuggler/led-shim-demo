@@ -6,8 +6,9 @@ from typing import List
 from .canvas import Canvas
 from .configure_logging import configure_logging
 from .display_options import DISPLAY_OPTIONS, add_options
-from .effect_parade import AbstractEffectParade
 from .effect_cache import EffectCache
+from .effect_parade import AbstractEffectParade
+from .effect_settings import EffectSettings
 from .ipaddress_param import IPAddressParamType
 from .pixel import Pixel
 
@@ -18,26 +19,20 @@ EFFECT_CACHE = EffectCache(os.path.dirname(__file__) + "/effects", "ledshimdemo.
 IP_ADDRESS = IPAddressParamType()
 
 
-def display_options_used(command: str, parade: str, duration: int, repeat: int, brightness: int,
-                         invert: bool, effects: List[str]) -> str:
+def display_options_used(command: str, settings: EffectSettings) -> str:
     """
     Human readable string showing the display options to be used.
     :param command: the command using these options
-    :param parade: from command line option or default
-    :param duration: from command line option or default
-    :param repeat: from command line option or default
-    :param brightness: from command line option or default
-    :param invert: from command line option or default
-    :param effects: from command line arguments or default
+    :param settings: from command line option or default
     :return: One line string of the display options to be used
     """
     options = ["{0}(".format(command),
-               "parade={0}, ".format(parade),
-               "duration={0} secs, ".format(duration),
-               "repeat={0}, ".format(repeat),
-               "brightness={0}, ".format(brightness),
-               "invert={0}, ".format(invert),
-               "effects={0}".format(effects if effects else "ALL"),
+               "parade={0}, ".format(settings.parade),
+               "duration={0} secs, ".format(settings.duration),
+               "repeat={0}, ".format(settings.repeat),
+               "brightness={0}, ".format(settings.brightness),
+               "invert={0}, ".format(settings.invert),
+               "effects={0}".format(settings.effects if settings.effects else "ALL"),
                ")"]
     return "".join(options)
 
@@ -90,6 +85,15 @@ def ledshimdemo(level: str):
     configure_logging(level)
 
 
+def process(settings: EffectSettings):
+    Pixel.set_default_brightness(settings.brightness / 10.0)
+    if settings.invert:
+        Canvas.invert_display()
+    instances = EFFECT_CACHE.get_effect_instances(settings.effects)
+    effects_parade = AbstractEffectParade.select_effect_parade(settings.parade, instances)
+    effects_parade.render(settings.duration, settings.repeat)
+
+
 @ledshimdemo.command(help="Display the effects on a single Pi")
 @add_options(DISPLAY_OPTIONS)
 @click.argument('effects', nargs=-1, type=click.STRING, callback=validate_effects, required=False)
@@ -104,13 +108,9 @@ def display(parade: str, duration: int, repeat: int, brightness: int, invert: bo
     :param effects: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
-    logging.info(display_options_used("display", parade, duration, repeat, brightness, invert, effects))
-    Pixel.set_default_brightness(brightness / 10.0)
-    if invert:
-        Canvas.invert_display()
-    instances = EFFECT_CACHE.get_effect_instances(effects)
-    effects_parade = AbstractEffectParade.select_effect_parade(parade, instances)
-    effects_parade.render(duration, repeat)
+    settings = EffectSettings(parade, duration, repeat, brightness, invert, effects)
+    logging.info(display_options_used("display", settings))
+    process(settings)
 
 
 @ledshimdemo.command(help="Act as a lead for other instances to follow.")
@@ -133,13 +133,9 @@ def lead(parade: str, duration: int, repeat: int, brightness: int,
     :param effects: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
-    logging.info(display_options_used("lead", parade, duration, repeat, brightness, invert, effects))
-    Pixel.set_default_brightness(brightness / 10.0)
-    if invert:
-        Canvas.invert_display()
-    instances = EFFECT_CACHE.get_effect_instances(effects)
-    effects_parade = AbstractEffectParade.select_effect_parade(parade, instances)
-    effects_parade.render(duration, repeat)
+    settings = EffectSettings(parade, duration, repeat, brightness, invert, effects)
+    logging.info(display_options_used("lead", settings))
+    process(settings)
 
 
 @ledshimdemo.command(help="Follow a lead instance.")
@@ -154,19 +150,9 @@ def follow(port: int, ip_address: str) -> None:
     :return: No meaningful return
     """
     # Obtain settings from lead instance...
-    parade = AbstractEffectParade.CYCLE_PARADE
-    duration = 10
-    repeat = 1
-    brightness = 8
-    invert = False
-    effects = []
-    logging.info(display_options_used("follow", parade, duration, repeat, brightness, invert, effects))
-    Pixel.set_default_brightness(brightness / 10.0)
-    if invert:
-        Canvas.invert_display()
-    instances = EFFECT_CACHE.get_effect_instances(effects)
-    effects_parade = AbstractEffectParade.select_effect_parade(parade, instances)
-    effects_parade.render(duration, repeat)
+    settings = EffectSettings(AbstractEffectParade.CYCLE_PARADE, 10, 1, 8, False, [])
+    logging.info(display_options_used("follow", settings))
+    process(settings)
 
 
 if __name__ == '__main__':
