@@ -64,7 +64,6 @@ class TestDisplayCommand(TestCase):
     def test_display_default_options_default_log(self, effect_parade_mock):
         result = self.runner.invoke(main.ledshimdemo, ['display'])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn(" - INFO - Logging level enabled!", result.output)
         self.assertIn(" - INFO - display(parade=CYCLE, duration=10 secs, repeat=1, "
                       "brightness=8, invert=False, effects=ALL)", result.output)
         effect_parade_mock.select_effect_parade.assert_called_once()
@@ -80,7 +79,6 @@ class TestDisplayCommand(TestCase):
     def test_display_default_options_debug_log(self, effect_parade_mock):
         result = self.runner.invoke(main.ledshimdemo, ['--log-level', 'DEBUG', 'display'])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn(" - DEBUG - Logging level enabled!", result.output)
         self.assertIn(" - INFO - display(parade=CYCLE, duration=10 secs, repeat=1, "
                       "brightness=8, invert=False, effects=ALL)", result.output)
         effect_parade_mock.select_effect_parade.assert_called_once()
@@ -97,7 +95,6 @@ class TestDisplayCommand(TestCase):
             '--invert',
             'Candle', 'Rainbow'])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn(" - VERBOSE - Logging level enabled!", result.output)
         self.assertIn(" - INFO - display(parade=RANDOM, duration=180 secs, repeat=240, "
                       "brightness=3, invert=True, effects=('Candle', 'Rainbow'))", result.output)
         effect_parade_mock.select_effect_parade.assert_called_once()
@@ -142,7 +139,6 @@ class TestLeadCommand(TestCase):
     def test_lead_default_options_default_log(self, effect_parade_mock):
         result = self.runner.invoke(main.ledshimdemo, ['lead', '127.0.0.1'])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn(" - INFO - Logging level enabled!", result.output)
         self.assertIn(" - INFO - lead(parade=CYCLE, duration=10 secs, repeat=1, "
                       "brightness=8, invert=False, effects=ALL)", result.output)
         effect_parade_mock.select_effect_parade.assert_called_once()
@@ -160,7 +156,6 @@ class TestLeadCommand(TestCase):
         result = self.runner.invoke(main.ledshimdemo, ['--log-level', 'DEBUG',
                                                        'lead', '127.0.0.1'])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn(" - DEBUG - Logging level enabled!", result.output)
         self.assertIn(" - INFO - lead(parade=CYCLE, duration=10 secs, repeat=1, "
                       "brightness=8, invert=False, effects=ALL)", result.output)
         effect_parade_mock.select_effect_parade.assert_called_once()
@@ -178,7 +173,6 @@ class TestLeadCommand(TestCase):
             '127.0.0.1',
             'Candle', 'Rainbow'])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn(" - VERBOSE - Logging level enabled!", result.output)
         self.assertIn(" - INFO - lead(parade=RANDOM, duration=180 secs, repeat=240, "
                       "brightness=3, invert=True, effects=('Candle', 'Rainbow'))", result.output)
         effect_parade_mock.select_effect_parade.assert_called_once()
