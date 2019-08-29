@@ -1,5 +1,4 @@
 import click
-import logging
 import os
 from typing import List
 
@@ -7,10 +6,8 @@ from .canvas import Canvas
 from .configure_logging import configure_logging
 from .display_options import DISPLAY_OPTIONS, add_options
 from .effect_cache import EffectCache
-from .effect_parade import AbstractEffectParade
 from .effect_controller import EffectController
 from .ipaddress_param import IPAddressParamType
-from .pixel import Pixel
 
 NUM_PIXELS = 28  # The number of LEDs on the shim.
 
@@ -67,15 +64,6 @@ def ledshimdemo(level: str):
     configure_logging(level)
 
 
-def process(settings: EffectController):
-    Pixel.set_default_brightness(settings.brightness / 10.0)
-    if settings.invert:
-        Canvas.invert_display()
-    instances = EFFECT_CACHE.get_effect_instances(settings.effects)
-    effects_parade = AbstractEffectParade.select_effect_parade(settings.parade, instances)
-    effects_parade.render(settings.duration, settings.repeat)
-
-
 @ledshimdemo.command(help="Display the effects on a single Pi")
 @add_options(DISPLAY_OPTIONS)
 @click.argument('effects', nargs=-1, type=click.STRING, callback=validate_effects, required=False)
@@ -90,9 +78,8 @@ def display(parade: str, duration: int, repeat: int, brightness: int, invert: bo
     :param effects: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
-    settings = EffectController(parade, duration, repeat, brightness, invert, effects)
-    logging.info(settings.options_used("display"))
-    process(settings)
+    controller = EffectController(parade, duration, repeat, brightness, invert, effects, EFFECT_CACHE)
+    controller.process("display")
 
 
 @ledshimdemo.command(help="Act as a lead for other instances to follow.")
@@ -115,9 +102,8 @@ def lead(parade: str, duration: int, repeat: int, brightness: int,
     :param effects: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
-    settings = EffectController(parade, duration, repeat, brightness, invert, effects)
-    logging.info(settings.options_used("lead"))
-    process(settings)
+    controller = EffectController(parade, duration, repeat, brightness, invert, effects, EFFECT_CACHE)
+    controller.process("lead")
 
 
 @ledshimdemo.command(help="Follow a lead instance.")
@@ -132,9 +118,8 @@ def follow(port: int, ip_address: str) -> None:
     :return: No meaningful return
     """
     # Obtain settings from lead instance...
-    settings = EffectController(AbstractEffectParade.CYCLE_PARADE, 10, 1, 8, False, [])
-    logging.info(settings.options_used("follow"))
-    process(settings)
+    controller = EffectController("CYCLE", 10, 1, 8, False, [], EFFECT_CACHE)
+    controller.process("follow")
 
 
 if __name__ == '__main__':
