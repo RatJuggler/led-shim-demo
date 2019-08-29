@@ -1,7 +1,7 @@
 from typing import List
 
 
-class EffectOptions:
+class EffectController:
 
     def __init__(self, parade: str, duration: int, repeat: int, brightness: int,
                  invert: bool, effects: List[str]) -> None:

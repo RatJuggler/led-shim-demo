@@ -8,7 +8,7 @@ from .configure_logging import configure_logging
 from .display_options import DISPLAY_OPTIONS, add_options
 from .effect_cache import EffectCache
 from .effect_parade import AbstractEffectParade
-from .effect_settings import EffectOptions
+from .effect_controller import EffectController
 from .ipaddress_param import IPAddressParamType
 from .pixel import Pixel
 
@@ -67,7 +67,7 @@ def ledshimdemo(level: str):
     configure_logging(level)
 
 
-def process(settings: EffectOptions):
+def process(settings: EffectController):
     Pixel.set_default_brightness(settings.brightness / 10.0)
     if settings.invert:
         Canvas.invert_display()
@@ -90,7 +90,7 @@ def display(parade: str, duration: int, repeat: int, brightness: int, invert: bo
     :param effects: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
-    settings = EffectOptions(parade, duration, repeat, brightness, invert, effects)
+    settings = EffectController(parade, duration, repeat, brightness, invert, effects)
     logging.info(settings.options_used("display"))
     process(settings)
 
@@ -115,7 +115,7 @@ def lead(parade: str, duration: int, repeat: int, brightness: int,
     :param effects: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
-    settings = EffectOptions(parade, duration, repeat, brightness, invert, effects)
+    settings = EffectController(parade, duration, repeat, brightness, invert, effects)
     logging.info(settings.options_used("lead"))
     process(settings)
 
@@ -132,7 +132,7 @@ def follow(port: int, ip_address: str) -> None:
     :return: No meaningful return
     """
     # Obtain settings from lead instance...
-    settings = EffectOptions(AbstractEffectParade.CYCLE_PARADE, 10, 1, 8, False, [])
+    settings = EffectController(AbstractEffectParade.CYCLE_PARADE, 10, 1, 8, False, [])
     logging.info(settings.options_used("follow"))
     process(settings)
 
