@@ -78,8 +78,8 @@ def display(parade: str, duration: int, repeat: int, brightness: int, invert: bo
     :param effects: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
-    controller = EffectController(parade, duration, repeat, brightness, invert, effects, EFFECT_CACHE)
-    controller.process("display")
+    controller = EffectController(parade, duration, repeat, brightness, invert, effects)
+    controller.display(EFFECT_CACHE.get_effect_instances(effects))
 
 
 @ledshimdemo.command(help="Act as a lead for other instances to follow.")
@@ -102,8 +102,8 @@ def lead(parade: str, duration: int, repeat: int, brightness: int,
     :param effects: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
-    controller = EffectController(parade, duration, repeat, brightness, invert, effects, EFFECT_CACHE)
-    controller.process("lead")
+    controller = EffectController(parade, duration, repeat, brightness, invert, effects)
+    controller.lead(EFFECT_CACHE.get_effect_instances(effects), port, ip_address)
 
 
 @ledshimdemo.command(help="Follow a lead instance.")
@@ -117,9 +117,8 @@ def follow(port: int, ip_address: str) -> None:
     :param ip_address: the lead instance's ip address
     :return: No meaningful return
     """
-    # Obtain settings from lead instance...
-    controller = EffectController("CYCLE", 10, 1, 8, False, [], EFFECT_CACHE)
-    controller.process("follow")
+    controller = EffectController.default()
+    controller.follow(EFFECT_CACHE.get_effect_instances([]), port, ip_address)
 
 
 if __name__ == '__main__':

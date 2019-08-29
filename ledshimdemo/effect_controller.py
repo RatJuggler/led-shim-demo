@@ -1,7 +1,7 @@
 from typing import List
 
+from .abstract_effect import AbstractEffect
 from .canvas import Canvas
-from .effect_cache import EffectCache
 from .configure_logging import logging
 from .effect_parade import AbstractEffectParade
 from .pixel import Pixel
@@ -9,8 +9,8 @@ from .pixel import Pixel
 
 class EffectController:
 
-    def __init__(self, parade: str, duration: int, repeat: int, brightness: int,
-                 invert: bool, effects: List[str], effect_cache: EffectCache) -> None:
+    def __init__(self, parade: str, duration: int, repeat: int,
+                 brightness: int, invert: bool, effects: List[str]) -> None:
         """
         Initialise with chosen options.
         :param parade: In a CYCLE or at RANDOM
@@ -19,8 +19,6 @@ class EffectController:
         :param brightness: How bright the effects will be
         :param invert: Depending on which way round the Pi is
         :param effects: User entered list of effects to use, defaults to all effects
-        :param canvas: Virtual display used by effects
-        :param effect_cache: Of all available effects
         """
         self.parade = parade
         self.duration = duration
@@ -28,7 +26,14 @@ class EffectController:
         self.brightness = brightness
         self.invert = invert
         self.effects = effects
-        self.effect_cache = effect_cache
+
+    @classmethod
+    def default(cls) -> 'EffectController':
+        """
+        Default effect controller instance.
+        :return: an EffectController instance
+        """
+        return EffectController("CYCLE", 10, 1, 8, False, [])
 
     def options_used(self, command: str) -> str:
         """
@@ -46,11 +51,21 @@ class EffectController:
                    ")"]
         return "".join(options)
 
-    def process(self, command: str):
-        logging.info(self.options_used(command))
+    def process(self, instances: List[AbstractEffect]):
         Pixel.set_default_brightness(self.brightness / 10.0)
         if self.invert:
             Canvas.invert_display()
-        instances = self.effect_cache.get_effect_instances(self.effects)
         effects_parade = AbstractEffectParade.select_effect_parade(self.parade, instances)
         effects_parade.render(self.duration, self.repeat)
+
+    def display(self, instances: List[AbstractEffect]):
+        logging.info(self.options_used("display"))
+        self.process(instances)
+
+    def lead(self, instances: List[AbstractEffect], port: int, ip_address: str):
+        logging.info(self.options_used("lead"))
+        self.process(instances)
+
+    def follow(self, instances: List[AbstractEffect], port: int, ip_address: str):
+        logging.info(self.options_used("follow"))
+        self.process(instances)
