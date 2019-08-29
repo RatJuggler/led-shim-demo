@@ -4,6 +4,7 @@ from .abstract_effect import AbstractEffect
 from .canvas import Canvas
 from .configure_logging import logging
 from .effect_parade import AbstractEffectParade
+from .effect_publisher import EffectPublisher
 from .pixel import Pixel
 
 
@@ -62,10 +63,14 @@ class EffectController:
         logging.info(self.options_used("display"))
         self.process(instances)
 
-    def lead(self, instances: List[AbstractEffect], port: int, ip_address: str):
+    def lead(self, instances: List[AbstractEffect], ip_address: str, port: int):
         logging.info(self.options_used("lead"))
+        publisher = EffectPublisher(ip_address, port)
+        publisher.start()
+        publisher.publish(self.options_used("lead"))
         self.process(instances)
+        publisher.stop()
 
-    def follow(self, instances: List[AbstractEffect], port: int, ip_address: str):
+    def follow(self, instances: List[AbstractEffect], ip_address: str, port: int):
         logging.info(self.options_used("follow"))
         self.process(instances)

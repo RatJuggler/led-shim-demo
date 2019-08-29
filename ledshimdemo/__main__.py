@@ -103,7 +103,7 @@ def lead(parade: str, duration: int, repeat: int, brightness: int,
     :return: No meaningful return
     """
     controller = EffectController(parade, duration, repeat, brightness, invert, effects)
-    controller.lead(EFFECT_CACHE.get_effect_instances(effects), port, ip_address)
+    controller.lead(EFFECT_CACHE.get_effect_instances(effects), ip_address, port)
 
 
 @ledshimdemo.command(help="Follow a lead instance.")
@@ -118,7 +118,7 @@ def follow(port: int, ip_address: str) -> None:
     :return: No meaningful return
     """
     controller = EffectController.default()
-    controller.follow(EFFECT_CACHE.get_effect_instances([]), port, ip_address)
+    controller.follow(EFFECT_CACHE.get_effect_instances([]), ip_address, port)
 
 
 if __name__ == '__main__':

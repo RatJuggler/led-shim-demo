@@ -1,7 +1,6 @@
 from unittest import TestCase
 from testfixtures import LogCapture
 import mock
-import os
 
 from ledshimdemo.canvas import Canvas
 import ledshimdemo.configure_logging as cl
@@ -93,15 +92,18 @@ class TestEffectControllerProcessLead(TestCase):
         expected = "lead(parade=CYCLE, duration=10 secs, repeat=1, brightness=8, invert=False, effects=ALL)"
         with LogCapture(level=cl.logging.INFO) as log_out:
             controller = EffectController("CYCLE", 10, 1, 8, False, [])
-            controller.lead(self.instances, 5556, "127.0.0.1")
-        log_out.check(("root", cl.logging.getLevelName(cl.logging.INFO), expected))
+            controller.lead(self.instances, "127.0.0.1", 5556)
+        log_out.check(("root", cl.logging.getLevelName(cl.logging.INFO), expected),
+                      ('root', 'INFO', 'Starting effect publisher...'),
+                      ('root', 'INFO', 'Waiting for effect publisher to stop...'),
+                      ('root', 'INFO', 'Effect publisher stopped.'))
         effect_parade_mock.select_effect_parade.assert_called_once()
         effect_parade_mock.select_effect_parade.return_value.render.assert_called_once()
 
     def test_lead_default_options_warning_log(self, effect_parade_mock):
         with LogCapture(level=cl.logging.WARNING) as log_out:
             controller = EffectController("CYCLE", 10, 1, 8, False, [])
-            controller.lead(self.instances, 5556, "127.0.0.1")
+            controller.lead(self.instances, "127.0.0.1", 5556)
         log_out.check()
         effect_parade_mock.select_effect_parade.assert_called_once()
         effect_parade_mock.select_effect_parade.return_value.render.assert_called_once()
@@ -110,18 +112,24 @@ class TestEffectControllerProcessLead(TestCase):
         expected = "lead(parade=CYCLE, duration=10 secs, repeat=1, brightness=8, invert=False, effects=ALL)"
         with LogCapture(level=cl.logging.DEBUG) as log_out:
             controller = EffectController("CYCLE", 10, 1, 8, False, [])
-            controller.lead(self.instances, 5556, "127.0.0.1")
-        log_out.check(("root", cl.logging.getLevelName(cl.logging.INFO), expected))
+            controller.lead(self.instances, "127.0.0.1", 5556)
+        log_out.check(("root", cl.logging.getLevelName(cl.logging.INFO), expected),
+                      ('root', 'INFO', 'Starting effect publisher...'),
+                      ('root', 'INFO', 'Waiting for effect publisher to stop...'),
+                      ('root', 'INFO', 'Effect publisher stopped.'))
         effect_parade_mock.select_effect_parade.assert_called_once()
         effect_parade_mock.select_effect_parade.return_value.render.assert_called_once()
 
     def test_lead_all_options_verbose_log(self, effect_parade_mock):
-        expected = "lead(parade=RANDOM, duration=180 secs, repeat=240, brightness=3, " \
+        expected = "lead(parade=RANDOM, duration=5 secs, repeat=1, brightness=3, " \
                    "invert=True, effects=['Dummy1Effect', 'Dummy2Effect'])"
         with LogCapture(level=cl.VERBOSE) as log_out:
-            controller = EffectController("RANDOM", 180, 240, 3, True, ['Dummy1Effect', 'Dummy2Effect'])
-            controller.lead(self.instances, 5556, "127.0.0.1")
-        log_out.check(("root", cl.logging.getLevelName(cl.logging.INFO), expected))
+            controller = EffectController("RANDOM", 5, 1, 3, True, ['Dummy1Effect', 'Dummy2Effect'])
+            controller.lead(self.instances, "127.0.0.1", 5556)
+        log_out.check(("root", cl.logging.getLevelName(cl.logging.INFO), expected),
+                      ('root', 'INFO', 'Starting effect publisher...'),
+                      ('root', 'INFO', 'Waiting for effect publisher to stop...'),
+                      ('root', 'INFO', 'Effect publisher stopped.'))
         effect_parade_mock.select_effect_parade.assert_called_once()
         effect_parade_mock.select_effect_parade.return_value.render.assert_called_once()
 
@@ -139,7 +147,7 @@ class TestEffectControllerProcessFollow(TestCase):
         expected = "follow(parade=CYCLE, duration=10 secs, repeat=1, brightness=8, invert=False, effects=ALL)"
         with LogCapture(level=cl.logging.INFO) as log_out:
             controller = EffectController("CYCLE", 10, 1, 8, False, [])
-            controller.follow(self.instances, 5556, "127.0.0.1")
+            controller.follow(self.instances, "127.0.0.1", 5556)
         log_out.check(("root", cl.logging.getLevelName(cl.logging.INFO), expected))
         effect_parade_mock.select_effect_parade.assert_called_once()
         effect_parade_mock.select_effect_parade.return_value.render.assert_called_once()
