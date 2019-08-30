@@ -179,11 +179,6 @@ class TestFollowCommand(TestCase):
         self.assertIn(" --help ", result.output)
         effect_controller_process_mock.assert_not_called()
 
-    def test_follow_valid_ip_address(self, effect_controller_process_mock):
-        result = self.runner.invoke(main.ledshimdemo, ['follow', '127.0.0.1'])
-        self.assertEqual(result.exit_code, 0)
-        effect_controller_process_mock.assert_called_once()
-
     def test_lead_missing_ip_address(self, effect_controller_process_mock):
         result = self.runner.invoke(main.ledshimdemo, ['follow'])
         self.assertEqual(result.exit_code, 2)
