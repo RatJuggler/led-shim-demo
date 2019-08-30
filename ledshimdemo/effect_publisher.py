@@ -1,6 +1,7 @@
 from multiprocessing import Process, Queue
 from queue import Empty
 import time
+import zmq
 
 from .configure_logging import logging
 
@@ -14,15 +15,26 @@ def check_queue(queue):
 
 
 def publisher(ip_address: str, port: int, queue: Queue) -> None:
-    while True:
-        message = check_queue(queue)
-        if message == "STOP":
-            break
-        if message == "EMPTY":
-            print("Publisher: Idling...")
-        else:
-            print("Publisher: {0}".format(message))
-        time.sleep(0.5)
+    context = zmq.Context()
+    socket = context.socket(zmq.PUB)
+    socket.bind("tcp://{0}:{1}".format(ip_address, port))
+    try:
+        publish_message = None
+        while True:
+            message = check_queue(queue)
+            if message == "STOP":
+                break
+            if message == "EMPTY":
+                print("Publisher: Idling...")
+            else:
+                publish_message = message
+            if publish_message:
+                print("Publisher: {0}".format(publish_message))
+                socket.send_string(publish_message)
+            time.sleep(0.5)
+    finally:
+        socket.close()
+        context.term()
 
 
 class EffectPublisher:
@@ -38,8 +50,9 @@ class EffectPublisher:
         self.publisher = Process(target=publisher, args=(self.ip_address, self.port, self.queue,))
         self.publisher.start()
 
-    def publish(self, message: str):
-        self.queue.put_nowait(message)
+    def publish(self, message: dict):
+        string = "LEDSHIM-" + str(message)
+        self.queue.put_nowait(string)
 
     def stop(self):
         logging.info("Waiting for effect publisher to stop...")

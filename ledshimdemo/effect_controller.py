@@ -5,6 +5,7 @@ from .canvas import Canvas
 from .configure_logging import logging
 from .effect_parade import AbstractEffectParade
 from .effect_publisher import EffectPublisher
+from .effect_subscriber import EffectSubscriber
 from .pixel import Pixel
 
 
@@ -35,6 +36,14 @@ class EffectController:
         :return: an EffectController instance
         """
         return EffectController("CYCLE", 10, 1, 8, False, [])
+
+    def encode_options_used(self) -> dict:
+        return dict(parade=self.parade,
+                    duration=self.duration,
+                    repeat=self.repeat,
+                    brightness=self.brightness,
+                    invert=self.invert,
+                    effects=self.effects)
 
     def options_used(self, command: str) -> str:
         """
@@ -67,10 +76,12 @@ class EffectController:
         logging.info(self.options_used("lead"))
         publisher = EffectPublisher(ip_address, port)
         publisher.start()
-        publisher.publish(self.options_used("lead"))
+        publisher.publish(self.encode_options_used())
         self.process(instances)
         publisher.stop()
 
     def follow(self, instances: List[AbstractEffect], ip_address: str, port: int):
         logging.info(self.options_used("follow"))
-        self.process(instances)
+        subscriber = EffectSubscriber(ip_address, port)
+        options = subscriber.get_effect_options()
+        print("Parse options: {0}".format(options))
