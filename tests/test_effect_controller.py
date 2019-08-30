@@ -61,15 +61,6 @@ class TestEffectControllerProcessDisplay(TestCase):
         effect_parade_mock.select_effect_parade.assert_called_once()
         effect_parade_mock.select_effect_parade.return_value.render.assert_called_once()
 
-    def test_display_default_options_debug_log(self, effect_parade_mock):
-        expected = "Effect Options(parade=CYCLE, duration=10 secs, repeat=1, brightness=8, invert=False, effects=ALL)"
-        with LogCapture(level=cl.logging.DEBUG) as log_out:
-            controller = EffectController("CYCLE", 10, 1, 8, False, [])
-            controller.process(self.instances)
-        log_out.check(("root", cl.logging.getLevelName(cl.logging.INFO), expected))
-        effect_parade_mock.select_effect_parade.assert_called_once()
-        effect_parade_mock.select_effect_parade.return_value.render.assert_called_once()
-
     def test_display_all_options_verbose_log(self, effect_parade_mock):
         expected = "Effect Options(parade=RANDOM, duration=180 secs, repeat=240, brightness=3, " \
                    "invert=True, effects=['Dummy1Effect', 'Dummy2Effect'])"
