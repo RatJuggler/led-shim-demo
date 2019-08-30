@@ -18,7 +18,9 @@ def check_queue(queue) -> str:
 def publisher(ip_address: str, port: int, queue: Queue) -> None:
     context = zmq.Context()
     socket = context.socket(zmq.PUB)
-    socket.bind("tcp://{0}:{1}".format(ip_address, port))
+    bind_to = "tcp://{0}:{1}".format(ip_address, port)
+    logging.info("Starting effect publisher on: {0}".format(bind_to))
+    socket.bind(bind_to)
     try:
         publish_message = None
         while True:
@@ -28,7 +30,7 @@ def publisher(ip_address: str, port: int, queue: Queue) -> None:
             if message:
                 publish_message = message
             if publish_message:
-                print("Publisher: {0}".format(publish_message))
+                logging.info("Publishing: {0}".format(publish_message))
                 socket.send_string(publish_message)
             time.sleep(1)
     finally:
@@ -38,6 +40,8 @@ def publisher(ip_address: str, port: int, queue: Queue) -> None:
 
 class EffectPublisher:
 
+    TOPIC = "LEDSHIM-"
+
     def __init__(self, ip_address: str, port: int) -> None:
         self.ip_address = ip_address
         self.port = port
@@ -45,12 +49,11 @@ class EffectPublisher:
         self.publisher = None
 
     def start(self):
-        logging.info("Starting effect publisher...")
         self.publisher = Process(target=publisher, args=(self.ip_address, self.port, self.queue,))
         self.publisher.start()
 
     def publish(self, message: dict):
-        string = "LEDSHIM-" + json.dumps(message)
+        string = self.TOPIC + json.dumps(message)
         self.queue.put_nowait(string)
 
     def stop(self):

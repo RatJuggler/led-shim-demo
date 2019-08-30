@@ -1,6 +1,8 @@
 import json
 import zmq
 
+from .configure_logging import logging
+
 
 class EffectSubscriber:
 
@@ -14,14 +16,15 @@ class EffectSubscriber:
         context = zmq.Context()
         socket = context.socket(zmq.SUB)
         socket.setsockopt_string(zmq.SUBSCRIBE, topic)
-        print("Connecting to publisher....")
-        socket.connect("tcp://{0}:{1}".format(self.ip_address, self.port))
+        connect_to = "tcp://{0}:{1}".format(self.ip_address, self.port)
+        logging.info("Connecting to publisher at: {0}".format(connect_to))
+        socket.connect(connect_to)
         try:
             while True:
-                print("Waiting for message...")
+                logging.info("Waiting for effect options from publisher...")
                 message = socket.recv_string()
                 if message.startswith(topic):
-                    print("Message received: {0}".format(message))
+                    logging.info("Message received from publisher: {0}".format(message))
                     return message
         finally:
             socket.close()
