@@ -1,7 +1,6 @@
 import json
+import logging
 import zmq
-
-from .configure_logging import logging
 
 
 class EffectSubscriber:
