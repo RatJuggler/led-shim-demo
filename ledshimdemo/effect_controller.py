@@ -42,6 +42,10 @@ class EffectController:
                                 options["effects"])
 
     def encode_options_used(self) -> dict:
+        """
+        Encode the current effect options.
+        :return: a dict of effect options
+        """
         return dict(parade=self.parade,
                     duration=self.duration,
                     repeat=self.repeat,
@@ -65,18 +69,18 @@ class EffectController:
                    ")"]
         return "".join(options)
 
-    def process(self, instances: List[AbstractEffect]):
+    def process(self, instances: List[AbstractEffect]) -> None:
         Pixel.set_default_brightness(self.brightness / 10.0)
         if self.invert:
             Canvas.invert_display()
         effects_parade = AbstractEffectParade.select_effect_parade(self.parade, instances)
         effects_parade.render(self.duration, self.repeat)
 
-    def display(self, instances: List[AbstractEffect]):
+    def display(self, instances: List[AbstractEffect]) -> None:
         logging.info(self.options_used("display"))
         self.process(instances)
 
-    def lead(self, instances: List[AbstractEffect], ip_address: str, port: int):
+    def lead(self, instances: List[AbstractEffect], ip_address: str, port: int) -> None:
         logging.info(self.options_used("lead"))
         publisher = EffectPublisher(ip_address, port)
         publisher.start()
@@ -84,6 +88,6 @@ class EffectController:
         self.process(instances)
         publisher.stop()
 
-    def follow(self, instances: List[AbstractEffect], ip_address: str, port: int):
+    def follow(self, instances: List[AbstractEffect], ip_address: str, port: int) -> None:
         logging.info(self.options_used("follow"))
         self.process(instances)

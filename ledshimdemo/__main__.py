@@ -7,6 +7,7 @@ from .configure_logging import configure_logging
 from .display_options import DISPLAY_OPTIONS, add_options
 from .effect_cache import EffectCache
 from .effect_controller import EffectController
+from .effect_publisher import EffectPublisher
 from .effect_subscriber import EffectSubscriber
 from .ipaddress_param import IPAddressParamType
 
@@ -92,7 +93,7 @@ def display(parade: str, duration: int, repeat: int, brightness: int, invert: bo
 def lead(parade: str, duration: int, repeat: int, brightness: int,
          invert: bool, port: int, ip_address: str, effects: List[str]) -> None:
     """
-    Display effects as normal but also publish the settings for follow subscribers.
+    Publish settings for follow subscribers then display effects as normal.
     :param parade: In a CYCLE or at RANDOM
     :param duration: How long to display each effect for
     :param repeat: How many times to run the effects
@@ -104,7 +105,9 @@ def lead(parade: str, duration: int, repeat: int, brightness: int,
     :return: No meaningful return
     """
     controller = EffectController(parade, duration, repeat, brightness, invert, effects)
-    controller.lead(EFFECT_CACHE.get_effect_instances(effects), ip_address, port)
+    publisher = EffectPublisher(ip_address, port)
+    publisher.broadcast_effect_option(controller.encode_options_used())
+    controller.display(EFFECT_CACHE.get_effect_instances(effects))
 
 
 @ledshimdemo.command(help="Follow a lead instance.")
@@ -121,7 +124,7 @@ def follow(port: int, ip_address: str) -> None:
     subscriber = EffectSubscriber(ip_address, port)
     options = subscriber.get_effect_options()
     controller = EffectController.from_dict(options)
-    controller.follow(EFFECT_CACHE.get_effect_instances(controller.effects), ip_address, port)
+    controller.display(EFFECT_CACHE.get_effect_instances(controller.effects))
 
 
 if __name__ == '__main__':
