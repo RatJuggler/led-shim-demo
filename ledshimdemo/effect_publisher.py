@@ -1,8 +1,7 @@
 import json
+import logging
 import time
 import zmq
-
-from .configure_logging import logging
 
 
 class EffectPublisher:
@@ -19,7 +18,7 @@ class EffectPublisher:
         bind_to = "tcp://{0}:{1}".format(self.ip_address, self.port)
         logging.info("Starting effect publisher on: {0}".format(bind_to))
         socket.bind(bind_to)
-        time.sleep(1)
+        time.sleep(1)  # Sleeping to delay the publisher is not generally considered best practice.
         try:
             logging.info("Publishing: {0}".format(message))
             socket.send_string(message)
