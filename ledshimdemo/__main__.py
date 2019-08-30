@@ -7,6 +7,7 @@ from .configure_logging import configure_logging
 from .display_options import DISPLAY_OPTIONS, add_options
 from .effect_cache import EffectCache
 from .effect_controller import EffectController
+from .effect_subscriber import EffectSubscriber
 from .ipaddress_param import IPAddressParamType
 
 NUM_PIXELS = 28  # The number of LEDs on the shim.
@@ -117,8 +118,10 @@ def follow(port: int, ip_address: str) -> None:
     :param ip_address: the lead instance's ip address
     :return: No meaningful return
     """
-    controller = EffectController.default()
-    controller.follow(EFFECT_CACHE.get_effect_instances([]), ip_address, port)
+    subscriber = EffectSubscriber(ip_address, port)
+    options = subscriber.get_effect_options()
+    controller = EffectController.from_dict(options)
+    controller.follow(EFFECT_CACHE.get_effect_instances(controller.effects), ip_address, port)
 
 
 if __name__ == '__main__':

@@ -30,12 +30,17 @@ class EffectController:
         self.effects = effects
 
     @classmethod
-    def default(cls) -> 'EffectController':
+    def from_dict(cls, options: dict) -> 'EffectController':
         """
-        Default effect controller instance.
+        Instantiate from a dict.
         :return: an EffectController instance
         """
-        return EffectController("CYCLE", 10, 1, 8, False, [])
+        return EffectController(options["parade"],
+                                options["duration"],
+                                options["repeat"],
+                                options["brightness"],
+                                options["invert"],
+                                options["effects"])
 
     def encode_options_used(self) -> dict:
         return dict(parade=self.parade,
@@ -82,6 +87,4 @@ class EffectController:
 
     def follow(self, instances: List[AbstractEffect], ip_address: str, port: int):
         logging.info(self.options_used("follow"))
-        subscriber = EffectSubscriber(ip_address, port)
-        options = subscriber.get_effect_options()
-        print("Parse options: {0}".format(options))
+        self.process(instances)

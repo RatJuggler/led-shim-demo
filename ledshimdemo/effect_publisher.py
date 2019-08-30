@@ -1,3 +1,4 @@
+import json
 from multiprocessing import Process, Queue
 from queue import Empty
 import time
@@ -51,7 +52,7 @@ class EffectPublisher:
         self.publisher.start()
 
     def publish(self, message: dict):
-        string = "LEDSHIM-" + str(message)
+        string = "LEDSHIM-" + json.dumps(message)
         self.queue.put_nowait(string)
 
     def stop(self):
