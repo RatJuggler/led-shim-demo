@@ -5,7 +5,6 @@ from .canvas import Canvas
 from .configure_logging import logging
 from .effect_parade import AbstractEffectParade
 from .effect_publisher import EffectPublisher
-from .effect_subscriber import EffectSubscriber
 from .pixel import Pixel
 
 
