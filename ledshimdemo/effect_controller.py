@@ -4,7 +4,6 @@ from .abstract_effect import AbstractEffect
 from .canvas import Canvas
 from .configure_logging import logging
 from .effect_parade import AbstractEffectParade
-from .effect_publisher import EffectPublisher
 from .pixel import Pixel
 
 
@@ -53,13 +52,12 @@ class EffectController:
                     invert=self.invert,
                     effects=self.effects)
 
-    def options_used(self, command: str) -> str:
+    def options_used(self) -> str:
         """
         Human readable string showing the display options to be used.
-        :param command: the command using these options
         :return: One line string of the display options to be used
         """
-        options = ["{0}(".format(command),
+        options = ["Effect Options(",
                    "parade={0}, ".format(self.parade),
                    "duration={0} secs, ".format(self.duration),
                    "repeat={0}, ".format(self.repeat),
@@ -70,24 +68,9 @@ class EffectController:
         return "".join(options)
 
     def process(self, instances: List[AbstractEffect]) -> None:
+        logging.info(self.options_used())
         Pixel.set_default_brightness(self.brightness / 10.0)
         if self.invert:
             Canvas.invert_display()
         effects_parade = AbstractEffectParade.select_effect_parade(self.parade, instances)
         effects_parade.render(self.duration, self.repeat)
-
-    def display(self, instances: List[AbstractEffect]) -> None:
-        logging.info(self.options_used("display"))
-        self.process(instances)
-
-    def lead(self, instances: List[AbstractEffect], ip_address: str, port: int) -> None:
-        logging.info(self.options_used("lead"))
-        publisher = EffectPublisher(ip_address, port)
-        publisher.start()
-        publisher.publish(self.encode_options_used())
-        self.process(instances)
-        publisher.stop()
-
-    def follow(self, instances: List[AbstractEffect], ip_address: str, port: int) -> None:
-        logging.info(self.options_used("follow"))
-        self.process(instances)

@@ -81,7 +81,7 @@ def display(parade: str, duration: int, repeat: int, brightness: int, invert: bo
     :return: No meaningful return
     """
     controller = EffectController(parade, duration, repeat, brightness, invert, effects)
-    controller.display(EFFECT_CACHE.get_effect_instances(effects))
+    controller.process(EFFECT_CACHE.get_effect_instances(effects))
 
 
 @ledshimdemo.command(help="Act as a lead for other instances to follow.")
@@ -107,7 +107,7 @@ def lead(parade: str, duration: int, repeat: int, brightness: int,
     controller = EffectController(parade, duration, repeat, brightness, invert, effects)
     publisher = EffectPublisher(ip_address, port)
     publisher.broadcast_effect_option(controller.encode_options_used())
-    controller.display(EFFECT_CACHE.get_effect_instances(effects))
+    controller.process(EFFECT_CACHE.get_effect_instances(effects))
 
 
 @ledshimdemo.command(help="Follow a lead instance.")
@@ -124,7 +124,7 @@ def follow(port: int, ip_address: str) -> None:
     subscriber = EffectSubscriber(ip_address, port)
     options = subscriber.get_effect_options()
     controller = EffectController.from_dict(options)
-    controller.display(EFFECT_CACHE.get_effect_instances(controller.effects))
+    controller.process(EFFECT_CACHE.get_effect_instances(controller.effects))
 
 
 if __name__ == '__main__':
