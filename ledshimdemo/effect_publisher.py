@@ -7,12 +7,12 @@ import zmq
 from .configure_logging import logging
 
 
-def check_queue(queue):
+def check_queue(queue) -> str:
     try:
         task = queue.get_nowait()
         return task
     except Empty:
-        return "EMPTY"
+        return None
 
 
 def publisher(ip_address: str, port: int, queue: Queue) -> None:
@@ -25,14 +25,12 @@ def publisher(ip_address: str, port: int, queue: Queue) -> None:
             message = check_queue(queue)
             if message == "STOP":
                 break
-            if message == "EMPTY":
-                print("Publisher: Idling...")
-            else:
+            if message:
                 publish_message = message
             if publish_message:
                 print("Publisher: {0}".format(publish_message))
                 socket.send_string(publish_message)
-            time.sleep(0.5)
+            time.sleep(1)
     finally:
         socket.close()
         context.term()
