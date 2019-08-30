@@ -3,7 +3,7 @@ from testfixtures import LogCapture
 import logging
 import mock
 
-from effect_subscriber import EffectSubscriber
+from ledshimdemo.effect_subscriber import EffectSubscriber
 
 
 @mock.patch('ledshimdemo.effect_subscriber.zmq.Context')
