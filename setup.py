@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='ledshimdemo',
-    version='2.0.0',
+    version='2.0.1',
     description='Show various effects on a Pimoroni LED shim.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -16,7 +16,7 @@ setup(
     packages=find_packages(exclude=['tests']),
     entry_points={
         'console_scripts': [
-            'ledshimdemo = ledshimdemo.__main__:display_effects',
+            'ledshimdemo = ledshimdemo.__main__:ledshimdemo',
         ]
     },
     install_requires=[
