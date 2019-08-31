@@ -49,6 +49,8 @@ def validate_effects(ctx, param, value) -> None:
 
 @click.group(help="""
     Show various effects on one or more Raspberry Pi's with Pimoroni LED shim's.\n
+    Use the 'display' command for a single Pi. For multiple Pi's one must use the 'lead' command and the others the
+    'follow' command. Ensure you start the followers before starting the lead.\n
     To limit the effects shown use the effect-list option to list the effects available then add them to the command
     line as required. Otherwise all effects will be shown.
     """)
@@ -66,7 +68,7 @@ def ledshimdemo(level: str):
     configure_logging(level)
 
 
-@ledshimdemo.command(help="Display the effects on a single Pi")
+@ledshimdemo.command(help="Display the effects on a single Pi.")
 @add_options(DISPLAY_OPTIONS)
 @click.argument('effects', nargs=-1, type=click.STRING, callback=validate_effects, required=False)
 def display(parade: str, duration: int, repeat: int, brightness: int, invert: bool, effects: List[str]) -> None:
