@@ -3,16 +3,23 @@ Add a custom VERBOSE logging level between DEBUG and INFO.
 """
 import logging
 
-VERBOSE = "VERBOSE"
-LOGGING_LEVEL_VERBOSE = 15
+VERBOSE = 15
+VERBOSE_NAME = "VERBOSE"
 
 
 def verbose(msg, *args, **kwargs) -> None:
-    if logging.getLogger().isEnabledFor(LOGGING_LEVEL_VERBOSE):
-        logging.log(LOGGING_LEVEL_VERBOSE, msg)
+    """
+    Verbose logging function.
+    :param msg: The message to log as verbose
+    :param args: Standard args
+    :param kwargs: Standard kwargs
+    :return: No meaningful return
+    """
+    if logging.getLogger().isEnabledFor(VERBOSE):
+        logging.log(VERBOSE, msg)
 
 
-logging.addLevelName(LOGGING_LEVEL_VERBOSE, VERBOSE)
+logging.addLevelName(VERBOSE, VERBOSE_NAME)
 logging.verbose = verbose
 logging.Logger.verbose = verbose
 
@@ -23,9 +30,6 @@ def configure_logging(loglevel: str) -> None:
     :param loglevel: level name from the command line or default
     :return: No meaningful return
     """
-    numeric_level = logging.getLevelName(loglevel)
-    if not isinstance(numeric_level, int):
+    if logging.getLevelName(loglevel) == "Level {0}".format(loglevel):
         raise ValueError('Invalid log level: %s' % loglevel)
-    logging.basicConfig(level=numeric_level, format='%(asctime)s - %(levelname)s - %(message)s')
-    if numeric_level < logging.WARNING:
-        logging.log(numeric_level, "Logging level enabled!")
+    logging.basicConfig(level=loglevel, format='%(asctime)s - %(levelname)s - %(message)s')

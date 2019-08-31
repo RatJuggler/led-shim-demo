@@ -1,7 +1,7 @@
 # led-shim-demo
 
 ![GitHub](https://img.shields.io/github/license/RatJuggler/led-shim-demo)
-![Over-Engineered](https://img.shields.io/badge/over--engineered-somewhat-red)
+![Over-Engineered](https://img.shields.io/badge/over--engineered-definitely-red)
 [![PyPi Package](https://img.shields.io/pypi/v/ledshimdemo.svg)](https://pypi.python.org/pypi/ledshimdemo)
 [![Python Versions](https://img.shields.io/pypi/pyversions/ledshimdemo.svg)](https://pypi.python.org/pypi/ledshimdemo)
 
@@ -28,6 +28,9 @@ additions from my [fork](https://github.com/RatJuggler/led-shim/tree/more-exampl
 - Random Blink - Some random blinking.
 - Solid Colours - A basic effect which just shows a sequence of solid colours.
 
+If you have more than one Pi with an led-shim you can use the lead/follow commands to share options and perform a simple
+synchronised start across them. Be sure to start the follow instances before the lead.
+
 # Installing
 
 Install on Raspbian using:
@@ -44,9 +47,14 @@ sudo pip3 install -U ledshimdemo
 ```
 $ ledshimdemo --help
 
-Usage: ledshimdemo [OPTIONS] [EFFECTS_SELECTED]...
+Usage: ledshimdemo [OPTIONS] COMMAND [ARGS]...
 
-  Show various effects on a Pimoroni LED shim.
+  Show various effects on one or more Raspberry Pi's with Pimoroni LED
+  shim's.
+
+  Use the 'display' command for a single Pi. For multiple Pi's one must use
+  the 'lead' command and the others the 'follow' command. Ensure you start
+  the followers before starting the lead.
 
   To limit the effects shown use the effect-list option to list the effects
   available then add them to the command line as required. Otherwise all
@@ -54,39 +62,81 @@ Usage: ledshimdemo [OPTIONS] [EFFECTS_SELECTED]...
 
 Options:
   --version                       Show the version and exit.
-  -l, --effect-list               List the effects available and exit.
-  -d, --effect-display [CYCLE|RANDOM]
-                                  How the effects are displayed.  [default:
+  -e, --effect-list               List the effects available and exit.
+  -l, --log-level [DEBUG|VERBOSE|INFO|WARNING]
+                                  Show additional logging information.
+                                  [default: INFO]
+  --help                          Show this message and exit.
+
+Commands:
+  display  Display the effects on a single Pi
+  follow   Follow a lead instance.
+  lead     Act as a lead for other instances to follow.
+
+$ ledshimdemo display --help
+
+Usage: ledshimdemo display [OPTIONS] [EFFECTS]...
+
+  Display the effects on a single Pi
+
+Options:
+  -p, --parade [CYCLE|RANDOM]     How the effects are displayed.  [default:
                                   CYCLE]
-  -u, --effect-duration INTEGER RANGE
-                                  How long to display each effect for, in
+  -d, --duration INTEGER RANGE    How long to display each effect for, in
                                   seconds (1-180).  [default: 10]
-  -r, --repeat-run INTEGER RANGE  How many times to run the effects before
-                                  stopping (1-240).  [default: 1
+  -r, --repeat INTEGER RANGE      How many times to run the effects before
+                                  stopping (1-240).  [default: 1]
   -b, --brightness INTEGER RANGE  How bright the effects will be (1-10).
                                   [default: 8]
   -i, --invert                    Change the display orientation.
-  -o, --log-level [DEBUG|VERBOSE|INFO|WARNING]
-                                  Show additional logging information.
-                                  [default: INFO]
+  --help                          Show this message and exit.
+
+$ ledshimdmeo follow --help
+
+Usage: ledshimdemo follow [OPTIONS] IP_ADDRESS
+
+  Follow a lead instance.
+
+Options:
+  -o, --port INTEGER RANGE  Set the port number used for syncing.  [default:
+                            5556]
+  --help                    Show this message and exit.
+
+$ ledshimdemo lead --help
+
+Usage: ledshimdemo lead [OPTIONS] IP_ADDRESS [EFFECTS]...
+
+  Act as a lead for other instances to follow.
+
+Options:
+  -p, --parade [CYCLE|RANDOM]     How the effects are displayed.  [default:
+                                  CYCLE]
+  -d, --duration INTEGER RANGE    How long to display each effect for, in
+                                  seconds (1-180).  [default: 10]
+  -r, --repeat INTEGER RANGE      How many times to run the effects before
+                                  stopping (1-240).  [default: 1]
+  -b, --brightness INTEGER RANGE  How bright the effects will be (1-10).
+                                  [default: 8]
+  -i, --invert                    Change the display orientation.
+  -o, --port INTEGER RANGE        Set the port number used for syncing.
+                                  [default: 5556]
   --help                          Show this message and exit.
 ```
 
 Sample output with the default options:
 
 ```
-$ ledshimdemo
-2019-08-23 17:15:37,130 - INFO - Logging level enabled!
-2019-08-23 17:15:37,131 - INFO - Active Options(effect-display=CYCLE, effect-duration=10 secs, repeat-run=1, brightness=8, invert=False, log-level=INFO, effects_selected=ALL)
-2019-08-23 17:15:37,132 - INFO - Effect: BinaryClock - Shows hours, minutes and seconds. Update Frequency: 1 secs
-2019-08-23 17:15:47,454 - INFO - Effect: Candle - A flickering candle. Update Frequency: 0.01 secs
-2019-08-23 17:15:57,474 - INFO - Effect: CheerLights - Synchronize with the CheerLights "Internet of Things" project. Update Frequency: 5 secs
-2019-08-23 17:16:08,044 - INFO - Effect: ColouredLights - Simple coloured lights like Xmas lights. Update Frequency: 0.5 secs
-2019-08-23 17:16:18,104 - INFO - Effect: DigitalRain - Cut price Matrix effect. Update Frequency: 0.02 secs
-2019-08-23 17:16:28,111 - INFO - Effect: GradientGraph - Sine wave colour gradient effect. Update Frequency: 0.01 secs
-2019-08-23 17:16:38,141 - INFO - Effect: Rainbow - A slowly moving rainbow. Update Frequency: 0.01 secs
-2019-08-23 17:16:48,158 - INFO - Effect: RandomBlink - Some random blinking. Update Frequency: 0.05 secs
-2019-08-23 17:16:58,213 - INFO - Effect: SolidColours - A sequence of solid colours. Update Frequency: 0.5 secs
+$ ledshimdemo display
+2019-08-31 15:47:36,864 - INFO - Effect Options(parade=CYCLE, duration=10 secs, repeat=1, brightness=8, invert=False, effects=ALL)
+2019-08-31 15:47:36,864 - INFO - Effect: BinaryClock - Shows hours, minutes and seconds. Update Frequency: 1 secs
+2019-08-31 15:47:47,185 - INFO - Effect: Candle - A flickering candle. Update Frequency: 0.01 secs
+2019-08-31 15:47:57,208 - INFO - Effect: CheerLights - Synchronize with the CheerLights "Internet of Things" project. Update Frequency: 5 secs
+2019-08-31 15:48:07,745 - INFO - Effect: ColouredLights - Simple coloured lights like Xmas lights. Update Frequency: 0.5 secs
+2019-08-31 15:48:17,817 - INFO - Effect: DigitalRain - Cut price Matrix effect. Update Frequency: 0.02 secs
+2019-08-31 15:48:27,820 - INFO - Effect: GradientGraph - Sine wave colour gradient effect. Update Frequency: 0.01 secs
+2019-08-31 15:48:37,826 - INFO - Effect: Rainbow - A slowly moving rainbow. Update Frequency: 0.01 secs
+2019-08-31 15:48:47,861 - INFO - Effect: RandomBlink - Some random blinking. Update Frequency: 0.05 secs
+2019-08-31 15:48:57,875 - INFO - Effect: SolidColours - A sequence of solid colours. Update Frequency: 0.5 secs
 ```
 
 # Troubleshooting
@@ -103,7 +153,7 @@ pip3 uninstall numpy
 
 # Addendum
 
-This project is somewhat over-engineered for what it actually does because it's being used as a learning exercise.
+This project is definitely over-engineered for what it actually does because it's being used as a learning exercise.
 
 The application has a number of output logging levels built into it, including a custom VERBOSE level, to show some of
 the inner workings. This is just because.
@@ -120,6 +170,11 @@ project was designed to be run on an ARM based Raspberry Pi only a source distri
 when installing under Raspbian it should install the ARM wheel from [PiWheels](https://www.piwheels.hostedpi.com/)
 making the installation much faster. See the [PiWheels FAQ](https://www.piwheels.hostedpi.com/faq.html) for more
 information.
+
+The synchronisation using the lead/follow commands is very basic, yes the effect options set for the lead are
+distributed to the follow instances but there is only a primitive trigger to try and start the displays together and
+there is no heartbeat to try to keep them in sync. If you run with more than about 10 repeat iterations you'll soon see
+the displays go out of sync.    
 
 Badges showing the build status and code coverage for both the master and develop branches are shown at the top. This is
  a simple solution to the problem of trying to make this file specific to the branch it is in.

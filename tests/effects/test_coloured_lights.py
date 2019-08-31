@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestCase
 import mock
 import sys
 
@@ -8,7 +8,7 @@ from ledshimdemo.canvas import Canvas
 from ledshimdemo.effects.coloured_lights import ColouredLightsEffect
 
 
-class TestColouredLights(unittest.TestCase):
+class TestColouredLights(TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int
 

@@ -1,42 +1,21 @@
 import click
-import logging
 import os
 from typing import List
 
 from .canvas import Canvas
 from .configure_logging import configure_logging
-from .effect_factory import EffectFactory
-from .pixel import Pixel
-from .render import render
+from .display_options import DISPLAY_OPTIONS, add_options
+from .effect_cache import EffectCache
+from .effect_controller import EffectController
+from .effect_publisher import EffectPublisher
+from .effect_subscriber import EffectSubscriber
+from .ipaddress_param import IPAddressParamType
 
 NUM_PIXELS = 28  # The number of LEDs on the shim.
 
-EFFECT_FACTORY = EffectFactory(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", Canvas(NUM_PIXELS))
+EFFECT_CACHE = EffectCache(os.path.dirname(__file__) + "/effects", "ledshimdemo.effects.", Canvas(NUM_PIXELS))
 
-
-def show_options(display: str, duration: int, run: int, brightness: int,
-                 invert: bool, level: str, effects_selected: List[str]) -> str:
-    """
-    Human readable string showing the command line options to be used.
-    :param display: from command line option or default
-    :param duration: from command line option or default
-    :param run: from command line option or default
-    :param brightness: from command line option or default
-    :param invert: from command line option or default
-    :param level: from command line option or default
-    :param effects_selected: from command line arguments or default
-    :return: One line string of the command line options to be used
-    """
-    options = ["Active Options(",
-               "effect-display={0}, ".format(display),
-               "effect-duration={0} secs, ".format(duration),
-               "repeat-run={0}, ".format(run),
-               "brightness={0}, ".format(brightness),
-               "invert={0}, ".format(invert),
-               "log-level={0}, ".format(level),
-               "effects_selected={0}".format(effects_selected if effects_selected else "ALL"),
-               ")"]
-    return "".join(options)
+IP_ADDRESS = IPAddressParamType()
 
 
 def list_effects(ctx, param, value) -> None:
@@ -49,11 +28,11 @@ def list_effects(ctx, param, value) -> None:
     """
     if not value or ctx.resilient_parsing:
         return
-    click.echo(EFFECT_FACTORY.create_list_effects_display())
+    click.echo(EFFECT_CACHE.create_list_effects_display())
     ctx.exit()
 
 
-def validate_effects_selected(ctx, param, value) -> None:
+def validate_effects(ctx, param, value) -> None:
     """
     Validate entered effect names.
     :param ctx: see callbacks for click options
@@ -61,56 +40,94 @@ def validate_effects_selected(ctx, param, value) -> None:
     :param value: see callbacks for click options
     :return: Validated names otherwise a click.BadParameter exception is raised
     """
-    names_in_error = EFFECT_FACTORY.validate_effect_names(value)
+    names_in_error = EFFECT_CACHE.validate_effect_names(value)
     if names_in_error:
         raise click.BadParameter("Unknown effect{0}: {1}"
                                  .format('s' if len(names_in_error) > 1 else "", ", ".join(names_in_error)))
     return value
 
 
-@click.command(help="""
-    Show various effects on a Pimoroni LED shim.\n
+@click.group(help="""
+    Show various effects on one or more Raspberry Pi's with Pimoroni LED shim's.\n
+    Use the 'display' command for a single Pi. For multiple Pi's one must use the 'lead' command and the others the
+    'follow' command. Ensure you start the followers before starting the lead.\n
     To limit the effects shown use the effect-list option to list the effects available then add them to the command
     line as required. Otherwise all effects will be shown.
-                    """)
+    """)
 @click.version_option()
-@click.option('-l', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
+@click.option('-e', '--effect-list', is_flag=True, is_eager=True, expose_value=False, callback=list_effects,
               help='List the effects available and exit.')
-@click.option('-d', '--effect-display', 'display',
-              type=click.Choice([EFFECT_FACTORY.CYCLE_DISPLAY, EFFECT_FACTORY.RANDOM_DISPLAY]),
-              help="How the effects are displayed.", default=EFFECT_FACTORY.CYCLE_DISPLAY, show_default=True)
-@click.option('-u', '--effect-duration', 'duration', type=click.IntRange(1, 180),
-              help="How long to display each effect for, in seconds (1-180).", default=10, show_default=True)
-@click.option('-r', '--repeat-run', 'run', type=click.IntRange(1, 240),
-              help="How many times to run the effects before stopping (1-240).", default=1, show_default=True)
-@click.option('-b', '--brightness', type=click.IntRange(1, 10),
-              help="How bright the effects will be (1-10).", default=8, show_default=True)
-@click.option('-i', '--invert', is_flag=True,
-              help="Change the display orientation.")
-@click.option('-o', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
+@click.option('-l', '--log-level', 'level', type=click.Choice(["DEBUG", "VERBOSE", "INFO", "WARNING"]),
               help="Show additional logging information.", default="INFO", show_default=True)
-@click.argument('effects_selected', nargs=-1, callback=validate_effects_selected, required=False)
-def display_effects(display: str, duration: int, run: int, brightness: int,
-                    invert: bool, level: str, effects_selected: List[str]) -> None:
+def ledshimdemo(level: str):
     """
-    Show various effects on a Pimoroni LED shim.
-    :param display: In a CYCLE or at RANDOM
-    :param duration: How long to display each effect for
-    :param run: How many times to run the effects
-    :param brightness: How bright the effects will be
-    :param invert: Depending on which way round the Pi is
+    Show various effects on one or more Raspberry Pi's with Pimoroni LED shim's.
     :param level: Set a logging level; DEBUG, VERBOSE, INFO or WARNING
-    :param effects_selected: User entered list of effects to use, defaults to all effects
     :return: No meaningful return
     """
     configure_logging(level)
-    logging.info(show_options(display, duration, run, brightness, invert, level, effects_selected))
-    Pixel.set_default_brightness(brightness / 10.0)
-    if invert:
-        Canvas.invert_display()
-    EFFECT_FACTORY.set_effects_to_display(display, effects_selected)
-    render(duration, run, EFFECT_FACTORY)
+
+
+@ledshimdemo.command(help="Display the effects on a single Pi.")
+@add_options(DISPLAY_OPTIONS)
+@click.argument('effects', nargs=-1, type=click.STRING, callback=validate_effects, required=False)
+def display(parade: str, duration: int, repeat: int, brightness: int, invert: bool, effects: List[str]) -> None:
+    """
+    Display various effects on a Pimoroni LED shim.
+    :param parade: In a CYCLE or at RANDOM
+    :param duration: How long to display each effect for
+    :param repeat: How many times to run the effects
+    :param brightness: How bright the effects will be
+    :param invert: Depending on which way round the Pi is
+    :param effects: User entered list of effects to use, defaults to all effects
+    :return: No meaningful return
+    """
+    controller = EffectController(parade, duration, repeat, brightness, invert, effects)
+    controller.process(EFFECT_CACHE.get_effect_instances(effects))
+
+
+@ledshimdemo.command(help="Act as a lead for other instances to follow.")
+@add_options(DISPLAY_OPTIONS)
+@click.option('-o', '--port', type=click.IntRange(1024, 65535),
+              help="Set the port number used for syncing.", default=5556, show_default=True)
+@click.argument('ip_address', nargs=1, type=IP_ADDRESS, required=True)
+@click.argument('effects', nargs=-1, type=click.STRING, callback=validate_effects, required=False)
+def lead(parade: str, duration: int, repeat: int, brightness: int,
+         invert: bool, port: int, ip_address: str, effects: List[str]) -> None:
+    """
+    Publish settings for follow subscribers then display effects as normal.
+    :param parade: In a CYCLE or at RANDOM
+    :param duration: How long to display each effect for
+    :param repeat: How many times to run the effects
+    :param brightness: How bright the effects will be
+    :param invert: Depending on which way round the Pi is
+    :param port: Configure the port number to be used when syncing
+    :param ip_address: the lead instance's ip address
+    :param effects: User entered list of effects to use, defaults to all effects
+    :return: No meaningful return
+    """
+    controller = EffectController(parade, duration, repeat, brightness, invert, effects)
+    publisher = EffectPublisher(ip_address, port)
+    publisher.broadcast_effect_option(controller.encode_options_used())
+    controller.process(EFFECT_CACHE.get_effect_instances(effects))
+
+
+@ledshimdemo.command(help="Follow a lead instance.")
+@click.option('-o', '--port', type=click.IntRange(1024, 65535),
+              help="Set the port number used for syncing.", default=5556, show_default=True)
+@click.argument('ip_address', nargs=1, type=IP_ADDRESS, required=True)
+def follow(port: int, ip_address: str) -> None:
+    """
+    Subscribe to lead instance for display setting then start displaying effects.
+    :param port: Configure the port number to be used when syncing
+    :param ip_address: the lead instance's ip address
+    :return: No meaningful return
+    """
+    subscriber = EffectSubscriber(ip_address, port)
+    options = subscriber.get_effect_options()
+    controller = EffectController.from_dict(options)
+    controller.process(EFFECT_CACHE.get_effect_instances(controller.effects))
 
 
 if __name__ == '__main__':
-    display_effects()   # pragma: no cover
+    ledshimdemo()   # pragma: no cover

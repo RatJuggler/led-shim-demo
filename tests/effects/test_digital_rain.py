@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestCase
 import mock
 import sys
 
@@ -8,7 +8,7 @@ from ledshimdemo.canvas import Canvas
 from ledshimdemo.effects.digital_rain import DigitalRainEffect
 
 
-class TestDigitalRain(unittest.TestCase):
+class TestDigitalRain(TestCase):
 
     TEST_CANVAS_SIZE = 14  # type: int
 

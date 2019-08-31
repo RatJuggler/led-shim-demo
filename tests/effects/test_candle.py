@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestCase
 import mock
 import sys
 
@@ -8,7 +8,7 @@ from ledshimdemo.canvas import Canvas
 from ledshimdemo.effects.candle import CandleEffect
 
 
-class TestCandle(unittest.TestCase):
+class TestCandle(TestCase):
 
     TEST_CANVAS_SIZE = 28  # type: int
 

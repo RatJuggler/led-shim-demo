@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestCase
 import mock
 import sys
 
@@ -8,7 +8,7 @@ from ledshimdemo.canvas import Canvas
 from ledshimdemo.effects.gradient_graph import GradientGraphEffect
 
 
-class TestGradientGraph(unittest.TestCase):
+class TestGradientGraph(TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int
 

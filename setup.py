@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='ledshimdemo',
-    version='1.1.0',
+    version='2.0.0',
     description='Show various effects on a Pimoroni LED shim.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -24,6 +24,7 @@ setup(
         'click ==7.0',
         'ledshim ==0.0.1',
         'numpy ==1.12.1',
+        'pyzmq ==18.1.0',
         'requests ==2.21.0'  # Updated from 2.12.4 due to CVE.
     ],
     test_suite='tests',

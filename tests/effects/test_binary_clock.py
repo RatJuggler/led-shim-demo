@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestCase
 import mock
 import sys
 
@@ -10,7 +10,7 @@ from ledshimdemo.canvas import Canvas
 from ledshimdemo.effects.binary_clock import BinaryClockEffect
 
 
-class TestBinaryClock(unittest.TestCase):
+class TestBinaryClock(TestCase):
 
     TEST_CANVAS_SIZE = 28  # type: int
 

@@ -1,23 +1,15 @@
 from importlib import import_module
-import logging
 import pkgutil
-from random import randint
 from typing import Dict, List
 
 from .abstract_effect import AbstractEffect
 from .canvas import Canvas
 
 
-class EffectFactory:
+class EffectCache:
     """
-    Class to store and control access to the available effects and those selected for rendering.
+    Class to store and control access to the available effects.
     """
-
-    # Supported display options:
-    # Cycle - go through the selected effects in order.
-    # Random - out of the selected effects pick one at random each time.
-    CYCLE_DISPLAY = "CYCLE"
-    RANDOM_DISPLAY = "RANDOM"
 
     @staticmethod
     def load_effect(effect_module: str, effect_class: str, *args, **kwargs) -> AbstractEffect:
@@ -32,7 +24,7 @@ class EffectFactory:
         """
         try:
             effect_module = import_module(effect_module)
-            if effect_class is None:
+            if not effect_class:
                 module_classes = \
                     list(filter(lambda x: x != 'AbstractEffect' and x.endswith('Effect'), dir(effect_module)))
                 if module_classes:
@@ -58,21 +50,18 @@ class EffectFactory:
         """
         effects = {}
         for (_, effect_module, _) in pkgutil.iter_modules([effects_path]):
-            effect = EffectFactory.load_effect(effects_package + effect_module, None, *args, **kwargs)
+            effect = EffectCache.load_effect(effects_package + effect_module, "", *args, **kwargs)
             effects[effect.get_name().upper()] = effect
         return effects
 
     def __init__(self, effects_path: str, effects_package: str, canvas: Canvas) -> None:
         """
-        Initialise the effect factory.
+        Initialise the effect cache.
         :param effects_path: path on the file system to the effects to load
         :param effects_package: the name of the associated package
         :param canvas: to be used by all effects
         """
         self.effects_available = self.load_effects(effects_path, effects_package, canvas)
-        self.effects_selected = []
-        self.effect_display = None
-        self.next_effect = -1
 
     def get_all_effects(self) -> List[AbstractEffect]:
         """
@@ -100,55 +89,30 @@ class EffectFactory:
             effects.append(effect.get_display_list_entry(pad_size))
         return "\n".join(effects)
 
-    def validate_effect_names(self, effects_selected: List[str]) -> List[str]:
+    def validate_effect_names(self, effects: List[str]) -> List[str]:
         """
         Check that the effect names supplied are in the list of effects available.
-        :param effects_selected: names from command line
+        :param effects: names from command line
         :return: List of names which don't match with anything in the available list
         """
         names_in_error = []
-        for name in effects_selected:
+        for name in effects:
             try:
                 self.get_effect(name)
             except KeyError:
                 names_in_error.append(name)
         return names_in_error
 
-    def set_effects_to_display(self, effect_display: str, effects_selected: List[str]) -> None:
+    def get_effect_instances(self, effects: List[str]) -> List[AbstractEffect]:
         """
-        Set the effect display and the list of effects to be used.
-        :param effect_display: In a CYCLE or at RANDOM
-        :param effects_selected: List of the effect names to use
-        :return: No meaningful return
+        Get instances of the effects selected.
+        :param effects: List of the effect names to use
+        :return: List of effect display instances
         """
-        assert effect_display in (self.CYCLE_DISPLAY, self.RANDOM_DISPLAY),\
-            "Effect display must be {0} or {1}!".format(self.CYCLE_DISPLAY, self.RANDOM_DISPLAY)
-        self.effect_display = effect_display
-        if effects_selected:
-            self.effects_selected = effects_selected
+        instances = []
+        if not effects:
+            instances = self.get_all_effects()
         else:
-            self.effects_selected = []
-            for effect in self.get_all_effects():
-                self.effects_selected.append(effect.get_name())
-
-    def get_count_effects_selected(self) -> int:
-        """
-        The number of effects to display.
-        :return: The number of effects selected.
-        """
-        return len(self.effects_selected)
-
-    def get_next_effect(self) -> AbstractEffect:
-        """
-        Pick the next effect to display.
-        :return: The next effect to show
-        """
-        if self.effect_display is None or not self.effects_selected:
-            raise ValueError("No effects selected!")
-        if self.effect_display == self.CYCLE_DISPLAY:
-            self.next_effect = (self.next_effect + 1) % len(self.effects_selected)
-        if self.effect_display == self.RANDOM_DISPLAY:
-            self.next_effect = randint(0, len(self.effects_selected) - 1)
-        effect = self.get_effect(self.effects_selected[self.next_effect])
-        logging.info(str(effect))
-        return effect
+            for effect in effects:
+                instances.append(self.get_effect(effect))
+        return instances
