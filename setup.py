@@ -11,7 +11,7 @@ setup(
     long_description_content_type='text/markdown',
     author='John Chase',
     author_email='ratteal@gmail.com',
-    python_requires='>=3.7.3',
+    python_requires='>=3.6',
     url='https://github.com/RatJuggler/led-shim-demo',
     packages=find_packages(exclude=['tests']),
     entry_points={
@@ -40,7 +40,7 @@ setup(
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
         'License :: OSI Approved :: MIT License',
         'Development Status :: 5 - Production/Stable',
-        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.6',
         'Operating System :: POSIX :: Linux',
         'Topic :: System :: Hardware'
     ]
