@@ -144,12 +144,17 @@ $ ledshimdemo display
 If anything is going to cause a problem trying to run `ledshimdemo` it will be NumPy which is used by a couple of the 
 demos. The NumPy package is included in most builds of Raspbian, but installed with `apt-get`, this then causes problems
 if anything tries to install a different version with `pip3`. For this reason `ledshimdemo` is set to use the Raspbian
-default version (see setup.py) to try and avoid installing a different version with `pip3`. However, if you do get a 
-runtime error indicating a corrupted NumPy you could first try uninstalling any local `pip3` versions of it to see if
-that helps.
+default version (for Stretch 9.9, see setup.py) to try and avoid installing a different version with `pip3`. However, 
+if you do get a runtime error indicating a corrupted NumPy you could first try uninstalling any local `pip3` versions 
+of it to see if that helps.
 ```
 pip3 uninstall numpy
 ```
+
+# Development
+
+Development is done in the 'develop' branch and merging into 'master' will trigger a release. Tests in master should 
+always pass.
 
 # Addendum
 
