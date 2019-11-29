@@ -1,8 +1,8 @@
 from unittest import TestCase
-import mock
+from unittest.mock import Mock
 import sys
 
-sys.modules['smbus'] = mock.Mock()  # Mock the hardware layer to avoid errors.
+sys.modules['smbus'] = Mock()  # Mock the hardware layer to avoid errors.
 
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.effects.gradient_graph import GradientGraphEffect

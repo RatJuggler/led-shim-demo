@@ -1,8 +1,8 @@
 from unittest import TestCase
-import mock
+from unittest.mock import Mock, patch
 import sys
 
-sys.modules['smbus'] = mock.Mock()  # Mock the hardware layer to avoid errors.
+sys.modules['smbus'] = Mock()  # Mock the hardware layer to avoid errors.
 
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.effects.cheerlights import CheerLightsEffect
@@ -17,7 +17,7 @@ class TestCheerLights(TestCase):
         effect = CheerLightsEffect(canvas)
         self.assertIsNone(effect.get_colour_from_channel("http://ejiferfneciudwedwojcmeiocnw.com"))
 
-    @mock.patch('ledshimdemo.effects.cheerlights.CheerLightsEffect.get_colour_from_channel', return_value=None)
+    @patch('ledshimdemo.effects.cheerlights.CheerLightsEffect.get_colour_from_channel', return_value=None)
     def test_effect_failed_cheerlights(self, patch_function):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
         effect = CheerLightsEffect(canvas)
