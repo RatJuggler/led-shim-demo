@@ -20,6 +20,7 @@ class TestBaseCommand(TestCase):
         self.assertIn(" --log-level ", result.output)
         self.assertIn(" --help ", result.output)
 
+    # TODO: Requires "python3 setup.py sdist" to have been run to pass, review.
     def test_version(self):
         result = self.runner.invoke(main.ledshimdemo, ['--version'])
         self.assertEqual(result.exit_code, 0)
