@@ -1,6 +1,6 @@
 from unittest import TestCase
+from unittest.mock import patch
 from testfixtures import LogCapture
-import mock
 
 from ledshimdemo.canvas import Canvas
 import ledshimdemo.configure_logging as cl
@@ -35,7 +35,7 @@ class TestEffectControllerConstructorAndOptionsUsed(TestCase):
         self.assertEqual(options_used, expected_result)
 
 
-@mock.patch('ledshimdemo.effect_controller.AbstractEffectParade')
+@patch('ledshimdemo.effect_controller.AbstractEffectParade')
 class TestEffectControllerProcessDisplay(TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int

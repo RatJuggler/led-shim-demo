@@ -1,6 +1,7 @@
-from unittest import TestCase
-import mock
 import logging
+
+from unittest import TestCase
+from unittest.mock import patch
 from click.testing import CliRunner
 
 import ledshimdemo.__main__ as main
@@ -42,7 +43,7 @@ class TestBaseCommand(TestCase):
         self.assertIn(effects_list, result.output)
 
 
-@mock.patch('ledshimdemo.__main__.EffectController.process')
+@patch('ledshimdemo.__main__.EffectController.process')
 class TestDisplayCommand(TestCase):
 
     def setUp(self):
@@ -95,7 +96,7 @@ class TestDisplayCommand(TestCase):
         effect_controller_process_mock.assert_not_called()
 
 
-@mock.patch('ledshimdemo.__main__.EffectController.process')
+@patch('ledshimdemo.__main__.EffectController.process')
 class TestLeadCommand(TestCase):
 
     def setUp(self):
@@ -164,7 +165,7 @@ class TestLeadCommand(TestCase):
         effect_controller_process_mock.assert_not_called()
 
 
-@mock.patch('ledshimdemo.__main__.EffectController.process')
+@patch('ledshimdemo.__main__.EffectController.process')
 class TestFollowCommand(TestCase):
 
     def setUp(self):

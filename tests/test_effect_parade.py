@@ -1,5 +1,5 @@
 from unittest import TestCase
-import mock
+from unittest.mock import patch
 import os
 from typing import List, Type, TypeVar
 
@@ -86,10 +86,10 @@ class TestEffectParadeRender(TestCase):
         effect_instances = self.effect_cache.get_effect_instances([])
         self.effects_parade = CycleEffects(effect_instances)
 
-    @mock.patch('ledshim.set_clear_on_exit')
-    @mock.patch('ledshim.set_pixel')
-    @mock.patch('ledshim.show')
-    @mock.patch('ledshim.clear')
+    @patch('ledshim.set_clear_on_exit')
+    @patch('ledshim.set_pixel')
+    @patch('ledshim.show')
+    @patch('ledshim.clear')
     def test_render(self, clear_mock, show_mock, set_pixel_mock, clear_on_exit_mock):
         set_pixel_mock.reset_mock()
         show_mock.reset_mock()

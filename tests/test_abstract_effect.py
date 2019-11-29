@@ -1,5 +1,5 @@
 from unittest import TestCase
-import mock
+from unittest.mock import patch
 
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.abstract_effect import AbstractEffect
@@ -9,7 +9,7 @@ class TestAbstractEffect(TestCase):
 
     TEST_CANVAS_SIZE = 3  # type: int
 
-    @mock.patch.multiple(AbstractEffect, __abstractmethods__=set())
+    @patch.multiple(AbstractEffect, __abstractmethods__=set())
     def test_base_properties(self):
         canvas = Canvas(self.TEST_CANVAS_SIZE)
         effect = AbstractEffect("Test", "Test description.", 7, canvas)

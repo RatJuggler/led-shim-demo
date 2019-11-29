@@ -1,13 +1,13 @@
 from unittest import TestCase
+from unittest.mock import patch
 from testfixtures import LogCapture
 import json
 import logging
-import mock
 
 from ledshimdemo.effect_subscriber import EffectSubscriber
 
 
-@mock.patch('ledshimdemo.effect_subscriber.zmq.Context')
+@patch('ledshimdemo.effect_subscriber.zmq.Context')
 class TestEffectSubscriber(TestCase):
 
     def setUp(self):

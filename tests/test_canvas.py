@@ -1,5 +1,5 @@
 from unittest import TestCase
-import mock
+from unittest.mock import patch
 
 from ledshimdemo.canvas import Canvas
 from ledshimdemo.colours import Colours
@@ -157,8 +157,8 @@ class TestCanvasRenderToShim(TestCase):
         self.canvas = Canvas(self.TEST_CANVAS_SIZE)
         self.canvas.set_all(Colours.PURPLE)
 
-    @mock.patch('ledshim.set_pixel')
-    @mock.patch('ledshim.show')
+    @patch('ledshim.set_pixel')
+    @patch('ledshim.show')
     def test_render(self, show_mock, set_pixel_mock):
         set_pixel_mock.reset_mock()
         show_mock.reset_mock()
