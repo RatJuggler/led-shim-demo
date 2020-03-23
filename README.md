@@ -1,6 +1,8 @@
 # led-shim-demo
 
 ![Over-Engineered](https://img.shields.io/badge/over--engineered-definitely-red)
+
+![Upload Python Package](https://github.com/RatJuggler/led-shim-demo/workflows/Upload%20Python%20Package/badge.svg)
 [![PyPi Package](https://img.shields.io/pypi/v/ledshimdemo.svg)](https://pypi.python.org/pypi/ledshimdemo)
 
 ![Test & QA](https://github.com/RatJuggler/guinea-bot/workflows/Test%20&%20QA/badge.svg)
