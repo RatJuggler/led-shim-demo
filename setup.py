@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='ledshimdemo',
-    version='2.0.3',
+    version='2.0.4',
     description='Show various effects on a Pimoroni LED shim.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -21,11 +21,11 @@ setup(
     },
     install_requires=[
         # Check latest releases on piwheels: https://www.piwheels.hostedpi.com/
-        'click ==7.0',
+        'click ==7.1.1',
         'ledshim ==0.0.1',
-        'numpy ==1.12.1',
-        'pyzmq ==18.1.0',
-        'requests ==2.21.0'  # Updated from 2.12.4 due to CVE.
+        # 'numpy ==1.18.2', Installed as a package on Raspbian
+        'pyzmq ==19.0.0',
+        'requests ==2.23.0'
     ],
     test_suite='tests',
     tests_require=[
