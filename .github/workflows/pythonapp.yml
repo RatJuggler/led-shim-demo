@@ -21,10 +21,11 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: "${{ matrix.python-version }}"
+      # NumPy installed by default on Raspbian so not listed as a dependency in the project.
     - name: "Install dependencies"
       run: |
         python -m pip install --upgrade pip
-        pip install setuptools tox  tox-gh-actions
+        pip install numpy setuptools tox tox-gh-actions
     - name: "Install the application"
       run: |
         pip install .
