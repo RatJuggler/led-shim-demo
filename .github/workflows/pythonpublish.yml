@@ -1,7 +1,7 @@
 # Only publish a source distribution to PyPi. The project is tied to hardware specific to the Raspberry Pi
 # so a Wheel distribution is better left to the excellent piwheels (https://www.piwheels.org/).
 
-name: Upload Python Package
+name: Upload to PyPi
 
 on:
   release:
