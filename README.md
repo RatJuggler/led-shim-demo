@@ -137,43 +137,53 @@ $ ledshimdemo display
 
 # Troubleshooting
 
-If anything is going to cause a problem trying to run `ledshimdemo` it will be NumPy which is used by a couple of the 
-demos. The NumPy package is included in most builds of Raspbian, but installed with `apt-get`, this then causes problems
-if anything tries to install a different version with `pip3`. For this reason `ledshimdemo` doesn't install a specific 
-version of NumPy hoping to pick up the latest global installed one. If you need to install NumPy try using:
+If you see the error `ModuleNotFoundError: No module named 'smbus'` you need to run the following install:
 ```
+sudo apt-get install python3-smbus
+```
+The led-shim also requires the I2C interface to be enabled so if you see a message `Make sure you've enabled i2c in your 
+Raspberry Pi configuration.` you need to run the following command:
+```
+sudo raspi-config
+```
+Then from the menu select `5. Interface Options` and then `P5 I2C`. Select `Yes` to enable the interface and then restart you Pi.
+
+However, if anything is going to cause a problem trying to run `ledshimdemo` it will be NumPy which is used by a couple of the 
+demos. The NumPy package is included in most builds of Raspbian, but installed with `apt-get`, this then causes problems if 
+anything tries to install a different version with `pip3`. For this reason `ledshimdemo` includes a dependency on an older version, 
+or later, hoping to pick up the global installed one. If you get an issue it's worh trying to uninstalling any `pip3` version and 
+then installing the `apt-get` version using:
+```
+pip3 uninstall numpy
 sudo apt-get install python3-numpy
 ```
 
 # Development
 
-Development is done in the 'develop' branch and merging into 'master' will trigger a release. Tests in master should 
-always pass.
+Development is done in a branch and a pull request opened which will trigger the GitHub Actions `Test & QA` workflow. Once this is 
+passing the pull request can be used to merge the branch into `master`. Creating a release will then trigger a build and upload to
+PyPi using the GitHub Actions `Upload to PyPi` workflow.
 
 # Addendum
 
-This project is definitely over-engineered for what it actually does because it's being used as a learning exercise.
+This project is definitely over-engineered and somewhat laboured for what it actually does because it's being used as a learning 
+exercise.
 
-The application has a number of output logging levels built into it, including a custom VERBOSE level, to show some of
-the inner workings. This is just because.
+The application has a number of output logging levels built into it, including a custom VERBOSE level, to show some of the inner 
+workings. This is just because.
 
 The effects are loaded dynamically using a mechanism loosely based on code from
 [this](https://github.com/BNMetrics/factory_pattern_sample) Python3 factory pattern example.
 
-The code coverage for this project is a good example of why measuring unit test coverage can be a misleading indicator
-of quality. Whilst it does have plenty of unit tests those for the effects are mostly simple smoke tests which show that
-the code will run. They don't actually confirm that the effects are producing the desired output.
+The code coverage for this project is a good example of why measuring unit test coverage can be a misleading indicator of quality. 
+Whilst it does have plenty of unit tests those for the effects are mostly simple smoke tests which show that the code will run. 
+They don't actually confirm that the effects are producing the desired output.
 
-The development work for this project was done using PyCharm on an Intel x64 machine, as the
-project was designed to be run on an ARM based Raspberry Pi only a source distribution is uploaded to PyPi. However,
-when installing under Raspbian it should install the ARM wheel from [PiWheels](https://www.piwheels.hostedpi.com/)
-making the installation much faster. See the [PiWheels FAQ](https://www.piwheels.hostedpi.com/faq.html) for more
-information.
+The development work for this project was done using PyCharm on an Intel x64 machine, as the project was designed to be run on an 
+ARM based Raspberry Pi only a source distribution is uploaded to PyPi. However, when installing under Raspbian it should install 
+the ARM wheel from [PiWheels](https://www.piwheels.hostedpi.com/) making the installation much faster. See the 
+[PiWheels FAQ](https://www.piwheels.org/faq.html) for more information.
 
-The synchronisation using the lead/follow commands is very basic, yes the effect options set for the lead are
-distributed to the follow instances but there is only a primitive trigger to try and start the displays together and
-there is no heartbeat to try to keep them in sync. If you run with more than about 10 repeat iterations you'll soon see
-the displays go out of sync.    
-
-Badges showing the build status and code coverage for both the master and develop branches are shown at the top. This is
- a simple solution to the problem of trying to make this file specific to the branch it is in.
+The synchronisation using the lead/follow commands is very basic, yes the effect options set for the lead are distributed to the 
+follow instances but there is only a primitive trigger to try and start the displays together and there is no heartbeat to try to 
+keep them in sync. If you run with more than about 10 repeat iterations you'll soon see the displays go out of sync.    
