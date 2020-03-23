@@ -32,7 +32,6 @@ setup(
         'coverage',
         'flake8',
         'numpy',
-        'testfixtures',
         'tox'
     ],
     license='MIT',
