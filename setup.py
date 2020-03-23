@@ -31,6 +31,7 @@ setup(
     tests_require=[
         'coverage',
         'flake8',
+        'testfixtures',
         'numpy',
         'tox'
     ],
