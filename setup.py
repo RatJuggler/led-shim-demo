@@ -19,19 +19,19 @@ setup(
             'ledshimdemo = ledshimdemo.__main__:ledshimdemo',
         ]
     },
+    # NumPy is installed by default on Rasbian, and causes problems is installed via pip, so it's listed here as a test dependency.
     install_requires=[
         # Check latest releases on piwheels: https://www.piwheels.hostedpi.com/
         'click ==7.1.1',
         'ledshim ==0.0.1',
-        # 'numpy ==1.18.2', Installed as a package on Raspbian
         'pyzmq ==19.0.0',
         'requests ==2.23.0'
     ],
     test_suite='tests',
     tests_require=[
         'coverage',
-        'docutils',
         'flake8',
+        'numpy',
         'testfixtures',
         'tox'
     ],
