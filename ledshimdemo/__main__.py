@@ -2,6 +2,8 @@ import click
 import os
 from typing import List
 
+from click import Context, Option
+
 from .canvas import Canvas
 from .configure_logging import configure_logging
 from .display_options import DISPLAY_OPTIONS, add_options
@@ -18,7 +20,8 @@ EFFECT_CACHE = EffectCache(os.path.dirname(__file__) + "/effects", "ledshimdemo.
 IP_ADDRESS = IPAddressParamType()
 
 
-def list_effects(ctx, param, value) -> None:
+# noinspection PyUnusedLocal
+def list_effects(ctx: Context, param: Option, value: str) -> None:
     """
     List the names and descriptions of the effects currently available then exit.
     :param ctx: see callbacks for click options
@@ -32,7 +35,8 @@ def list_effects(ctx, param, value) -> None:
     ctx.exit()
 
 
-def validate_effects(ctx, param, value) -> None:
+# noinspection PyUnusedLocal
+def validate_effects(ctx: Context, param: Option, value: List[str]) -> List[str]:
     """
     Validate entered effect names.
     :param ctx: see callbacks for click options
