@@ -1,16 +1,10 @@
 # led-shim-demo
 
-![GitHub](https://img.shields.io/github/license/RatJuggler/led-shim-demo)
 ![Over-Engineered](https://img.shields.io/badge/over--engineered-definitely-red)
 [![PyPi Package](https://img.shields.io/pypi/v/ledshimdemo.svg)](https://pypi.python.org/pypi/ledshimdemo)
-[![Python Versions](https://img.shields.io/pypi/pyversions/ledshimdemo.svg)](https://pypi.python.org/pypi/ledshimdemo)
 
-[![Travis](https://img.shields.io/travis/com/RatJuggler/led-shim-demo/master.svg?label=master%20build)](https://travis-ci.org/RatJuggler/led-shim-demo)
-[![Coverage Status](https://coveralls.io/repos/github/RatJuggler/led-shim-demo/badge.svg?branch=master)](https://coveralls.io/github/RatJuggler/led-shim-demo?branch=master)
-![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/RatJuggler/led-shim-demo)
-
-[![Travis](https://img.shields.io/travis/com/RatJuggler/led-shim-demo/develop.svg?label=develop%20build)](https://travis-ci.org/RatJuggler/led-shim-demo)
-[![Coverage Status](https://coveralls.io/repos/github/RatJuggler/led-shim-demo/badge.svg?branch=develop)](https://coveralls.io/github/RatJuggler/led-shim-demo?branch=develop)
+![Test & QA](https://github.com/RatJuggler/guinea-bot/workflows/Test%20&%20QA/badge.svg)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/RatJuggler/led-shim-demo)
 
 An application to display a variety of effects on the Raspberry Pi [led-shim](https://shop.pimoroni.com/products/led-shim)
 from Pimoroni.
@@ -35,11 +29,11 @@ synchronised start across them. Be sure to start the follow instances before the
 
 Install on Raspbian using:
 ```
-sudo pip3 install ledshimdemo
+pip3 install ledshimdemo
 ```
 Or update using:
 ```
-sudo pip3 install -U ledshimdemo
+pip3 install -U ledshimdemo
 ```
 
 # Running
@@ -143,12 +137,10 @@ $ ledshimdemo display
 
 If anything is going to cause a problem trying to run `ledshimdemo` it will be NumPy which is used by a couple of the 
 demos. The NumPy package is included in most builds of Raspbian, but installed with `apt-get`, this then causes problems
-if anything tries to install a different version with `pip3`. For this reason `ledshimdemo` is set to use the Raspbian
-default version (for Stretch/Buster, see setup.py) to try and avoid installing a different version with `pip3`. However, 
-if you do get a runtime error indicating a corrupted NumPy you could first try uninstalling any local `pip3` versions 
-of it to see if that helps.
+if anything tries to install a different version with `pip3`. For this reason `ledshimdemo` doesn't install a specific 
+version of NumPy hoping to pick up the latest global installed one. If you need to install NumPy try using:
 ```
-pip3 uninstall numpy
+sudo apt-get install python3-numpy
 ```
 
 # Development

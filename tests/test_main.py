@@ -86,14 +86,14 @@ class TestDisplayCommand(TestCase):
     def test_display_invalid_effect_name(self, effect_controller_process_mock):
         result = self.runner.invoke(main.ledshimdemo, ['display', 'Rainbow', 'Unicorn'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn('Error: Invalid value for "[EFFECTS]...": Unknown effect: Unicorn', result.output)
+        self.assertIn('Error: Invalid value for \'[EFFECTS]...\': Unknown effect: Unicorn', result.output)
         effect_controller_process_mock.assert_not_called()
 
     # TODO: This test is brittle because it relies on the real effects which may change.
     def test_display_invalid_effect_names(self, effect_controller_process_mock):
         result = self.runner.invoke(main.ledshimdemo, ['display', 'Candle', 'Apple', 'Banana'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn('Error: Invalid value for "[EFFECTS]...": Unknown effects: Apple, Banana', result.output)
+        self.assertIn('Error: Invalid value for \'[EFFECTS]...\': Unknown effects: Apple, Banana', result.output)
         effect_controller_process_mock.assert_not_called()
 
 
@@ -142,7 +142,7 @@ class TestLeadCommand(TestCase):
         result = self.runner.invoke(main.ledshimdemo, ['lead', '127.0.0.1',
                                                        'Rainbow', 'Unicorn'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn('Error: Invalid value for "[EFFECTS]...": Unknown effect: Unicorn', result.output)
+        self.assertIn('Error: Invalid value for \'[EFFECTS]...\': Unknown effect: Unicorn', result.output)
         effect_controller_process_mock.assert_not_called()
 
     # TODO: This test is brittle because it relies on the real effects which may change.
@@ -150,19 +150,19 @@ class TestLeadCommand(TestCase):
         result = self.runner.invoke(main.ledshimdemo, ['lead', '127.0.0.1',
                                                        'Candle', 'Apple', 'Banana'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn('Error: Invalid value for "[EFFECTS]...": Unknown effects: Apple, Banana', result.output)
+        self.assertIn('Error: Invalid value for \'[EFFECTS]...\': Unknown effects: Apple, Banana', result.output)
         effect_controller_process_mock.assert_not_called()
 
     def test_lead_missing_ip_address(self, effect_controller_process_mock):
         result = self.runner.invoke(main.ledshimdemo, ['lead'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn('Error: Missing argument "IP_ADDRESS".', result.output)
+        self.assertIn('Error: Missing argument \'IP_ADDRESS\'.', result.output)
         effect_controller_process_mock.assert_not_called()
 
     def test_lead_invalid_ip_address(self, effect_controller_process_mock):
         result = self.runner.invoke(main.ledshimdemo, ['lead', 'localhost'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn('Error: Invalid value for "IP_ADDRESS": localhost is not a valid IP address', result.output)
+        self.assertIn('Error: Invalid value for \'IP_ADDRESS\': localhost is not a valid IP address', result.output)
         effect_controller_process_mock.assert_not_called()
 
 
@@ -184,11 +184,11 @@ class TestFollowCommand(TestCase):
     def test_lead_missing_ip_address(self, effect_controller_process_mock):
         result = self.runner.invoke(main.ledshimdemo, ['follow'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn('Error: Missing argument "IP_ADDRESS".', result.output)
+        self.assertIn('Error: Missing argument \'IP_ADDRESS\'.', result.output)
         effect_controller_process_mock.assert_not_called()
 
     def test_follow_invalid_ip_address(self, effect_controller_process_mock):
         result = self.runner.invoke(main.ledshimdemo, ['follow', 'localhost'])
         self.assertEqual(result.exit_code, 2)
-        self.assertIn('Error: Invalid value for "IP_ADDRESS": localhost is not a valid IP address', result.output)
+        self.assertIn('Error: Invalid value for \'IP_ADDRESS\': localhost is not a valid IP address', result.output)
         effect_controller_process_mock.assert_not_called()
