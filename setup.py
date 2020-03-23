@@ -20,12 +20,12 @@ setup(
         ]
     },
     # NumPy is installed by default on Rasbian and GitHub actions, and causes problems if installed via pip,
-    # so it's listed here as a dependency without a concrete version.
+    # so it's listed here as a dependency with an older version, or later, to try and pick up the default version.
     install_requires=[
         # Check latest releases on piwheels: https://www.piwheels.org/
         'click ==7.1.1',
         'ledshim ==0.0.1',
-        'numpy',
+        'numpy >=1.12',
         'pyzmq ==19.0.0',
         'requests ==2.23.0'
     ],
