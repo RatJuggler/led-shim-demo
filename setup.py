@@ -27,7 +27,7 @@ setup(
         'ledshim ==0.0.1',
         'numpy >=1.12',
         'pyzmq ==19.0.0',
-        'requests ==2.23.0'
+        'requests ==2.31.0'
     ],
     test_suite='tests',
     tests_require=[
